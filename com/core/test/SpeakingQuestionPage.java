@@ -7,40 +7,30 @@ import javax.swing.border.*;
 
 
 public class SpeakingQuestionPage extends JPanel {
+    /**
+     * The String-based action command for the 'Next' button.
+     */
+    public static final String RECORD_BUTTON_ACTION_COMMAND = "RecordButtonActionCommand";
+    public static final String STOP_BUTTON_ACTION_COMMAND = "StopButtonActionCommand";
 
     private JLabel blankSpace;
-    private JLabel jLabel1;
-    private JLabel jLabel2;
-    private JLabel jLabel3;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JLabel jLabel8;
-    private JLabel jLabel9;
+    private JLabel pagePositionLabel;
+    private JLabel questionLabel;
+    private JLabel questionTranslationLabel;
 
-    private JLabel welcomeTitle;
+    private JButton recordButton;
+    private JButton stopButton;
+
+    private JLabel positionLabel;
     private JPanel contentPanel;
-
-    private JLabel iconLabel;
-    private ImageIcon icon;
 
     public SpeakingQuestionPage() {
 
-        iconLabel = new JLabel();
         contentPanel = getContentPanel();
         contentPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 
-        icon = getImageIcon();
-
         setLayout(new java.awt.BorderLayout());
 
-        if (icon != null)
-            iconLabel.setIcon(icon);
-
-        iconLabel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
-
-        add(iconLabel, BorderLayout.WEST);
 
         JPanel secondaryPanel = new JPanel();
         secondaryPanel.add(contentPanel, BorderLayout.NORTH);
@@ -53,44 +43,40 @@ public class SpeakingQuestionPage extends JPanel {
         JPanel contentPanel1 = new JPanel();
         JPanel jPanel1 = new JPanel();
 
-        welcomeTitle = new JLabel();
+        positionLabel = new JLabel();
         blankSpace = new JLabel();
-        jLabel1 = new JLabel();
-        jLabel2 = new JLabel();
-        jLabel3 = new JLabel();
-        jLabel4 = new JLabel();
-        jLabel5 = new JLabel();
-        jLabel7 = new JLabel();
-        jLabel6 = new JLabel();
-        jLabel8 = new JLabel();
-        jLabel9 = new JLabel();
+        questionLabel = new JLabel();
+        questionTranslationLabel = new JLabel();
 
         contentPanel1.setLayout(new java.awt.BorderLayout());
 
-        welcomeTitle.setFont(new java.awt.Font("MS Sans Serif", Font.BOLD, 11));
-        welcomeTitle.setText("Welcome to the Wizard Dialog!");
-        contentPanel1.add(welcomeTitle, java.awt.BorderLayout.NORTH);
+        positionLabel.setFont(new java.awt.Font("MS Sans Serif", Font.BOLD, 11));
+        positionLabel.setText("situation 6 of 8");
+        contentPanel1.add(positionLabel, java.awt.BorderLayout.NORTH);
 
         jPanel1.setLayout(new java.awt.GridLayout(0, 1));
 
         jPanel1.add(blankSpace);
-        jLabel1.setText("This is an example of a wizard dialog, which allows a user to traverse");
-        jPanel1.add(jLabel1);
-        jLabel2.setText("a number of panels (while entering data) until the wizard has enough ");
-        jPanel1.add(jLabel2);
-        jLabel3.setText("information to perform whatever end function is necessary. Note that");
-        jPanel1.add(jLabel3);
-        jLabel4.setText("panels are not necessarily ordered in a linear fashion, but instead in");
-        jPanel1.add(jLabel4);
-        jLabel5.setText("a tree-like manner (e.g., there may be more than one panel with a");
-        jPanel1.add(jLabel5);
-        jLabel7.setText("'Finish' button, and it depends on the user's entries as to how they ");
-        jPanel1.add(jLabel7);
-        jLabel6.setText("traverse the path). That's not the case with this example, however.");
-        jPanel1.add(jLabel6);
-        jPanel1.add(jLabel8);
-        jLabel9.setText("Press the 'Next' button to continue....");
-        jPanel1.add(jLabel9);
+        questionLabel.setText("This is an example of a wizard dialog, which allows a user to traverse");
+        questionTranslationLabel.setText("llows a user to traverse");
+        jPanel1.add(questionLabel);
+        recordButton = new JButton("RECORD");
+        stopButton = new JButton("STOP");
+
+        recordButton.setActionCommand(RECORD_BUTTON_ACTION_COMMAND);
+        stopButton.setActionCommand(STOP_BUTTON_ACTION_COMMAND);
+
+        //recordButton.addActionListener(LessonController);
+        //stopButton.addActionListener(LessonController);
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setBorder(new EmptyBorder(10, 0, 5, 0));
+
+        //buttonBox.setBorder(new EmptyBorder(new Insets(5, 10, 5, 10)));
+        buttonsPanel.add(recordButton);
+        buttonsPanel.add(stopButton);
+
+        jPanel1.add(buttonsPanel, java.awt.BorderLayout.EAST);
+        jPanel1.add(questionTranslationLabel);
 
         contentPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -98,9 +84,6 @@ public class SpeakingQuestionPage extends JPanel {
 
     }
 
-    private ImageIcon getImageIcon() {
-        return new ImageIcon((URL)getResource("clouds.jpg"));
-    }
 
     private Object getResource(String key) {
 

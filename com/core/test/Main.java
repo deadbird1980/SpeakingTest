@@ -12,9 +12,16 @@ public class Main {
         lesson.getDialog().setTitle("Test Lesson Dialog");
 
         LessonPageDescriptor descriptor1 = new SpeakingQuestionDescriptor();
-        lesson.registerLessonPage(SpeakingQuestionDescriptor.IDENTIFIER, descriptor1);
+        descriptor1.setNextPageDescriptor("2");
+        LessonPageDescriptor descriptor2 = new SpeakingQuestionDescriptor();
+        descriptor2.setNextPageDescriptor("3");
+        LessonPageDescriptor descriptor3 = new SpeakingQuestionDescriptor();
+        lesson.registerLessonPage("1", descriptor1);
+        lesson.registerLessonPage("2", descriptor2);
+        lesson.registerLessonPage("3", descriptor3);
 
-        lesson.setCurrentPage(SpeakingQuestionDescriptor.IDENTIFIER);
+        //lesson.setCurrentPage(SpeakingQuestionDescriptor.IDENTIFIER);
+        lesson.setCurrentPage("1");
 
         int ret = lesson.showModalDialog();
 

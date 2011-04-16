@@ -87,7 +87,7 @@ public class LessonModel {
      * @param id Object-based identifier
      * @param descriptor LessonPageDescriptor that describes the page
      */
-     void registerPage(Object id, LessonPageDescriptor descriptor) {
+    void registerPage(Object id, LessonPageDescriptor descriptor) {
 
         //  Place a reference to it in a hashtable so we can access it later
         //  when it is about to be displayed.

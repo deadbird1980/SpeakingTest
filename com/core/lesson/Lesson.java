@@ -78,7 +78,7 @@ public class Lesson extends WindowAdapter implements PropertyChangeListener {
      */
     public Lesson(Dialog owner) {
         LessonModel = new LessonModel();
-        LessonDialog = new JDialog(owner);    
+        LessonDialog = new JDialog(owner);
         initComponents();
     }
 
@@ -89,7 +89,7 @@ public class Lesson extends WindowAdapter implements PropertyChangeListener {
      */
     public Lesson(Frame owner) {
         LessonModel = new LessonModel();
-        LessonDialog = new JDialog(owner);    
+        LessonDialog = new JDialog(owner);
         initComponents();
     }
 
@@ -226,17 +226,17 @@ public class Lesson extends WindowAdapter implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(LessonModel.CURRENT_PAGE_DESCRIPTOR_PROPERTY)) {
             LessonController.resetButtonsToPageRules();
-        } else if (evt.getPropertyName().equals(LessonModel.NEXT_FINISH_BUTTON_TEXT_PROPERTY)) {       
+        } else if (evt.getPropertyName().equals(LessonModel.NEXT_FINISH_BUTTON_TEXT_PROPERTY)) {
             nextButton.setText(evt.getNewValue().toString());
-        } else if (evt.getPropertyName().equals(LessonModel.BACK_BUTTON_TEXT_PROPERTY)) {       
+        } else if (evt.getPropertyName().equals(LessonModel.BACK_BUTTON_TEXT_PROPERTY)) {
             backButton.setText(evt.getNewValue().toString());
-        } else if (evt.getPropertyName().equals(LessonModel.NEXT_FINISH_BUTTON_ENABLED_PROPERTY)) {       
+        } else if (evt.getPropertyName().equals(LessonModel.NEXT_FINISH_BUTTON_ENABLED_PROPERTY)) {
             nextButton.setEnabled(((Boolean)evt.getNewValue()).booleanValue());
-        } else if (evt.getPropertyName().equals(LessonModel.BACK_BUTTON_ENABLED_PROPERTY)) {       
+        } else if (evt.getPropertyName().equals(LessonModel.BACK_BUTTON_ENABLED_PROPERTY)) {
             backButton.setEnabled(((Boolean)evt.getNewValue()).booleanValue());
-        } else if (evt.getPropertyName().equals(LessonModel.NEXT_FINISH_BUTTON_ICON_PROPERTY)) {       
+        } else if (evt.getPropertyName().equals(LessonModel.NEXT_FINISH_BUTTON_ICON_PROPERTY)) {
             nextButton.setIcon((Icon)evt.getNewValue());
-        } else if (evt.getPropertyName().equals(LessonModel.BACK_BUTTON_ICON_PROPERTY)) {       
+        } else if (evt.getPropertyName().equals(LessonModel.BACK_BUTTON_ICON_PROPERTY)) {
             backButton.setIcon((Icon)evt.getNewValue());
         }
     }
@@ -253,10 +253,11 @@ public class Lesson extends WindowAdapter implements PropertyChangeListener {
    /**
      * Mirrors the LessonModel method of the same name.
      * @return A boolean indicating if the button is enabled.
-     */ 
+     */
     public boolean getBackButtonEnabled() {
         return LessonModel.getBackButtonEnabled().booleanValue();
     }
+
 
    /**
      * Mirrors the LessonModel method of the same name.
@@ -339,7 +340,7 @@ public class Lesson extends WindowAdapter implements PropertyChangeListener {
         buttonPanel.add(separator, BorderLayout.NORTH);
 
         buttonBox.setBorder(new EmptyBorder(new Insets(5, 10, 5, 10)));  
-        buttonBox.add(backButton);
+        //buttonBox.add(backButton);
         buttonBox.add(Box.createHorizontalStrut(10));
         buttonBox.add(nextButton);
         buttonBox.add(Box.createHorizontalStrut(30));
@@ -373,7 +374,7 @@ public class Lesson extends WindowAdapter implements PropertyChangeListener {
         try {
 
             PropertyResourceBundle resources = (PropertyResourceBundle)
-                ResourceBundle.getBundle("com.core.lesson.Lesson");
+                ResourceBundle.getBundle("com.core.lesson.lesson");
 
             BACK_TEXT = (String)(resources.getObject("backButtonText"));
             NEXT_TEXT = (String)(resources.getObject("nextButtonText"));

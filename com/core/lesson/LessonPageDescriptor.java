@@ -10,7 +10,8 @@ import javax.swing.*;
  */
 public class LessonPageDescriptor {
 
-    private static final String DEFAULT_page_IDENTIFIER = "defaultPageIdentifier";
+    private static final String DEFAULT_PAGE_IDENTIFIER = "defaultPageIdentifier";
+    private String nextID = null;
 
 
     /**
@@ -18,6 +19,8 @@ public class LessonPageDescriptor {
      * last page and the text of the 'Next' button should change to 'Finish'.
      */
     public static final FinishIdentifier FINISH = new FinishIdentifier();
+
+    public static String ID;
 
     private Lesson lesson;
     private Component targetPage;
@@ -27,7 +30,7 @@ public class LessonPageDescriptor {
      * Default constructor. The id and the Component page must be set separately.
      */
     public LessonPageDescriptor() {
-        pageIdentifier = DEFAULT_page_IDENTIFIER;
+        pageIdentifier = DEFAULT_PAGE_IDENTIFIER;
         targetPage = new JPanel();
     }
 
@@ -109,7 +112,20 @@ public class LessonPageDescriptor {
      * @return Object-based identifier.
      */
     public Object getNextPageDescriptor() {
-        return null;
+        return nextID;
+    }
+
+    /**
+     * Override this class to provide the Object-based identifier of the page that the
+     * user should traverse to when the Next button is pressed. Note that this method
+     * is only called when the button is actually pressed, so that the page can change
+     * the next page's identifier dynamically at runtime if necessary. Return null if
+     * the button should be disabled. Return FinishIdentfier if the button text
+     * should change to 'Finish' and the dialog should end.
+     * @return Object-based identifier.
+     */
+    public void setNextPageDescriptor(String ID) {
+        nextID = ID;
     }
 
     //  Override this method to provide an Object-based identifier

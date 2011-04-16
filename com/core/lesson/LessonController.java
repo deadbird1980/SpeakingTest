@@ -109,7 +109,7 @@ public class LessonController implements ActionListener {
             model.setNextFinishButtonIcon(Lesson.FINISH_ICON);
         } else {
             model.setNextFinishButtonText(Lesson.NEXT_TEXT);
-            model.setNextFinishButtonIcon(Lesson.NEXT_ICON);
+            //model.setNextFinishButtonIcon(Lesson.NEXT_ICON);
         }
 
     }
