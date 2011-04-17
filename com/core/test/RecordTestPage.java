@@ -114,26 +114,6 @@ public class RecordTestPage extends JPanel {
 
     }
 
-
-    private Object getResource(String key) {
-
-        URL url = null;
-        String name = key;
-
-        if (name != null) {
-
-            try {
-                Class c = Class.forName("com.nexes.test.Main");
-                url = c.getResource(name);
-            } catch (ClassNotFoundException cnfe) {
-                System.err.println("Unable to find Main class");
-            }
-            return url;
-        } else
-            return null;
-
-    }
-
     private RecordPlay getRecorder() {
         if (recorder == null) {
             recorder = new RecordPlay();

@@ -1,5 +1,6 @@
 package com.core.test;
 
+import com.core.util.*;
 import java.awt.*;
 import java.net.*;
 import java.util.*;
@@ -45,7 +46,7 @@ public class LoginPage extends JPanel {
         contentPanel1.setLayout(new java.awt.BorderLayout());
 
         welcomeLabel.setFont(new java.awt.Font("MS Sans Serif", Font.BOLD, 11));
-        welcomeLabel.setText((String)getResource("welcomeMessage"));
+        welcomeLabel.setText((String)ResourceManager.getTestResource("welcomeMessage"));
         contentPanel1.add(welcomeLabel, java.awt.BorderLayout.NORTH);
 
         jPanel1.setLayout(new java.awt.GridLayout(0, 1));
@@ -53,7 +54,7 @@ public class LoginPage extends JPanel {
         blankSpace = new JLabel();
         jPanel1.add(blankSpace);
         JPanel userPanel = new JPanel(new BorderLayout());
-        JLabel userLabel = new JLabel((String)getResource("userID"));
+        JLabel userLabel = new JLabel((String)ResourceManager.getTestResource("userID"));
         JTextField userTextField = new JTextField();
         userLabel.setLabelFor(userTextField);
         userPanel.add(userLabel, BorderLayout.WEST);
@@ -63,23 +64,6 @@ public class LoginPage extends JPanel {
         contentPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         return contentPanel1;
-
-    }
-
-
-    private Object getResource(String key) {
-        try {
-
-            PropertyResourceBundle resources = (PropertyResourceBundle)
-                ResourceBundle.getBundle("com.core.test.test");
-
-            return (String)(resources.getObject(key));
-        } catch (MissingResourceException mre) {
-            System.out.println(mre);
-            System.exit(1);
-        }
-
-        return null;
 
     }
 

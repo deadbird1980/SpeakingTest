@@ -124,8 +124,8 @@ public class SpeakingQuestionPage extends LessonPage {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setBorder(new EmptyBorder(10, 0, 5, 0));
         buttonsPanel.setPreferredSize(new Dimension(400, 60));
-        recordButton = new JButton("RECORD");
-        stopButton = new JButton("STOP");
+        recordButton = new JButton((String)ResourceManager.getTestResource("record"));
+        stopButton = new JButton((String)ResourceManager.getTestResource("stop"));
 
         recordButton.setActionCommand(RECORD_BUTTON_ACTION_COMMAND);
         stopButton.setActionCommand(STOP_BUTTON_ACTION_COMMAND);
@@ -202,5 +202,6 @@ public class SpeakingQuestionPage extends LessonPage {
         }
         return recorder;
     }
+
 
 }
