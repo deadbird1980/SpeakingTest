@@ -43,6 +43,7 @@ public class RecordPlay {
                             totaldatasize += cnt ;
                         }
                     }
+System.err.println (totaldatasize);
                     byteArrayOutputStream.close() ;
 
                 }catch(Exception e){
@@ -66,11 +67,12 @@ public class RecordPlay {
 
             //创建独立线程进行录音
             Thread captureThread = new Thread(new CaptureThread()) ;
+            captureThread.start();
 
-            }catch(Exception e){
+        }catch(Exception e){
                 e.printStackTrace() ;
-            }
         }
+    }
 
     //播放ByteArrayOutputStream中的数据
     public void play(){
@@ -148,7 +150,7 @@ public class RecordPlay {
     }
 
     public boolean isStopped() {
-        return stopCapture;
+        return !stopCapture;
     }
 
     //取得AudioFormat

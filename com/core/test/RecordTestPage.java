@@ -70,12 +70,21 @@ public class RecordTestPage extends JPanel {
         //recordButton.addActionListener(LessonController);
         recordButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                recordButton.setEnabled(false) ;
+                //recordButton.setEnabled(false) ;
+                recordButton.setText("STOP") ;
+
                 stopButton.setEnabled(true) ;
                 playButton.setEnabled(false) ;
+                   playButton.setEnabled(true) ;
                 //start record
                 RecordPlay recorder = getRecorder();
-                recorder.capture() ;
+                if (!recorder.isStopped()) {
+                   recorder.stop();
+                   playButton.setEnabled(true) ;
+
+                } else {
+                    recorder.capture() ;
+                }
             }
         }) ;
         //regist the PlayEvent
@@ -95,7 +104,8 @@ public class RecordTestPage extends JPanel {
 
         //buttonBox.setBorder(new EmptyBorder(new Insets(5, 10, 5, 10)));
         buttonsPanel.add(recordButton);
-        buttonsPanel.add(stopButton);
+        //buttonsPanel.add(stopButton);
+        buttonsPanel.add(playButton);
 
         jPanel1.add(buttonsPanel, java.awt.BorderLayout.EAST);
 
