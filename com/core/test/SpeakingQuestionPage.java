@@ -30,6 +30,7 @@ public class SpeakingQuestionPage extends LessonPage {
 
     private Thread countDownTimer;
     private RecordPlay recorder;
+    private int TestID;
 
     public SpeakingQuestionPage() {
 
@@ -92,6 +93,10 @@ public class SpeakingQuestionPage extends LessonPage {
         } else
             return null;
 
+    }
+
+    public void setTestID(int id) {
+        TestID = id;
     }
 
     public void startTimer() {
@@ -172,7 +177,7 @@ public class SpeakingQuestionPage extends LessonPage {
         questionPanel.setPreferredSize(new Dimension(400, 100));
         questionPanel.setLayout(new java.awt.BorderLayout());
         questionLabel = new JTextArea();
-        questionLabel.setText("adfadf adfakdfakdsk adf adjfkad fk adf akdjf adjfkajdfk adskf akdsjf akdsjf aksdjfka  adfk adsjfkjadkf asdf ");
+        questionLabel.setText((String)ResourceManager.getTestResource("question"));
         questionLabel.setLineWrap(true);
         questionLabel.setEditable(false);
         //Get JFrame background color  
@@ -187,7 +192,7 @@ public class SpeakingQuestionPage extends LessonPage {
         questionPanel.setPreferredSize(new Dimension(400, 100));
         questionPanel.setLayout(new java.awt.BorderLayout());
         questionTranslationLabel = new JTextArea();
-        questionTranslationLabel.setText("adfadf adfakdfakdsk adf adjfkad fk adf akdjf adjfkajdfk adskf akdsjf akdsjf aksdjfka  adfk adsjfkjadkf asdf ");
+        questionTranslationLabel.setText((String)ResourceManager.getTestResource("questionTranslation"));
         questionTranslationLabel.setLineWrap(true);
         questionTranslationLabel.setEditable(false);
         //Get JFrame background color  
