@@ -7,7 +7,7 @@
 
   <target name="clean">
       <delete dir="${build}" />
-      <delete file="${basedir}/SpeakingTest.jar" />
+      <delete file="${basedir}/lesson.jar" />
   </target>
 
   <target name="init">
@@ -19,18 +19,29 @@
   </target>
 
   <target depends="prepare" name="compile"> 
-    <javac destdir="${build}" srcdir="${src}"> 
+    <javac destdir="${build}" srcdir="${src}" debug="true" debuglevel="lines,vars,source"> 
     	<include name="**/*.java"/> 
     </javac> 
   </target>
   
   <target depends="compile" name="copy">
+      <copy todir="${build}/com/core/test" file="${src}/com/core/test/test.properties"/>
       <copy todir="${build}/com/core/lesson" file="${src}/com/core/lesson/lesson.properties"/>
       <copy todir="${build}/com/core/lesson">
           <fileset dir="${src}/com/core/lesson">
               <include name="**/*.gif"/>
           </fileset>
       </copy>
+  </target>
+
+  <target name="run">
+    <java fork="on"
+       failonerror="true"
+       classpath="."
+       classname="com.core.test.Main">
+      <jvmarg line="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9009" />
+      <arg line=""/>
+    </java>
   </target>
 
   <target depends="copy" name="jar">
