@@ -12,7 +12,7 @@ public class RecordTestDescriptor extends LessonPageDescriptor {
     public static final String IDENTIFIER = "LOGIN_PAGE";
 
     public RecordTestDescriptor() {
-        super(IDENTIFIER, new LoginPage());
+        super(IDENTIFIER, new RecordTestPage());
     }
 
 

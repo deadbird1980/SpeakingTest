@@ -20,4 +20,12 @@ public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
         return null;
     }
 
+    public void aboutToDisplayPage() {
+
+    }
+
+    public void aboutToHidePage() {
+
+    }
+
 }

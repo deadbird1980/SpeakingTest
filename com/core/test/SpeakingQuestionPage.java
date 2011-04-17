@@ -1,12 +1,13 @@
 package com.core.test;
 
+import com.core.lesson.*;
 import java.awt.*;
 import java.net.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
 
-public class SpeakingQuestionPage extends JPanel {
+public class SpeakingQuestionPage extends LessonPage {
     /**
      * The String-based action command for the 'Next' button.
      */
@@ -93,7 +94,7 @@ public class SpeakingQuestionPage extends JPanel {
         if (name != null) {
 
             try {
-                Class c = Class.forName("com.nexes.test.Main");
+                Class c = Class.forName("com.core.test.Main");
                 url = c.getResource(name);
             } catch (ClassNotFoundException cnfe) {
                 System.err.println("Unable to find Main class");

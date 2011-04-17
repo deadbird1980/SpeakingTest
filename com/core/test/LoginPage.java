@@ -2,6 +2,7 @@ package com.core.test;
 
 import java.awt.*;
 import java.net.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -10,6 +11,7 @@ public class LoginPage extends JPanel {
 
     private JLabel blankSpace;
     private JLabel welcomeLabel;
+    private JTextField userTextField;
 
     private JPanel contentPanel;
 
@@ -37,13 +39,21 @@ public class LoginPage extends JPanel {
         contentPanel1.setLayout(new java.awt.BorderLayout());
 
         welcomeLabel.setFont(new java.awt.Font("MS Sans Serif", Font.BOLD, 11));
-        welcomeLabel.setText("Welcome to the Test");
+        welcomeLabel.setText((String)getResource("welcomeMessage"));
         contentPanel1.add(welcomeLabel, java.awt.BorderLayout.NORTH);
 
         jPanel1.setLayout(new java.awt.GridLayout(0, 1));
 
         blankSpace = new JLabel();
         jPanel1.add(blankSpace);
+        JPanel userPanel = new JPanel(new BorderLayout());
+        JLabel userLabel = new JLabel((String)getResource("userID"));
+        JTextField userTextField = new JTextField();
+        userLabel.setLabelFor(userTextField);
+        userPanel.add(userLabel, BorderLayout.WEST);
+        userPanel.add(userTextField, BorderLayout.CENTER);
+        jPanel1.add(userPanel, BorderLayout.SOUTH);
+
         contentPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         return contentPanel1;
@@ -52,21 +62,18 @@ public class LoginPage extends JPanel {
 
 
     private Object getResource(String key) {
+        try {
 
-        URL url = null;
-        String name = key;
+            PropertyResourceBundle resources = (PropertyResourceBundle)
+                ResourceBundle.getBundle("com.core.test.test");
 
-        if (name != null) {
+            return (String)(resources.getObject(key));
+        } catch (MissingResourceException mre) {
+            System.out.println(mre);
+            System.exit(1);
+        }
 
-            try {
-                Class c = Class.forName("com.nexes.test.Main");
-                url = c.getResource(name);
-            } catch (ClassNotFoundException cnfe) {
-                System.err.println("Unable to find Main class");
-            }
-            return url;
-        } else
-            return null;
+        return null;
 
     }
 

@@ -20,4 +20,9 @@ public class LoginDescriptor extends LessonPageDescriptor {
         return null;
     }
 
+    public void aboutToHidePage() {
+        //getPageComponent().sumit
+
+    }
+
 }

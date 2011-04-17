@@ -47,6 +47,7 @@ public class RecordTestPage extends JPanel {
         JPanel jPanel1 = new JPanel();
 
         blankSpace = new JLabel();
+        introLabel = new JLabel();
 
         contentPanel1.setLayout(new java.awt.BorderLayout());
 
