@@ -29,7 +29,7 @@ public class Main {
         lesson.registerLessonPage("3", descriptor1);
 
         //lesson.setCurrentPage(SpeakingQuestionDescriptor.IDENTIFIER);
-        lesson.setCurrentPage("1");
+        lesson.setCurrentPage("2");
 
         int ret = lesson.showModalDialog();
 

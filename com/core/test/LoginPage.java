@@ -14,6 +14,7 @@ public class LoginPage extends JPanel {
     private JTextField userTextField;
 
     private JPanel contentPanel;
+    private String userID;
 
     public LoginPage() {
 
@@ -26,6 +27,11 @@ public class LoginPage extends JPanel {
         JPanel secondaryPanel = new JPanel();
         secondaryPanel.add(contentPanel, BorderLayout.NORTH);
         add(secondaryPanel, BorderLayout.CENTER);
+    }
+
+
+    public String getUserID() {
+        return userID;
     }
 
 

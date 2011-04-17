@@ -11,6 +11,11 @@ public class RecordPlay {
     //读取数据: TargetDataLine -> ByteArrayOutputStream
     ByteArrayOutputStream byteArrayOutputStream ;
     int totaldatasize = 0 ;
+    long totalDuration = 0 ;
+
+    int recordTimeout = 1200 ;
+    long recordStart;
+    long recordEnd;
     TargetDataLine targetDataLine ;      //音频输入设备
 
     //播放数据: 从AudioInputStream 写入 SourceDataLine 播放
@@ -33,6 +38,7 @@ public class RecordPlay {
                 byteArrayOutputStream = new ByteArrayOutputStream() ;
                 totaldatasize = 0 ;
                 stopCapture = false ;
+                recordStart = System.currentTimeMillis();
                 try{
                     while(!stopCapture){
 
@@ -50,6 +56,8 @@ System.err.println (totaldatasize);
                     e.printStackTrace() ;
                     System.exit(0) ;
                 }
+                recordEnd = System.currentTimeMillis();
+                totalDuration = recordEnd - recordStart;
             }
         }
 

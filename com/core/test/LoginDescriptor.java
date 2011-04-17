@@ -21,7 +21,7 @@ public class LoginDescriptor extends LessonPageDescriptor {
     }
 
     public void aboutToHidePage() {
-        //getPageComponent().sumit
+        //save study Information
 
     }
 

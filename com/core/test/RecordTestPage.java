@@ -70,20 +70,19 @@ public class RecordTestPage extends JPanel {
         //recordButton.addActionListener(LessonController);
         recordButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                //recordButton.setEnabled(false) ;
-                recordButton.setText("STOP") ;
 
                 stopButton.setEnabled(true) ;
-                playButton.setEnabled(false) ;
-                   playButton.setEnabled(true) ;
                 //start record
                 RecordPlay recorder = getRecorder();
                 if (!recorder.isStopped()) {
-                   recorder.stop();
-                   playButton.setEnabled(true) ;
+                    recorder.stop();
+                    playButton.setEnabled(true) ;
+                    recordButton.setText("RECORD") ;
 
                 } else {
                     recorder.capture() ;
+                    recordButton.setText("STOP") ;
+                    playButton.setEnabled(false) ;
                 }
             }
         }) ;
