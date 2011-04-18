@@ -23,12 +23,12 @@ public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
     public void aboutToDisplayPage() {
         SpeakingQuestionPage page = (SpeakingQuestionPage) getPageComponent();
         page.playAudio();
-        page.startTimer();
-
     }
 
     public void aboutToHidePage() {
-
+        SpeakingQuestionPage page = (SpeakingQuestionPage) getPageComponent();
+        page.stopAudio();
+        page.stopTimer();
     }
 
 }

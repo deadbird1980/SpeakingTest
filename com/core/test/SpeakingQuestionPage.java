@@ -38,7 +38,10 @@ public class SpeakingQuestionPage extends LessonPage {
     private Thread countDownTimer;
     private Thread playAudio;
     private RecordPlay recorder;
+
+    //Tests model data
     private String TestID = "1";
+    private int totalTests = 1;
 
     public SpeakingQuestionPage() {
 
@@ -105,6 +108,12 @@ public class SpeakingQuestionPage extends LessonPage {
 
     public void setTestID(String id) {
         TestID = id;
+        setPosition();
+    }
+
+    public void setTotalTests(int cnt) {
+        totalTests = cnt;
+        setPosition();
     }
 
     public void startTimer() {
@@ -115,7 +124,7 @@ public class SpeakingQuestionPage extends LessonPage {
                 count_down.start();
 
                 while (count_down.isAlive()) {
-                    countDownLabel.setText(count_down.getClock());
+                    countDownLabel.setText((String)ResourceManager.getTestResource("timeLeft")+count_down.getClock());
                     try {
                         sleep(100);
                     } catch (InterruptedException e) {
@@ -125,7 +134,11 @@ public class SpeakingQuestionPage extends LessonPage {
             }
 
         }
-        countDownTimer = new countDownThread();
+        if (countDownTimer != null) {
+            countDownTimer.interrupt();
+        } else {
+            countDownTimer = new countDownThread();
+        }
         countDownTimer.start();
     }
 
@@ -141,6 +154,8 @@ public class SpeakingQuestionPage extends LessonPage {
                         AudioDevice dev = FactoryRegistry.systemRegistry().createAudioDevice();
                         Player player = new Player(bin);
                         player.play();
+                        //after end of playing
+                        startTimer();
                         System.out.println("playing "+fFilename+"...");
                     } else {
                         System.out.println("not exist file "+fFilename+"...");
@@ -163,11 +178,15 @@ public class SpeakingQuestionPage extends LessonPage {
     }
 
     public void stopAudio() {
-        playAudio.stop();
+        if (playAudio != null) {
+            playAudio.interrupt();
+        }
     }
 
-    private void stopTimer() {
-        countDownTimer.stop();
+    public void stopTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.interrupt();
+        }
     }
 
     private JPanel createRecordButtons() {
@@ -176,6 +195,7 @@ public class SpeakingQuestionPage extends LessonPage {
         buttonsPanel.setPreferredSize(new Dimension(400, 60));
         recordButton = new JButton((String)ResourceManager.getTestResource("record"));
         stopButton = new JButton((String)ResourceManager.getTestResource("stop"));
+        stopButton.setEnabled(false) ;
 
         recordButton.setActionCommand(RECORD_BUTTON_ACTION_COMMAND);
         stopButton.setActionCommand(STOP_BUTTON_ACTION_COMMAND);
@@ -188,6 +208,8 @@ public class SpeakingQuestionPage extends LessonPage {
                 //start record
                 RecordPlay recorder = getRecorder();
                 recorder.capture() ;
+                //recording countdown start
+                startTimer();
             }
         }) ;
         stopButton.addActionListener(new ActionListener(){
@@ -195,6 +217,10 @@ public class SpeakingQuestionPage extends LessonPage {
 
                 recordButton.setEnabled(true) ;
                 recorder.stop() ;
+                //stop the countdown
+                if (countDownTimer != null) {
+                    countDownTimer.interrupt();
+                }
             }
         }) ;
         buttonsPanel.add(recordButton);
@@ -209,14 +235,19 @@ public class SpeakingQuestionPage extends LessonPage {
         headerPanel.setLayout(new java.awt.BorderLayout());
         positionLabel = new JLabel();
         positionLabel.setFont(new java.awt.Font("MS Sans Serif", Font.BOLD, 11));
-        positionLabel.setText("situation 6 of 8");
         countDownLabel = new JLabel();
-        countDownLabel.setText("02:00");
+        //countDownLabel.setText("02:00");
         headerPanel.add(positionLabel, java.awt.BorderLayout.WEST);
         headerPanel.add(countDownLabel, java.awt.BorderLayout.EAST);
         return headerPanel;
     }
 
+    private void setPosition() {
+        String position = (String) ResourceManager.getTestResource("indicator");
+        position = position.replace("%currentTest%", TestID);
+        position = position.replace("%totalTests%", Integer.toString(totalTests));
+        positionLabel.setText(position);
+    }
     private JPanel createQuestionPanel() {
         JPanel questionPanel = new JPanel();
         questionPanel.setPreferredSize(new Dimension(400, 100));

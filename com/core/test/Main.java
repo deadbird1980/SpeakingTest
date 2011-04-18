@@ -1,6 +1,7 @@
 package com.core.test;
 
 import com.core.lesson.*;
+import com.core.util.ResourceManager;
 
 import javax.swing.*;
 
@@ -18,19 +19,23 @@ public class Main {
         //test page to test if recording is working
         RecordTestDescriptor recordtest = new RecordTestDescriptor();
         recordtest.setNextPageDescriptor("3");
+
         //speaking test pages
-        LessonPageDescriptor descriptor1 = new SpeakingQuestionDescriptor();
-        //descriptor1.setNextPageDescriptor("4");
-        ((SpeakingQuestionPage)descriptor1.getPageComponent()).setTestID("1");
-        LessonPageDescriptor descriptor2 = new SpeakingQuestionDescriptor();
-        descriptor2.setNextPageDescriptor("5");
-        LessonPageDescriptor descriptor3 = new SpeakingQuestionDescriptor();
+        int cnt = Integer.parseInt((String)ResourceManager.getTestResource("totalTests"));
+        for(int i=0; i<cnt; i++) {
+            LessonPageDescriptor descriptor = new SpeakingQuestionDescriptor();
+            SpeakingQuestionPage page = ((SpeakingQuestionPage)descriptor.getPageComponent());
+            page.setTestID(Integer.toString(i+1));
+            page.setTotalTests(cnt);
+            if (i < cnt-1) {
+                descriptor.setNextPageDescriptor(Integer.toString(i+4));
+            }
+            lesson.registerLessonPage(Integer.toString(i+3), descriptor);
+        }
         lesson.registerLessonPage("1", login);
         lesson.registerLessonPage("2", recordtest);
-        lesson.registerLessonPage("3", descriptor1);
 
-        //lesson.setCurrentPage(SpeakingQuestionDescriptor.IDENTIFIER);
-        lesson.setCurrentPage("2");
+        lesson.setCurrentPage("3");
 
         int ret = lesson.showModalDialog();
 
