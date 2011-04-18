@@ -36,13 +36,17 @@ public class SpeakingQuestionPage extends LessonPage {
     private JLabel countDownLabel;
     private JPanel contentPanel;
 
-    private Thread countDownTimer;
-    private Thread playAudio;
+    private countDownThread countDownTimer;
+    private playAudioThread playAudio;
     private RecordPlay recorder;
 
     //Tests model data
     private String TestID = "1";
     private int totalTests = 1;
+    private long actionStart = 0;
+    private long actionEnd = 0;
+    private long durationPrepare = 0;
+    private long durationRecording = 0;
 
     public SpeakingQuestionPage(String id, int tests) {
         TestID = id;
@@ -118,74 +122,88 @@ public class SpeakingQuestionPage extends LessonPage {
         totalTests = cnt;
     }
 
-    public void startTimer() {
-        class countDownThread extends Thread {
+    class countDownThread extends Thread {
+        // Must be volatile:
+        private volatile boolean stop = false;
 
-            public void run(){
-                TimerThread count_down = new TimerThread(TimerThread.COUNT_DOWN);
-                count_down.start();
+        public void run(){
+            TimerThread count_down = new TimerThread(TimerThread.COUNT_DOWN);
+            count_down.start();
 
-                while (count_down.isAlive()) {
-                    //show counting down clock
-                    countDownLabel.setText((String)ResourceManager.getTestResource("timeLeft")+count_down.getClock());
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {
-                        System.out.println("Interrupted.");
-                    }
-                }
-                //timeout
-                if (recorder == null) {
-                    startRecord();
-                } else {
-                    recorder.save(RECORD_FILENAME);
+            while (!stop && count_down.isAlive()) {
+                //show counting down clock
+                countDownLabel.setText((String)ResourceManager.getTestResource("timeLeft")+count_down.getClock());
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    System.out.println("Interrupted.");
                 }
             }
+            //timeout
+            if (recorder == null) {
+                startRecord();
+            } else {
+                recorder.save(RECORD_FILENAME);
+            }
+        }
 
+        public void requestStop() {
+            stop = true;
         }
+
+    }
+    public void startTimer() {
+        actionStart = System.currentTimeMillis();
         if (countDownTimer != null) {
-            countDownTimer.interrupt();
-        } else {
-            countDownTimer = new countDownThread();
+            countDownTimer.requestStop();
         }
+        countDownTimer = new countDownThread();
         countDownTimer.start();
     }
 
-    public void playAudio() {
-        class playAudioThread extends Thread {
-            private Player player;
+    class playAudioThread extends Thread {
+        // Must be volatile:
+        private volatile boolean stop = false;
+        private Player player;
+        private void playFile(String fFilename) {
 
-            public void interrupt() {
-                player.close();
-                //stop the timer
-                stopTimer();
-                super.interrupt();
-            }
-
-            public void run(){
-                String fFilename = getQuestionAudioID();
-                try {
-                    if ((new File(fFilename)).exists()) {
-                        FileInputStream fin = new FileInputStream(fFilename);
-                        BufferedInputStream bin = new BufferedInputStream(fin);
-                        AudioDevice dev = FactoryRegistry.systemRegistry().createAudioDevice();
-                        player = new Player(bin);
-                        player.play();
-                        //after end of playing
-                        startTimer();
-                        System.out.println("playing "+fFilename+"...");
-                    } else {
-                        System.out.println("not exist file "+fFilename+"...");
-                    }
-                } catch (IOException ex) {
-                    //throw new Exception("Problem playing file "+fFilename, ex);
-                    System.out.println("Problem playing file "+fFilename);
-                } catch (Exception ex) {
-                    //throw new Exception("Problem playing file "+fFilename, ex);
-                    System.out.println("Problem playing file "+fFilename);
+            try {
+                if ((new File(fFilename)).exists()) {
+                    FileInputStream fin = new FileInputStream(fFilename);
+                    BufferedInputStream bin = new BufferedInputStream(fin);
+                    AudioDevice dev = FactoryRegistry.systemRegistry().createAudioDevice();
+                    player = new Player(bin);
+                    System.out.println("playing "+fFilename+"...");
+                    player.play();
+                } else {
+                    System.out.println("not exist file "+fFilename+"...");
                 }
+            } catch (IOException ex) {
+                //throw new Exception("Problem playing file "+fFilename, ex);
+                System.out.println("Problem playing file "+fFilename);
+            } catch (Exception ex) {
+                //throw new Exception("Problem playing file "+fFilename, ex);
+                System.out.println("Problem playing file "+fFilename);
             }
         }
+
+        public void run(){
+            playFile(getQuestionAudio());
+            playFile(getRecordingNowAudio());
+            //after end of playing
+            startTimer();
+            //enable the record button
+            recordButton.setEnabled(true) ;
+        }
+
+        public void requestStop() {
+            //stop the timer
+            stopTimer();
+            player.close();
+        }
+    }
+
+    public void playAudio() {
         try {
             playAudioThread playAudio = new playAudioThread();
             playAudio.start();
@@ -196,13 +214,22 @@ public class SpeakingQuestionPage extends LessonPage {
 
     public void stopAudio() {
         if (playAudio != null) {
-            playAudio.interrupt();
+            playAudio.requestStop();
         }
     }
 
     public void stopTimer() {
+        //record time duration
+        actionEnd = System.currentTimeMillis();
+        long duration = actionEnd - actionStart;
+        if (recordPlay == null) {
+          durationPrepare = duration;
+        } else {
+          durationPrepare = duration;
+        }
+
         if (countDownTimer != null) {
-            countDownTimer.interrupt();
+            countDownTimer.requestStop();
         }
     }
 
@@ -211,6 +238,7 @@ public class SpeakingQuestionPage extends LessonPage {
         buttonsPanel.setBorder(new EmptyBorder(10, 0, 5, 0));
         buttonsPanel.setPreferredSize(new Dimension(400, 60));
         recordButton = new JButton((String)ResourceManager.getTestResource("record"));
+        recordButton.setEnabled(false) ;
         stopButton = new JButton((String)ResourceManager.getTestResource("stop"));
         stopButton.setEnabled(false) ;
 
@@ -269,11 +297,10 @@ public class SpeakingQuestionPage extends LessonPage {
         recordButton.setEnabled(true) ;
         recorder.stop() ;
         //stop the countdown
-        if (countDownTimer != null) {
-            countDownTimer.interrupt();
-        }
+        stopTimer();
         //save the file
         recorder.save(RECORD_FILENAME);
+        sendMessage("READY");
     }
 
     private JPanel createQuestionPanel() {
@@ -316,8 +343,12 @@ public class SpeakingQuestionPage extends LessonPage {
         return ResourceManager.getPageText("test"+TestID);
     }
 
-    private String getQuestionAudioID() {
+    private String getQuestionAudio() {
         return ResourceManager.getAudioResourcePath() + "/" + (String)ResourceManager.getTestResource("questionAudio_"+TestID);
+    }
+
+    private String getRecordingNowAudio() {
+        return ResourceManager.getAudioResourcePath() + "/" + (String)ResourceManager.getTestResource("recordingNowAudio");
     }
 
     private String getQuestionTranslationID() {

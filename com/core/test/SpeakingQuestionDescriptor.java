@@ -13,6 +13,7 @@ public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
 
     public SpeakingQuestionDescriptor(String id, int totalTests) {
         super(IDENTIFIER, new SpeakingQuestionPage(id, totalTests));
+        ((LessonPage)getPageComponent()).setListener(this);
     }
 
 
@@ -34,10 +35,17 @@ public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
         //record the recording
     }
 
+    public void notifyMessage(String msg) {
+        if (msg.equals("READY")) {
+            getLessonModel().setNextFinishButtonEnabled(Boolean.TRUE);
+        }
+    }
+
     private void saveRecord() {
         SpeakingQuestionPage page = (SpeakingQuestionPage) getPageComponent();
         page.getTestID();
         //page.getRecordFile();
     }
+
 
 }

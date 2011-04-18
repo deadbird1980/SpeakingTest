@@ -1,6 +1,7 @@
 package com.core.test;
 
 import com.core.util.*;
+import com.core.lesson.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
@@ -8,7 +9,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 
-public class RecordTestPage extends JPanel {
+public class RecordTestPage extends LessonPage {
     /**
      * The String-based action command for the 'Next' button.
      */

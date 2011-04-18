@@ -1,6 +1,7 @@
 package com.core.test;
 
 import com.core.util.*;
+import com.core.lesson.*;
 import java.awt.*;
 import java.net.*;
 import java.util.*;
@@ -8,7 +9,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 
-public class IntroPage extends JPanel {
+public class IntroPage extends LessonPage {
 
     private JLabel blankSpace;
     private JLabel welcomeLabel;

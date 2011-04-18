@@ -11,7 +11,7 @@ public class Main {
 
 
         Lesson lesson = new Lesson();
-        lesson.getDialog().setTitle("Test Lesson Dialog");
+        lesson.getDialog().setTitle("Oral English Proficiency Test");
 
         //login page to input student ID
         IntroDescriptor intro = new IntroDescriptor();

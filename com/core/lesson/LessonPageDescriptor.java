@@ -33,7 +33,8 @@ public class LessonPageDescriptor {
      */
     public LessonPageDescriptor() {
         pageIdentifier = DEFAULT_PAGE_IDENTIFIER;
-        targetPage = new JPanel();
+        targetPage = new LessonPage();
+        ((LessonPage)targetPage).setListener(this);
     }
 
     /**
@@ -46,6 +47,7 @@ public class LessonPageDescriptor {
     public LessonPageDescriptor(Object id, Component page) {
         pageIdentifier = id;
         targetPage = page;
+        ((LessonPage)targetPage).setListener(this);
     }
 
     /**
