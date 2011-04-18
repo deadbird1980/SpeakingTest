@@ -1,5 +1,6 @@
 package com.core.lesson;
 
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -17,8 +18,17 @@ public class LessonPage extends JPanel {
         listener = des;
     }
 
+    /**
+     * Override this class to provide the Object-based identifier of the page that the
+     * user should traverse to when the Back button is pressed. Note that this method
+     **/
+    public HashMap getSubmit() {
+        return null;
+    }
+
     protected void sendMessage(String msg) {
         listener.notifyMessage(msg);
     }
+
 
 }

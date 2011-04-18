@@ -7,6 +7,7 @@ public class RecordPlay {
 
     boolean stopCapture = false ;          //控制录音标志
     boolean inRecording = false ;          //控制录音标志
+    boolean hasCaptured = false ;          //控制录音标志
     AudioFormat audioFormat ;             //录音格式
 
     //读取数据: TargetDataLine -> ByteArrayOutputStream
@@ -78,6 +79,7 @@ public class RecordPlay {
             Thread captureThread = new Thread(new CaptureThread()) ;
             captureThread.start();
             inRecording = true;
+            hasCaptured = true;
 
         }catch(Exception e){
                 e.printStackTrace() ;
@@ -167,6 +169,9 @@ public class RecordPlay {
         return inRecording;
     }
 
+    public boolean hasCaptured() {
+        return hasCaptured;
+    }
     //取得AudioFormat
     private AudioFormat getAudioFormat(){
         float sampleRate = 16000.0f ;

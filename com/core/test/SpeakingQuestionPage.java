@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javazoom.jl.player.*;
 import java.awt.*;
+import java.util.*;
 import java.awt.event.*;
 import java.net.*;
 import javax.swing.*;
@@ -43,8 +44,8 @@ public class SpeakingQuestionPage extends LessonPage {
     private int totalTests = 1;
     private long actionStart = 0;
     private long actionEnd = 0;
-    private long durationPrepare = 0;
-    private long durationRecording = 0;
+    private long pauseTime = 0;
+    private long recordTime = 0;
 
     public SpeakingQuestionPage(String id, int tests) {
         TestID = id;
@@ -221,9 +222,9 @@ public class SpeakingQuestionPage extends LessonPage {
         actionEnd = System.currentTimeMillis();
         long duration = actionEnd - actionStart;
         if (recorder == null) {
-          durationPrepare = duration;
+          pauseTime = duration/1000;
         } else {
-          durationPrepare = duration;
+          recordTime = duration/1000;
         }
 
         if (countDownTimer != null) {
@@ -257,6 +258,14 @@ public class SpeakingQuestionPage extends LessonPage {
         buttonsPanel.add(recordButton);
         buttonsPanel.add(stopButton);
         return buttonsPanel;
+    }
+
+    public HashMap getSubmit() {
+        HashMap data = new HashMap();
+        data.put("pauseTime", pauseTime);
+        data.put("recordTime", recordTime);
+        data.put("recordFile", getRecordFileName());
+        return data;
     }
 
     private JPanel createHeaderPanel() {

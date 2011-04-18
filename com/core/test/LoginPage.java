@@ -38,6 +38,12 @@ public class LoginPage extends LessonPage {
         return userID;
     }
 
+    public HashMap getSubmit() {
+        HashMap data = new HashMap();
+        data.put("userID", userID);
+        return data;
+    }
+
 
     private JPanel getContentPanel() {
 

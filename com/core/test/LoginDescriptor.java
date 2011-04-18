@@ -22,8 +22,6 @@ public class LoginDescriptor extends LessonPageDescriptor {
     }
 
     public void aboutToHidePage() {
-        //save study Information
-
     }
 
     public void aboutToDisplayPage() {
@@ -36,6 +34,5 @@ public class LoginDescriptor extends LessonPageDescriptor {
         else
             getLessonModel().setNextFinishButtonEnabled(Boolean.FALSE);
     }
-
 
 }

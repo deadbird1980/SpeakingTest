@@ -56,6 +56,8 @@ public class LessonModel {
     private HashMap buttonIconHashmap;
     private HashMap buttonEnabledHashmap;
 
+    private HashMap pageSubmission;
+
     private PropertyChangeSupport propertyChangeSupport;
 
 
@@ -65,6 +67,7 @@ public class LessonModel {
     public LessonModel() {
 
         pageHashmap = new HashMap();
+        pageSubmission = new HashMap();
 
         buttonTextHashmap = new HashMap();
         buttonIconHashmap = new HashMap();
@@ -210,6 +213,22 @@ public class LessonModel {
 
     public void removePropertyChangeListener(PropertyChangeListener p) {
         propertyChangeSupport.removePropertyChangeListener(p);
+    }
+
+    public void setPageSubmit(String ID, HashMap submit) {
+        System.out.println ("set page submit "+ID);
+        pageSubmission.put(ID, submit);
+    }
+
+    public HashMap getPageSubmit() {
+        for (Object key : pageHashmap.keySet()) {
+            LessonPageDescriptor descriptor = (LessonPageDescriptor)pageHashmap.get(key);
+            HashMap submit = ((LessonPage)descriptor.getPageComponent()).getSubmit();
+            if (submit != null) {
+                pageSubmission.put(key, submit);
+            }
+        }
+        return pageSubmission;
     }
 
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
