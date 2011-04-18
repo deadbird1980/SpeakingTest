@@ -31,9 +31,10 @@ public class LoginDescriptor extends LessonPageDescriptor {
     }
 
     public void notifyMessage(String msg) {
-        if (msg.equals("READY")) {
+        if (msg.equals("READY"))
             getLessonModel().setNextFinishButtonEnabled(Boolean.TRUE);
-        }
+        else
+            getLessonModel().setNextFinishButtonEnabled(Boolean.FALSE);
     }
 
 

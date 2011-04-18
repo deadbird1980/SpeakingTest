@@ -17,7 +17,7 @@ public class LoginPage extends LessonPage {
     private JTextField userTextField;
 
     private JPanel contentPanel;
-    private String userID;
+    private String userID = "";
 
     public LoginPage() {
 
@@ -58,7 +58,7 @@ public class LoginPage extends LessonPage {
         jPanel1.add(blankSpace);
         JPanel userPanel = new JPanel(new BorderLayout());
         JLabel userLabel = new JLabel((String)ResourceManager.getTestResource("userID"));
-        JTextField userTextField = new JTextField();
+        userTextField = new JTextField();
         userLabel.setLabelFor(userTextField);
         userPanel.add(userLabel, BorderLayout.WEST);
         userPanel.add(userTextField, BorderLayout.CENTER);
@@ -68,9 +68,15 @@ public class LoginPage extends LessonPage {
             public void keyPressed(KeyEvent keyEvent) {
             }
             public void keyReleased(KeyEvent keyEvent) {
+                userID = userTextField.getText();
+                //System.out.println("userID:"+userID);
+                //check the style
+                if (userID.length() > 3)
+                    sendMessage("READY");
+                else
+                    sendMessage("NOT_READY");
             }
             public void keyTyped(KeyEvent keyEvent) {
-                sendMessage("READY");
             }
         };
         userTextField.addKeyListener(keyListener);

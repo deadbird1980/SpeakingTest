@@ -24,12 +24,20 @@ public class ResourceManager {
         return "resource";
     }
 
+    public static String getUserDataPath() {
+        return "user_data";
+    }
+
     public static String getAudioResourcePath() {
         return getResourcePath() + "/mp3/";
     }
 
     public static String getPagesPath() {
         return getResourcePath() + "/pages/";
+    }
+
+    public static String getTempPath() {
+        return "tmp/";
     }
 
     public static String getPageText(String name) {

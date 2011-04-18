@@ -22,8 +22,6 @@ public class SpeakingQuestionPage extends LessonPage {
     public static final String RECORD_BUTTON_ACTION_COMMAND = "RecordButtonActionCommand";
     public static final String STOP_BUTTON_ACTION_COMMAND = "StopButtonActionCommand";
 
-    public static final String RECORD_FILENAME = "record.wav";
-
     private JLabel blankSpace;
     private JLabel pagePositionLabel;
     private JEditorPane questionLabel;
@@ -143,7 +141,7 @@ public class SpeakingQuestionPage extends LessonPage {
             if (recorder == null) {
                 startRecord();
             } else {
-                recorder.save(RECORD_FILENAME);
+                recorder.save(getRecordFileName());
             }
         }
 
@@ -222,7 +220,7 @@ public class SpeakingQuestionPage extends LessonPage {
         //record time duration
         actionEnd = System.currentTimeMillis();
         long duration = actionEnd - actionStart;
-        if (recordPlay == null) {
+        if (recorder == null) {
           durationPrepare = duration;
         } else {
           durationPrepare = duration;
@@ -299,7 +297,7 @@ public class SpeakingQuestionPage extends LessonPage {
         //stop the countdown
         stopTimer();
         //save the file
-        recorder.save(RECORD_FILENAME);
+        recorder.save(getRecordFileName());
         sendMessage("READY");
     }
 
@@ -355,6 +353,8 @@ public class SpeakingQuestionPage extends LessonPage {
         return (String)ResourceManager.getTestResource("questionTranslation_"+TestID);
     }
 
-
+    private String getRecordFileName() {
+        return ResourceManager.getTempPath() + "/Test_" + TestID + ".wav";
+    }
 
 }
