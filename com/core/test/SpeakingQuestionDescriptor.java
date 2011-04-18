@@ -9,10 +9,10 @@ import javax.swing.*;
 public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
 
 
-    public static final String IDENTIFIER = "INTRODUCTION_PANEL";
+    public static final String IDENTIFIER = "SPEAKING_QUESTION";
 
-    public SpeakingQuestionDescriptor() {
-        super(IDENTIFIER, new SpeakingQuestionPage());
+    public SpeakingQuestionDescriptor(String id, int totalTests) {
+        super(IDENTIFIER, new SpeakingQuestionPage(id, totalTests));
     }
 
 

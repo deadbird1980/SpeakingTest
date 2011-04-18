@@ -23,10 +23,7 @@ public class Main {
         //speaking test pages
         int cnt = Integer.parseInt((String)ResourceManager.getTestResource("totalTests"));
         for(int i=0; i<cnt; i++) {
-            LessonPageDescriptor descriptor = new SpeakingQuestionDescriptor();
-            SpeakingQuestionPage page = ((SpeakingQuestionPage)descriptor.getPageComponent());
-            page.setTestID(Integer.toString(i+1));
-            page.setTotalTests(cnt);
+            LessonPageDescriptor descriptor = new SpeakingQuestionDescriptor(Integer.toString(i+1), cnt);
             if (i < cnt-1) {
                 descriptor.setNextPageDescriptor(Integer.toString(i+4));
             }

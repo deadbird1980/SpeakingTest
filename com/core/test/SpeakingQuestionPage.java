@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import javazoom.jl.player.*;
 import java.awt.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
 import javax.swing.*;
@@ -43,12 +42,12 @@ public class SpeakingQuestionPage extends LessonPage {
     private String TestID = "1";
     private int totalTests = 1;
 
-    public SpeakingQuestionPage() {
+    public SpeakingQuestionPage(String id, int tests) {
+        TestID = id;
+        totalTests = tests;
 
         contentPanel = getContentPanel();
         contentPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
-
-
 
         JPanel secondaryPanel = new JPanel();
         secondaryPanel.add(contentPanel, BorderLayout.NORTH);
@@ -108,12 +107,10 @@ public class SpeakingQuestionPage extends LessonPage {
 
     public void setTestID(String id) {
         TestID = id;
-        setPosition();
     }
 
     public void setTotalTests(int cnt) {
         totalTests = cnt;
-        setPosition();
     }
 
     public void startTimer() {
@@ -144,6 +141,14 @@ public class SpeakingQuestionPage extends LessonPage {
 
     public void playAudio() {
         class playAudioThread extends Thread {
+            private Player player;
+
+            public void interrupt() {
+                player.close();
+                //stop the timer
+                stopTimer();
+                super.interrupt();
+            }
 
             public void run(){
                 String fFilename = getQuestionAudioID();
@@ -152,7 +157,7 @@ public class SpeakingQuestionPage extends LessonPage {
                         FileInputStream fin = new FileInputStream(fFilename);
                         BufferedInputStream bin = new BufferedInputStream(fin);
                         AudioDevice dev = FactoryRegistry.systemRegistry().createAudioDevice();
-                        Player player = new Player(bin);
+                        player = new Player(bin);
                         player.play();
                         //after end of playing
                         startTimer();
@@ -235,6 +240,7 @@ public class SpeakingQuestionPage extends LessonPage {
         headerPanel.setLayout(new java.awt.BorderLayout());
         positionLabel = new JLabel();
         positionLabel.setFont(new java.awt.Font("MS Sans Serif", Font.BOLD, 11));
+        setPosition();
         countDownLabel = new JLabel();
         //countDownLabel.setText("02:00");
         headerPanel.add(positionLabel, java.awt.BorderLayout.WEST);
