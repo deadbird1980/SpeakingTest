@@ -123,10 +123,17 @@ public class SpeakingQuestionPage extends LessonPage {
 
     class countDownThread extends Thread {
         // Must be volatile:
+        private long countStart = 0;
+        private long countStop = 0;
         private volatile boolean stop = false;
+
+        public long getCountTime() {
+            return countStop - countStart;
+        }
 
         public void run(){
             TimerThread count_down = new TimerThread(TimerThread.COUNT_DOWN);
+            countStart = System.currentTimeMillis();
             count_down.start();
 
             while (!stop && count_down.isAlive()) {
@@ -138,6 +145,8 @@ public class SpeakingQuestionPage extends LessonPage {
                     System.out.println("Interrupted.");
                 }
             }
+            //count stop
+            countStop = System.currentTimeMillis();
             //timeout
             if (recorder == null) {
                 startRecord();
@@ -152,7 +161,6 @@ public class SpeakingQuestionPage extends LessonPage {
 
     }
     public void startTimer() {
-        actionStart = System.currentTimeMillis();
         if (countDownTimer != null) {
             countDownTimer.requestStop();
         }
@@ -218,17 +226,14 @@ public class SpeakingQuestionPage extends LessonPage {
     }
 
     public void stopTimer() {
-        //record time duration
-        actionEnd = System.currentTimeMillis();
-        long duration = actionEnd - actionStart;
-        if (recorder == null) {
-          pauseTime = duration/1000;
-        } else {
-          recordTime = duration/1000;
-        }
 
         if (countDownTimer != null) {
             countDownTimer.requestStop();
+            if (recorder == null) {
+              pauseTime = countDownTimer.getCountTime()/1000;
+            } else {
+              recordTime = countDownTimer.getCountTime()/1000;
+            }
         }
     }
 
