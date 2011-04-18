@@ -26,7 +26,7 @@ public class SpeakingQuestionPage extends LessonPage {
 
     private JLabel blankSpace;
     private JLabel pagePositionLabel;
-    private JTextArea questionLabel;
+    private JEditorPane questionLabel;
     private JTextArea questionTranslationLabel;
 
     private JButton recordButton;
@@ -68,20 +68,19 @@ public class SpeakingQuestionPage extends LessonPage {
 
         contentPanel.setLayout(new javax.swing.BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-
         //buttonBox.setBorder(new EmptyBorder(new Insets(5, 10, 5, 10)));
 
         JPanel headerPanel = createHeaderPanel();
         JPanel questionPanel = createQuestionPanel();
         JPanel recordPanel = createRecordButtons();
-        JPanel questionTranslationPanel = createQuestionTranslationPanel();
+        //JPanel questionTranslationPanel = createQuestionTranslationPanel();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
         contentPanel.add(headerPanel, c);
         contentPanel.add(questionPanel, c);
         contentPanel.add(recordPanel, c);
-        contentPanel.add(questionTranslationPanel, c);
+        //contentPanel.add(questionTranslationPanel, c);
 
         return contentPanel;
 
@@ -244,7 +243,7 @@ public class SpeakingQuestionPage extends LessonPage {
         setPosition();
         countDownLabel = new JLabel();
         //countDownLabel.setText("02:00");
-        headerPanel.add(positionLabel, java.awt.BorderLayout.WEST);
+        //headerPanel.add(positionLabel, java.awt.BorderLayout.WEST);
         headerPanel.add(countDownLabel, java.awt.BorderLayout.EAST);
         return headerPanel;
     }
@@ -279,13 +278,13 @@ public class SpeakingQuestionPage extends LessonPage {
 
     private JPanel createQuestionPanel() {
         JPanel questionPanel = new JPanel();
-        questionPanel.setPreferredSize(new Dimension(400, 100));
+        questionPanel.setPreferredSize(new Dimension(600, 500));
         questionPanel.setLayout(new java.awt.BorderLayout());
-        questionLabel = new JTextArea();
+        questionLabel = new JEditorPane();
+        questionLabel.setContentType("text/html; charset=EUC-JP");
         questionLabel.setText(getQuestionID());
-        questionLabel.setLineWrap(true);
         questionLabel.setEditable(false);
-        //Get JFrame background color  
+        //Get JFrame background color
         Color color = getBackground();
         questionLabel.setBackground(color);
         questionPanel.add(questionLabel, java.awt.BorderLayout.CENTER);
@@ -314,11 +313,11 @@ public class SpeakingQuestionPage extends LessonPage {
     }
 
     private String getQuestionID() {
-        return (String)ResourceManager.getTestResource("question_"+TestID);
+        return ResourceManager.getPageText("test"+TestID);
     }
 
     private String getQuestionAudioID() {
-        return (String)ResourceManager.getTestResource("questionAudio_"+TestID);
+        return ResourceManager.getAudioResourcePath() + "/" + (String)ResourceManager.getTestResource("questionAudio_"+TestID);
     }
 
     private String getQuestionTranslationID() {

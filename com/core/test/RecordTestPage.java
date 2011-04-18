@@ -89,7 +89,7 @@ public class RecordTestPage extends JPanel {
                 stopButton.setEnabled(true) ;
                 //start record
                 RecordPlay recorder = getRecorder();
-                if (!recorder.isStopped()) {
+                if (recorder.isInRecording()) {
                     recorder.stop();
                     playButton.setEnabled(true) ;
                     recordButton.setText("RECORD") ;
@@ -106,7 +106,7 @@ public class RecordTestPage extends JPanel {
 
                 //play record
                 RecordPlay recorder = getRecorder();
-                if (!recorder.isStopped())
+                if (!recorder.isInRecording())
                    recorder.stop();
                 recorder.play() ;
             }

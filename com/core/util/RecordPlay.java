@@ -6,6 +6,7 @@ import javax.sound.sampled.*;
 public class RecordPlay {
 
     boolean stopCapture = false ;          //控制录音标志
+    boolean inRecording = false ;          //控制录音标志
     AudioFormat audioFormat ;             //录音格式
 
     //读取数据: TargetDataLine -> ByteArrayOutputStream
@@ -49,8 +50,8 @@ public class RecordPlay {
                             totaldatasize += cnt ;
                         }
                     }
-System.err.println (totaldatasize);
                     byteArrayOutputStream.close() ;
+                    inRecording = false;
 
                 }catch(Exception e){
                     e.printStackTrace() ;
@@ -76,6 +77,7 @@ System.err.println (totaldatasize);
             //创建独立线程进行录音
             Thread captureThread = new Thread(new CaptureThread()) ;
             captureThread.start();
+            inRecording = true;
 
         }catch(Exception e){
                 e.printStackTrace() ;
@@ -159,6 +161,10 @@ System.err.println (totaldatasize);
 
     public boolean isStopped() {
         return !stopCapture;
+    }
+
+    public boolean isInRecording() {
+        return inRecording;
     }
 
     //取得AudioFormat

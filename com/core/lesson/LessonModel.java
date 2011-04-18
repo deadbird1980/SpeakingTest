@@ -195,7 +195,7 @@ public class LessonModel {
         return (Boolean)buttonEnabledHashmap.get(NEXT_FINISH_BUTTON_ENABLED_PROPERTY);
     }
 
-    void setNextFinishButtonEnabled(Boolean newValue) {
+    public void setNextFinishButtonEnabled(Boolean newValue) {
 
         Boolean oldValue = getNextFinishButtonEnabled();   
         if (newValue != oldValue) {

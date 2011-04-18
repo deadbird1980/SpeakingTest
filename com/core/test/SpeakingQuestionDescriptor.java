@@ -23,6 +23,8 @@ public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
     public void aboutToDisplayPage() {
         SpeakingQuestionPage page = (SpeakingQuestionPage) getPageComponent();
         page.playAudio();
+        //enable continue button untill page completed
+        getLessonModel().setNextFinishButtonEnabled(Boolean.FALSE);
     }
 
     public void aboutToHidePage() {

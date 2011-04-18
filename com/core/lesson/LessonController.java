@@ -104,9 +104,9 @@ public class LessonController implements ActionListener {
         //  If the page in question is the last page in the series, change
         //  the Next button to Finish. Otherwise, set the text back to Next.
 
-        if (descriptor.getNextPageDescriptor() instanceof LessonPageDescriptor.FinishIdentifier) {
+        if (descriptor.getNextPageDescriptor() == null) {
             model.setNextFinishButtonText(Lesson.FINISH_TEXT);
-            model.setNextFinishButtonIcon(Lesson.FINISH_ICON);
+            //model.setNextFinishButtonIcon(Lesson.FINISH_ICON);
         } else {
             model.setNextFinishButtonText(Lesson.NEXT_TEXT);
             //model.setNextFinishButtonIcon(Lesson.NEXT_ICON);

@@ -1,14 +1,16 @@
 package com.core.test;
 
+import com.core.lesson.*;
 import com.core.util.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.net.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
 
-public class LoginPage extends JPanel {
+public class LoginPage extends LessonPage {
 
     private JLabel blankSpace;
     private JLabel welcomeLabel;
@@ -19,6 +21,7 @@ public class LoginPage extends JPanel {
 
     public LoginPage() {
 
+        super();
         contentPanel = getContentPanel();
         contentPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 
@@ -60,6 +63,17 @@ public class LoginPage extends JPanel {
         userPanel.add(userLabel, BorderLayout.WEST);
         userPanel.add(userTextField, BorderLayout.CENTER);
         jPanel1.add(userPanel, BorderLayout.SOUTH);
+        //add listener
+        KeyListener keyListener = new KeyListener() {
+            public void keyPressed(KeyEvent keyEvent) {
+            }
+            public void keyReleased(KeyEvent keyEvent) {
+            }
+            public void keyTyped(KeyEvent keyEvent) {
+                sendMessage("READY");
+            }
+        };
+        userTextField.addKeyListener(keyListener);
 
         contentPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
 

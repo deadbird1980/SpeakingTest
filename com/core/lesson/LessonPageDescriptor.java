@@ -1,6 +1,8 @@
 package com.core.lesson;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.beans.*;
 import javax.swing.*;
 
 
@@ -45,7 +47,7 @@ public class LessonPageDescriptor {
         pageIdentifier = id;
         targetPage = page;
     }
-   
+
     /**
      * Returns to java.awt.Component that serves as the actual page.
      * @return A reference to the java.awt.Component that serves as the page
@@ -89,7 +91,7 @@ public class LessonPageDescriptor {
      */
     public final Lesson getLesson() {
         return lesson;
-    }   
+    }
 
     /**
      * Returns a reference to the current LessonModel for this Lesson component.
@@ -175,6 +177,12 @@ public class LessonPageDescriptor {
 
     }
 
+    /**
+     * Override this method to perform functionality just before the page is to be
+     * hidden.
+     */
+    public void notifyMessage(String msg) {
+    }
 
 
     static class FinishIdentifier {
