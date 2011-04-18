@@ -2,6 +2,13 @@ package com.core.test;
 
 import com.core.lesson.*;
 import com.core.util.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import javazoom.jl.player.*;
+import java.awt.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
@@ -29,8 +36,9 @@ public class SpeakingQuestionPage extends LessonPage {
     private JPanel contentPanel;
 
     private Thread countDownTimer;
+    private Thread playAudio;
     private RecordPlay recorder;
-    private int TestID;
+    private String TestID = "1";
 
     public SpeakingQuestionPage() {
 
@@ -95,7 +103,7 @@ public class SpeakingQuestionPage extends LessonPage {
 
     }
 
-    public void setTestID(int id) {
+    public void setTestID(String id) {
         TestID = id;
     }
 
@@ -119,6 +127,43 @@ public class SpeakingQuestionPage extends LessonPage {
         }
         countDownTimer = new countDownThread();
         countDownTimer.start();
+    }
+
+    public void playAudio() {
+        class playAudioThread extends Thread {
+
+            public void run(){
+                String fFilename = getQuestionAudioID();
+                try {
+                    if ((new File(fFilename)).exists()) {
+                        FileInputStream fin = new FileInputStream(fFilename);
+                        BufferedInputStream bin = new BufferedInputStream(fin);
+                        AudioDevice dev = FactoryRegistry.systemRegistry().createAudioDevice();
+                        Player player = new Player(bin);
+                        player.play();
+                        System.out.println("playing "+fFilename+"...");
+                    } else {
+                        System.out.println("not exist file "+fFilename+"...");
+                    }
+                } catch (IOException ex) {
+                    //throw new Exception("Problem playing file "+fFilename, ex);
+                    System.out.println("Problem playing file "+fFilename);
+                } catch (Exception ex) {
+                    //throw new Exception("Problem playing file "+fFilename, ex);
+                    System.out.println("Problem playing file "+fFilename);
+                }
+            }
+        }
+        try {
+            playAudioThread playAudio = new playAudioThread();
+            playAudio.start();
+        } catch (Exception ex) {
+            System.out.println("Problem playing file");
+        }
+    }
+
+    public void stopAudio() {
+        playAudio.stop();
     }
 
     private void stopTimer() {
@@ -177,7 +222,7 @@ public class SpeakingQuestionPage extends LessonPage {
         questionPanel.setPreferredSize(new Dimension(400, 100));
         questionPanel.setLayout(new java.awt.BorderLayout());
         questionLabel = new JTextArea();
-        questionLabel.setText((String)ResourceManager.getTestResource("question"));
+        questionLabel.setText(getQuestionID());
         questionLabel.setLineWrap(true);
         questionLabel.setEditable(false);
         //Get JFrame background color  
@@ -192,7 +237,7 @@ public class SpeakingQuestionPage extends LessonPage {
         questionPanel.setPreferredSize(new Dimension(400, 100));
         questionPanel.setLayout(new java.awt.BorderLayout());
         questionTranslationLabel = new JTextArea();
-        questionTranslationLabel.setText((String)ResourceManager.getTestResource("questionTranslation"));
+        questionTranslationLabel.setText(getQuestionTranslationID());
         questionTranslationLabel.setLineWrap(true);
         questionTranslationLabel.setEditable(false);
         //Get JFrame background color  
@@ -207,6 +252,19 @@ public class SpeakingQuestionPage extends LessonPage {
         }
         return recorder;
     }
+
+    private String getQuestionID() {
+        return (String)ResourceManager.getTestResource("question_"+TestID);
+    }
+
+    private String getQuestionAudioID() {
+        return (String)ResourceManager.getTestResource("questionAudio_"+TestID);
+    }
+
+    private String getQuestionTranslationID() {
+        return (String)ResourceManager.getTestResource("questionTranslation_"+TestID);
+    }
+
 
 
 }

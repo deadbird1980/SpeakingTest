@@ -27,6 +27,7 @@
   <target depends="compile" name="copy">
       <copy todir="${build}/com/core/test" file="${src}/com/core/test/test.properties"/>
       <copy todir="${build}/com/core/lesson" file="${src}/com/core/lesson/lesson.properties"/>
+      <copy todir="${build}/javazoom/jl/decoder" file="${src}/javazoom/jl/decoder/sfd.ser"/>
       <copy todir="${build}/com/core/lesson">
           <fileset dir="${src}/com/core/lesson">
               <include name="**/*.gif"/>

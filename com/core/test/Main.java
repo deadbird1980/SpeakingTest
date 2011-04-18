@@ -21,6 +21,7 @@ public class Main {
         //speaking test pages
         LessonPageDescriptor descriptor1 = new SpeakingQuestionDescriptor();
         //descriptor1.setNextPageDescriptor("4");
+        ((SpeakingQuestionPage)descriptor1.getPageComponent()).setTestID("1");
         LessonPageDescriptor descriptor2 = new SpeakingQuestionDescriptor();
         descriptor2.setNextPageDescriptor("5");
         LessonPageDescriptor descriptor3 = new SpeakingQuestionDescriptor();
