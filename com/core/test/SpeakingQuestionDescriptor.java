@@ -29,6 +29,13 @@ public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
         SpeakingQuestionPage page = (SpeakingQuestionPage) getPageComponent();
         page.stopAudio();
         page.stopTimer();
+        //record the recording
+    }
+
+    private void saveRecord() {
+        SpeakingQuestionPage page = (SpeakingQuestionPage) getPageComponent();
+        page.getTestID();
+        //page.getRecordFile();
     }
 
 }

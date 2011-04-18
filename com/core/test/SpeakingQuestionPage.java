@@ -22,6 +22,8 @@ public class SpeakingQuestionPage extends LessonPage {
     public static final String RECORD_BUTTON_ACTION_COMMAND = "RecordButtonActionCommand";
     public static final String STOP_BUTTON_ACTION_COMMAND = "StopButtonActionCommand";
 
+    public static final String RECORD_FILENAME = "record.wav";
+
     private JLabel blankSpace;
     private JLabel pagePositionLabel;
     private JTextArea questionLabel;
@@ -109,6 +111,10 @@ public class SpeakingQuestionPage extends LessonPage {
         TestID = id;
     }
 
+    public String getTestID() {
+        return TestID;
+    }
+
     public void setTotalTests(int cnt) {
         totalTests = cnt;
     }
@@ -121,12 +127,19 @@ public class SpeakingQuestionPage extends LessonPage {
                 count_down.start();
 
                 while (count_down.isAlive()) {
+                    //show counting down clock
                     countDownLabel.setText((String)ResourceManager.getTestResource("timeLeft")+count_down.getClock());
                     try {
                         sleep(100);
                     } catch (InterruptedException e) {
                         System.out.println("Interrupted.");
                     }
+                }
+                //timeout
+                if (recorder == null) {
+                    startRecord();
+                } else {
+                    recorder.save(RECORD_FILENAME);
                 }
             }
 
@@ -208,24 +221,12 @@ public class SpeakingQuestionPage extends LessonPage {
         //recordButton.addActionListener(LessonController);
         recordButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-
-                stopButton.setEnabled(true) ;
-                //start record
-                RecordPlay recorder = getRecorder();
-                recorder.capture() ;
-                //recording countdown start
-                startTimer();
+                startRecord();
             }
         }) ;
         stopButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-
-                recordButton.setEnabled(true) ;
-                recorder.stop() ;
-                //stop the countdown
-                if (countDownTimer != null) {
-                    countDownTimer.interrupt();
-                }
+                stopRecord();
             }
         }) ;
         buttonsPanel.add(recordButton);
@@ -254,6 +255,28 @@ public class SpeakingQuestionPage extends LessonPage {
         position = position.replace("%totalTests%", Integer.toString(totalTests));
         positionLabel.setText(position);
     }
+
+    private void startRecord() {
+        recordButton.setEnabled(false) ;
+        stopButton.setEnabled(true) ;
+        //start record
+        RecordPlay recorder = getRecorder();
+        recorder.capture() ;
+        //recording countdown start
+        startTimer();
+    }
+
+    private void stopRecord() {
+        recordButton.setEnabled(true) ;
+        recorder.stop() ;
+        //stop the countdown
+        if (countDownTimer != null) {
+            countDownTimer.interrupt();
+        }
+        //save the file
+        recorder.save(RECORD_FILENAME);
+    }
+
     private JPanel createQuestionPanel() {
         JPanel questionPanel = new JPanel();
         questionPanel.setPreferredSize(new Dimension(400, 100));

@@ -22,7 +22,7 @@ public class RecordTestPage extends JPanel {
     private JButton stopButton;
     private JButton playButton;
 
-    private JLabel introLabel;
+    private JEditorPane introArea;
     private JPanel contentPanel;
 
     private RecordPlay recorder;
@@ -43,26 +43,41 @@ public class RecordTestPage extends JPanel {
 
     private JPanel getContentPanel() {
 
-        JPanel contentPanel1 = new JPanel();
-        JPanel jPanel1 = new JPanel();
-
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new javax.swing.BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 0;
         blankSpace = new JLabel();
-        introLabel = new JLabel();
 
-        contentPanel1.setLayout(new java.awt.BorderLayout());
+        contentPanel.add(blankSpace, c);
 
-        introLabel.setFont(new java.awt.Font("MS Sans Serif", Font.BOLD, 11));
-        introLabel.setText("situation 6 of 8");
-        contentPanel1.add(introLabel, java.awt.BorderLayout.NORTH);
+        JPanel introPanel = createIntroPanel();
+        JPanel buttons = createRecordTestPanel();
+        contentPanel.add(introPanel, c);
+        contentPanel.add(buttons, c);
 
-        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
+        return contentPanel;
 
-        jPanel1.add(blankSpace);
-        introLabel.setText("Please click record to start record and play to confirm");
-        jPanel1.add(introLabel);
+    }
+
+    private RecordPlay getRecorder() {
+        if (recorder == null) {
+            recorder = new RecordPlay();
+        }
+        return recorder;
+    }
+
+
+    private JPanel createRecordTestPanel() {
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setPreferredSize(new Dimension(600, 40));
+        //buttonsPanel.setLayout(new java.awt.BorderLayout());
         recordButton = new JButton("RECORD");
         stopButton = new JButton("STOP");
         playButton = new JButton("PLAY");
+        playButton.setEnabled(false) ;
 
         recordButton.setActionCommand(RECORD_BUTTON_ACTION_COMMAND);
         stopButton.setActionCommand(STOP_BUTTON_ACTION_COMMAND);
@@ -82,7 +97,6 @@ public class RecordTestPage extends JPanel {
                 } else {
                     recorder.capture() ;
                     recordButton.setText("STOP") ;
-                    playButton.setEnabled(false) ;
                 }
             }
         }) ;
@@ -97,28 +111,29 @@ public class RecordTestPage extends JPanel {
                 recorder.play() ;
             }
         }) ;
-        //stopButton.addActionListener(LessonController);
-        JPanel buttonsPanel = new JPanel();
         buttonsPanel.setBorder(new EmptyBorder(10, 0, 5, 0));
 
         //buttonBox.setBorder(new EmptyBorder(new Insets(5, 10, 5, 10)));
         buttonsPanel.add(recordButton);
         //buttonsPanel.add(stopButton);
         buttonsPanel.add(playButton);
-
-        jPanel1.add(buttonsPanel, java.awt.BorderLayout.EAST);
-
-        contentPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
-
-        return contentPanel1;
-
+        return buttonsPanel;
     }
 
-    private RecordPlay getRecorder() {
-        if (recorder == null) {
-            recorder = new RecordPlay();
-        }
-        return recorder;
+    private JPanel createIntroPanel() {
+        JPanel introPanel = new JPanel();
+        introPanel.setPreferredSize(new Dimension(600, 500));
+        introPanel.setLayout(new java.awt.BorderLayout());
+        introArea = new JEditorPane();
+        introArea.setContentType("text/html; charset=EUC-JP");
+        introArea.setText(ResourceManager.getPageText("record_test"));
+        //introArea.setLineWrap(true);
+        introArea.setEditable(false);
+        //Get JFrame background color  
+        Color color = getBackground();
+        introArea.setBackground(color);
+        introPanel.add(introArea, java.awt.BorderLayout.CENTER);
+        return introPanel;
     }
 
 }

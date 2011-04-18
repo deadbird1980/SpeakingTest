@@ -14,6 +14,8 @@ public class Main {
         lesson.getDialog().setTitle("Test Lesson Dialog");
 
         //login page to input student ID
+        IntroDescriptor intro = new IntroDescriptor();
+        intro.setNextPageDescriptor("4");
         LoginDescriptor login = new LoginDescriptor();
         login.setNextPageDescriptor("2");
         //test page to test if recording is working
@@ -25,14 +27,15 @@ public class Main {
         for(int i=0; i<cnt; i++) {
             LessonPageDescriptor descriptor = new SpeakingQuestionDescriptor(Integer.toString(i+1), cnt);
             if (i < cnt-1) {
-                descriptor.setNextPageDescriptor(Integer.toString(i+4));
+                descriptor.setNextPageDescriptor(Integer.toString(i+5));
             }
-            lesson.registerLessonPage(Integer.toString(i+3), descriptor);
+            lesson.registerLessonPage(Integer.toString(i+4), descriptor);
         }
         lesson.registerLessonPage("1", login);
         lesson.registerLessonPage("2", recordtest);
+        lesson.registerLessonPage("3", intro);
 
-        lesson.setCurrentPage("3");
+        lesson.setCurrentPage("1");
 
         int ret = lesson.showModalDialog();
 
