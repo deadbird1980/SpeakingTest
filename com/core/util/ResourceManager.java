@@ -25,7 +25,7 @@ public class ResourceManager {
     }
 
     public static String getUserDataPath() {
-        File file = new File("user_data"));
+        File file = new File("user_data");
         if (!file.exists()) {
             file.mkdir();
         }
