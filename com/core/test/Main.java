@@ -71,7 +71,7 @@ public class Main {
                     continue;
                 out.write("item " + (i+1) + ":\n");
                 for (Object key : pageSubmit.keySet()) {
-                     System.out.println("test " + (i+1) + key +"="+pageSubmit.get(key)+"\n");
+                     //System.out.println("test " + (i+1) + key +"="+pageSubmit.get(key)+"\n");
                      out.write(key +":"+pageSubmit.get(key) +"\n");
                 }
                 //copy record to user path

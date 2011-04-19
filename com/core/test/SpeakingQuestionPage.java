@@ -165,7 +165,7 @@ public class SpeakingQuestionPage extends LessonPage {
         if (countDownTimer != null) {
             countDownTimer.requestStop();
             pauseTime = countDownTimer.getCountTime()/1000;
-            System.out.println("pause time="+pauseTime);
+            //System.out.println("pause time="+pauseTime);
         }
         countDownTimer = new countDownThread();
         countDownTimer.start();
@@ -183,7 +183,7 @@ public class SpeakingQuestionPage extends LessonPage {
                     BufferedInputStream bin = new BufferedInputStream(fin);
                     AudioDevice dev = FactoryRegistry.systemRegistry().createAudioDevice();
                     player = new Player(bin);
-                    System.out.println("playing "+fFilename+"...");
+                    //System.out.println("playing "+fFilename+"...");
                     player.play();
                 } else {
                     System.out.println("not exist file "+fFilename+"...");
@@ -267,7 +267,7 @@ public class SpeakingQuestionPage extends LessonPage {
         HashMap data = new HashMap();
         if (recorder != null)
             recordTime = recorder.getDuration()/1000;
-        System.out.println("record time="+recordTime);
+        //System.out.println("record time="+recordTime);
         data.put("pauseTime", pauseTime);
         data.put("recordTime", recordTime);
         data.put("recordFile", getRecordFileName());
@@ -307,7 +307,8 @@ public class SpeakingQuestionPage extends LessonPage {
     }
 
     private void stopRecord() {
-        recordButton.setEnabled(true) ;
+        //recordButton.setEnabled(true) ;
+        stopButton.setEnabled(false) ;
         recorder.stop() ;
         //stop the countdown
         stopTimer();
@@ -318,7 +319,7 @@ public class SpeakingQuestionPage extends LessonPage {
 
     private JPanel createQuestionPanel() {
         JPanel questionPanel = new JPanel();
-        questionPanel.setPreferredSize(new Dimension(600, 500));
+        questionPanel.setPreferredSize(new Dimension(600, 450));
         questionPanel.setLayout(new java.awt.BorderLayout());
         questionLabel = new JEditorPane();
         questionLabel.setContentType("text/html; charset=EUC-JP");

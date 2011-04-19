@@ -12,7 +12,7 @@ public class TimerThread extends Thread {
    public static final int STOP_WATCH = 3;
    private int type; // type of clock
    private int c_millisecond, c_second, c_minute, c_hour;
-   private static int remaining_minutes = 1;
+   private static int remaining_minutes = 2;
    private static int clock_interval = 100; // in milliseconds < 1000
 
    public TimerThread(int t) {

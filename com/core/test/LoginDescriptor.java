@@ -25,14 +25,14 @@ public class LoginDescriptor extends LessonPageDescriptor {
     }
 
     public void aboutToDisplayPage() {
-        getLessonModel().setNextFinishButtonEnabled(Boolean.FALSE);
+        getLesson().setNextFinishButtonEnabled(Boolean.FALSE);
     }
 
     public void notifyMessage(String msg) {
         if (msg.equals("READY"))
-            getLessonModel().setNextFinishButtonEnabled(Boolean.TRUE);
+            getLesson().setNextFinishButtonEnabled(Boolean.TRUE);
         else
-            getLessonModel().setNextFinishButtonEnabled(Boolean.FALSE);
+            getLesson().setNextFinishButtonEnabled(Boolean.FALSE);
     }
 
 }

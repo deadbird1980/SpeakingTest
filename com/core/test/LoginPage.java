@@ -49,14 +49,20 @@ public class LoginPage extends LessonPage {
 
         JPanel contentPanel1 = new JPanel();
         JPanel jPanel1 = new JPanel();
-
+        JLabel textLabel = new JLabel();
+        textLabel.setBackground(Color.gray);
+        textLabel.setFont(new Font("MS Sans Serif", Font.BOLD, 20));
+        textLabel.setText("Oral English Proficiency Test");
+        textLabel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
+        textLabel.setOpaque(true);
         welcomeLabel = new JLabel();
 
         contentPanel1.setLayout(new java.awt.BorderLayout());
 
         welcomeLabel.setFont(new java.awt.Font("MS Sans Serif", Font.BOLD, 11));
         welcomeLabel.setText((String)ResourceManager.getTestResource("welcomeMessage"));
-        contentPanel1.add(welcomeLabel, java.awt.BorderLayout.NORTH);
+        contentPanel1.add(textLabel, java.awt.BorderLayout.NORTH);
+        contentPanel1.add(welcomeLabel, java.awt.BorderLayout.CENTER);
 
         jPanel1.setLayout(new java.awt.GridLayout(0, 1));
 

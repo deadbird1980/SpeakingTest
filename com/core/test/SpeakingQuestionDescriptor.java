@@ -24,28 +24,21 @@ public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
         SpeakingQuestionPage page = (SpeakingQuestionPage) getPageComponent();
         page.playAudio();
         //enable continue button untill page completed
-        getLessonModel().setNextFinishButtonEnabled(Boolean.FALSE);
+        getLesson().setNextFinishButtonEnabled(Boolean.FALSE);
     }
 
     public void aboutToHidePage() {
         SpeakingQuestionPage page = (SpeakingQuestionPage) getPageComponent();
         page.stopAudio();
         page.stopTimer();
-        //record the recording
-        saveRecord();
     }
 
     public void notifyMessage(String msg) {
         if (msg.equals("READY")) {
-            getLessonModel().setNextFinishButtonEnabled(Boolean.TRUE);
+            getLesson().setNextFinishButtonEnabled(Boolean.TRUE);
+        } else {
+            getLesson().setNextFinishButtonEnabled(Boolean.FALSE);
         }
     }
-
-    private void saveRecord() {
-        SpeakingQuestionPage page = (SpeakingQuestionPage) getPageComponent();
-        page.getTestID();
-        //page.getRecordFile();
-    }
-
 
 }
