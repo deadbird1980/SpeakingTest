@@ -45,7 +45,7 @@ public class IntroPage extends LessonPage {
 
     private JPanel createIntroPanel() {
         JPanel introPanel = new JPanel();
-        introPanel.setBorder (new LineBorder(Color.blue, 3));
+        //introPanel.setBorder (new LineBorder(Color.blue, 3));
         introPanel.setPreferredSize(new Dimension(600, 400));
         introPanel.setLayout(new GridLayout());
         //introArea = new JTextArea();

@@ -28,6 +28,24 @@ public class ResourceManager {
         return "user_data";
     }
 
+    public static void mkUserPath(String userID) {
+        File file = new File(getUserPath(userID));
+        if (!file.exists()) {
+            file.mkdir();
+        }
+    }
+
+    public static void mvTempToUserPath(String userID) {
+        File file = new File(getTempPath());
+        if (file.exists()) {
+            file.renameTo(new File(getUserPath(userID)));
+        }
+    }
+
+    public static String getUserPath(String userID) {
+        return getUserDataPath()+"/"+userID;
+    }
+
     public static String getAudioResourcePath() {
         return getResourcePath() + "/mp3/";
     }
@@ -37,6 +55,10 @@ public class ResourceManager {
     }
 
     public static String getTempPath() {
+        File tmp = new File("tmp/");
+        if (!tmp.exists()) {
+            tmp.mkdir();
+        }
         return "tmp/";
     }
 

@@ -165,6 +165,10 @@ public class RecordPlay {
         return !stopCapture;
     }
 
+    public long getDuration() {
+        return totalDuration;
+    }
+
     public boolean isInRecording() {
         return inRecording;
     }

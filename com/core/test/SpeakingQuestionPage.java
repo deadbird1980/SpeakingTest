@@ -145,8 +145,6 @@ public class SpeakingQuestionPage extends LessonPage {
                     System.out.println("Interrupted.");
                 }
             }
-            //count stop
-            countStop = System.currentTimeMillis();
             //timeout
             if (recorder == null) {
                 startRecord();
@@ -156,13 +154,18 @@ public class SpeakingQuestionPage extends LessonPage {
         }
 
         public void requestStop() {
+            //count stop
             stop = true;
+            countStop = System.currentTimeMillis();
         }
 
     }
+
     public void startTimer() {
         if (countDownTimer != null) {
             countDownTimer.requestStop();
+            pauseTime = countDownTimer.getCountTime()/1000;
+            System.out.println("pause time="+pauseTime);
         }
         countDownTimer = new countDownThread();
         countDownTimer.start();
@@ -229,11 +232,6 @@ public class SpeakingQuestionPage extends LessonPage {
 
         if (countDownTimer != null) {
             countDownTimer.requestStop();
-            if (recorder == null) {
-              pauseTime = countDownTimer.getCountTime()/1000;
-            } else {
-              recordTime = countDownTimer.getCountTime()/1000;
-            }
         }
     }
 
@@ -267,6 +265,9 @@ public class SpeakingQuestionPage extends LessonPage {
 
     public HashMap getSubmit() {
         HashMap data = new HashMap();
+        if (recorder != null)
+            recordTime = recorder.getDuration()/1000;
+        System.out.println("record time="+recordTime);
         data.put("pauseTime", pauseTime);
         data.put("recordTime", recordTime);
         data.put("recordFile", getRecordFileName());
@@ -280,7 +281,7 @@ public class SpeakingQuestionPage extends LessonPage {
         headerPanel.setLayout(new java.awt.BorderLayout());
         positionLabel = new JLabel();
         positionLabel.setFont(new java.awt.Font("MS Sans Serif", Font.BOLD, 11));
-        setPosition();
+        //setPosition();
         countDownLabel = new JLabel();
         //countDownLabel.setText("02:00");
         //headerPanel.add(positionLabel, java.awt.BorderLayout.WEST);
