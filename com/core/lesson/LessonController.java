@@ -56,6 +56,8 @@ public class LessonController implements ActionListener {
         } else {
             if (nextpageDescriptor != null)
                 lesson.setCurrentPage(nextpageDescriptor);
+            else
+                lesson.close(Lesson.FINISH_RETURN_CODE);
         }
 
     }
