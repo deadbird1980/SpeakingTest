@@ -9,7 +9,7 @@ public class LessonPage extends JPanel {
 
     public static final String STATUS_PROPERTY = "statusProperty";
     public LessonPageDescriptor listener;
-    private Integer pageNO;
+    private int pageNO;
 
     public void LessonPage() {
     }
@@ -18,6 +18,9 @@ public class LessonPage extends JPanel {
         listener = des;
     }
 
+    public void setPageNO(int no) {
+        pageNO = no;
+    }
     /**
      * Override this class to provide the Object-based identifier of the page that the
      * user should traverse to when the Back button is pressed. Note that this method

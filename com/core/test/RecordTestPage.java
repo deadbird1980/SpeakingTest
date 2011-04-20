@@ -9,7 +9,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 
-public class RecordTestPage extends LessonPage {
+public class RecordTestPage extends IntroPage {
     /**
      * The String-based action command for the 'Next' button.
      */
@@ -28,8 +28,8 @@ public class RecordTestPage extends LessonPage {
 
     private RecordPlay recorder;
 
-    public RecordTestPage() {
-
+    public RecordTestPage(String content, String audio) {
+        super(content, audio);
         contentPanel = getContentPanel();
         contentPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 
@@ -126,9 +126,8 @@ public class RecordTestPage extends LessonPage {
         introPanel.setPreferredSize(new Dimension(600, 500));
         introPanel.setLayout(new java.awt.BorderLayout());
         introArea = new JEditorPane();
-        introArea.setContentType("text/html; charset=EUC-JP");
-        introArea.setText(ResourceManager.getPageText("record_test"));
-        //introArea.setLineWrap(true);
+        introArea.setContentType("text/html; charset=utf-8");
+        introArea.setText(textContent);
         introArea.setEditable(false);
         //Get JFrame background color  
         Color color = getBackground();

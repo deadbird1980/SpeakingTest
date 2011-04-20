@@ -12,34 +12,41 @@ import java.text.SimpleDateFormat;
 import javax.swing.*;
 
 public class Main {
+    private static int testStartPage = 6;
 
     public static void main(String[] args) {
 
 
         Lesson lesson = new Lesson();
         lesson.getDialog().setTitle("Oral English Proficiency Test");
-
         //login page to input student ID
-        IntroDescriptor intro = new IntroDescriptor();
-        intro.setNextPageDescriptor("4");
         LoginDescriptor login = new LoginDescriptor();
         login.setNextPageDescriptor("2");
         //test page to test if recording is working
-        RecordTestDescriptor recordtest = new RecordTestDescriptor();
+        RecordTestDescriptor recordtest = new RecordTestDescriptor(ResourceManager.getPageText("intro1"), (String)ResourceManager.getTestAudio("introAudio_1"));
         recordtest.setNextPageDescriptor("3");
+        //page 3-5
+        IntroDescriptor intro2 = new IntroDescriptor(ResourceManager.getPageText("intro2"), (String)ResourceManager.getTestAudio("introAudio_2"));
+        IntroDescriptor intro3 = new IntroDescriptor(ResourceManager.getPageText("intro3"), (String)ResourceManager.getTestAudio("introAudio_3"));
+        IntroDescriptor intro4 = new IntroDescriptor(ResourceManager.getPageText("intro4"), (String)ResourceManager.getTestAudio("introAudio_4"));
+        intro2.setNextPageDescriptor("4");
+        intro3.setNextPageDescriptor("5");
+        intro4.setNextPageDescriptor("6");
 
         //speaking test pages
         int cnt = Integer.parseInt((String)ResourceManager.getTestResource("totalTests"));
         for(int i=0; i<cnt; i++) {
             LessonPageDescriptor descriptor = new SpeakingQuestionDescriptor(Integer.toString(i+1), cnt);
             if (i < cnt-1) {
-                descriptor.setNextPageDescriptor(Integer.toString(i+5));
+                descriptor.setNextPageDescriptor(Integer.toString(i+1+testStartPage));
             }
-            lesson.registerLessonPage(Integer.toString(i+4), descriptor);
+            lesson.registerLessonPage(Integer.toString(i+testStartPage), descriptor);
         }
         lesson.registerLessonPage("1", login);
         lesson.registerLessonPage("2", recordtest);
-        lesson.registerLessonPage("3", intro);
+        lesson.registerLessonPage("3", intro2);
+        lesson.registerLessonPage("4", intro3);
+        lesson.registerLessonPage("5", intro4);
 
         lesson.setCurrentPage("1");
 
@@ -66,7 +73,7 @@ public class Main {
             //for (Object testID : submit.keySet()) {
             for(int i=0; i<tests; i++) {
                 //HashMap pageSubmit = (HashMap)submit.get(testID);
-                HashMap pageSubmit = (HashMap)submit.get(Integer.toString(i+4));
+                HashMap pageSubmit = (HashMap)submit.get(Integer.toString(i+testStartPage));
                 if (pageSubmit == null)
                     continue;
                 out.write("item " + (i+1) + ":\n");

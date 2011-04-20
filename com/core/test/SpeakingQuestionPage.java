@@ -319,7 +319,7 @@ public class SpeakingQuestionPage extends LessonPage {
 
     private JPanel createQuestionPanel() {
         JPanel questionPanel = new JPanel();
-        questionPanel.setPreferredSize(new Dimension(600, 450));
+        questionPanel.setPreferredSize(new Dimension(600, 470));
         questionPanel.setLayout(new java.awt.BorderLayout());
         questionLabel = new JEditorPane();
         questionLabel.setContentType("text/html; charset=EUC-JP");

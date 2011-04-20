@@ -14,7 +14,7 @@ public class ResourceManager {
             return (String)(resources.getObject(key));
         } catch (MissingResourceException mre) {
             System.out.println(mre);
-            System.exit(1);
+            //System.exit(1);
         }
 
         return null;
@@ -53,6 +53,11 @@ public class ResourceManager {
     public static String getAudioResourcePath() {
         return getResourcePath() + "/mp3/";
     }
+
+    public static String getTestAudio(String key) {
+        return getAudioResourcePath() + '/' + (String)getTestResource(key);
+    }
+
 
     public static String getPagesPath() {
         return getResourcePath() + "/pages/";
