@@ -38,6 +38,7 @@ public class TimerThread extends Thread {
 
    public void setRemainingMinutes(int mins) {
        remaining_minutes = mins;
+       c_minute = remaining_minutes%60;
    }
 
    public void run() {

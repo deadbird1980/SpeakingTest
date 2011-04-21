@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import javazoom.jl.player.*;
 import java.awt.*;
-import java.util.*;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.net.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
 
-public class SpeakingQuestionPage extends LessonPage {
+public class SpeakingQuestionPage extends LessonPage implements EventListener {
     /**
      * The String-based action command for the 'Next' button.
      */
@@ -146,11 +146,10 @@ public class SpeakingQuestionPage extends LessonPage {
                     System.out.println("Interrupted.");
                 }
             }
+            stop = false;
             //timeout
             if (recorder == null) {
                 startRecord();
-            } else {
-                stopRecord();
             }
         }
 
@@ -275,6 +274,10 @@ public class SpeakingQuestionPage extends LessonPage {
         return data;
     }
 
+    public void eventTriggered(){
+        stopRecord();
+    }
+
     private JPanel createHeaderPanel() {
         JPanel headerPanel = new JPanel();
         headerPanel.setPreferredSize(new Dimension(400, 40));
@@ -300,11 +303,11 @@ public class SpeakingQuestionPage extends LessonPage {
     private void startRecord() {
         recordButton.setEnabled(false) ;
         stopButton.setEnabled(true) ;
+        startTimer();
         //start record
         RecordPlay recorder = getRecorder();
         recorder.capture() ;
         //recording countdown start
-        startTimer();
     }
 
     private void stopRecord() {
@@ -350,6 +353,8 @@ public class SpeakingQuestionPage extends LessonPage {
     private RecordPlay getRecorder() {
         if (recorder == null) {
             recorder = new RecordPlay();
+            recorder.setTimeout(120000);
+            recorder.addListener(this);
         }
         return recorder;
     }
