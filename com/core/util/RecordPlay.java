@@ -1,6 +1,7 @@
 package com.core.util;
 
 import java.io.*;
+import java.awt.event.*;
 import javax.sound.sampled.*;
 
 public class RecordPlay {
@@ -9,13 +10,14 @@ public class RecordPlay {
     boolean inRecording = false ;          //控制录音标志
     boolean hasCaptured = false ;          //控制录音标志
     AudioFormat audioFormat ;             //录音格式
+    private EventListener listener;
 
     //读取数据: TargetDataLine -> ByteArrayOutputStream
     ByteArrayOutputStream byteArrayOutputStream ;
     int totaldatasize = 0 ;
     long totalDuration = 0 ;
 
-    int recordTimeout = 1200 ;
+    long recordTimeout = 0 ;
     long recordStart;
     long recordEnd;
     TargetDataLine targetDataLine ;      //音频输入设备
@@ -26,6 +28,10 @@ public class RecordPlay {
 
     public RecordPlay(){
 
+    }
+
+    public void addListener(EventListener lsn) {
+        listener = lsn;
     }
 
     //录音事件，保存到ByteArrayOutPutStream
@@ -43,6 +49,11 @@ public class RecordPlay {
                 recordStart = System.currentTimeMillis();
                 try{
                     while(!stopCapture){
+                        if (isTimeout()) {
+                            if (listener != null)
+                                listener.eventTriggered();
+                            break;
+                        }
 
                         int cnt = targetDataLine.read(tempBuffer, 0, tempBuffer.length) ;
                         if(cnt > 0){
@@ -176,6 +187,11 @@ public class RecordPlay {
     public boolean hasCaptured() {
         return hasCaptured;
     }
+
+    public void setTimeout(long timeout) {
+        recordTimeout = timeout;
+    }
+
     //取得AudioFormat
     private AudioFormat getAudioFormat(){
         float sampleRate = 16000.0f ;
@@ -184,6 +200,12 @@ public class RecordPlay {
         boolean signed = true ;
         boolean bigEndian = false ;
         return new AudioFormat(sampleRate,sampleSizeInBits,channels,signed,bigEndian) ;
+    }
+
+    private boolean isTimeout() {
+        if (recordTimeout>0 && System.currentTimeMillis()-recordStart>recordTimeout)
+            return true;
+        return false;
     }
 
 }

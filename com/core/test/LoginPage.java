@@ -52,7 +52,8 @@ public class LoginPage extends LessonPage {
         JLabel textLabel = new JLabel();
         textLabel.setBackground(Color.gray);
         textLabel.setFont(new Font("MS Sans Serif", Font.BOLD, 20));
-        textLabel.setText("Oral English Proficiency Test");
+        //textLabel.setText("Oral English Proficiency Test");
+        textLabel.setText("Oral Completion Test");
         textLabel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
         textLabel.setOpaque(true);
         welcomeLabel = new JLabel();

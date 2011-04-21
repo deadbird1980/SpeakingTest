@@ -133,6 +133,7 @@ public class SpeakingQuestionPage extends LessonPage {
 
         public void run(){
             TimerThread count_down = new TimerThread(TimerThread.COUNT_DOWN);
+            count_down.setRemainingMinutes(2);
             countStart = System.currentTimeMillis();
             count_down.start();
 
@@ -149,7 +150,7 @@ public class SpeakingQuestionPage extends LessonPage {
             if (recorder == null) {
                 startRecord();
             } else {
-                recorder.save(getRecordFileName());
+                stopRecord();
             }
         }
 

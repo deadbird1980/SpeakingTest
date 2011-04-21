@@ -9,7 +9,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 
-public class RecordTestPage extends IntroPage {
+public class RecordTestPage extends IntroPage implements EventListener{
     /**
      * The String-based action command for the 'Next' button.
      */
@@ -40,6 +40,9 @@ public class RecordTestPage extends IntroPage {
         secondaryPanel.add(contentPanel, BorderLayout.NORTH);
         add(secondaryPanel, BorderLayout.CENTER);
     }
+    public void eventTriggered(){
+        stopRecording();
+    }
 
 
     private JPanel getContentPanel() {
@@ -66,11 +69,20 @@ public class RecordTestPage extends IntroPage {
     private RecordPlay getRecorder() {
         if (recorder == null) {
             recorder = new RecordPlay();
+            //30 seconds
+            recorder.setTimeout(30000);
+            recorder.addListener(this);
         }
         return recorder;
     }
 
 
+    private void stopRecording() {
+        recorder.stop();
+        playButton.setEnabled(true) ;
+        recordButton.setText("RECORD") ;
+        recordButton.setEnabled(true) ;
+    }
     private JPanel createRecordTestPanel() {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setPreferredSize(new Dimension(600, 40));
@@ -120,6 +132,7 @@ public class RecordTestPage extends IntroPage {
         buttonsPanel.add(playButton);
         return buttonsPanel;
     }
+
 
     private JPanel createIntroPanel() {
         JPanel introPanel = new JPanel();
