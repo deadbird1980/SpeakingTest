@@ -1,5 +1,6 @@
 package com.core.util;
 
+import org.json.*;
 import java.util.*;
 import java.io.*;
 
@@ -63,6 +64,10 @@ public class ResourceManager {
         return getResourcePath() + "/pages/";
     }
 
+    public static String getJSONPath() {
+        return getResourcePath() + "/json/";
+    }
+
     public static String getTempPath() {
         File tmp = new File("tmp/");
         if (!tmp.exists()) {
@@ -73,6 +78,19 @@ public class ResourceManager {
 
     public static String getPageText(String name) {
         return getContents(getPagesPath() + "/" + name + ".html");
+    }
+
+    public static String getJSONText(String name) {
+        return getContents(getJSONPath() + "/" + name + ".json");
+    }
+
+    public static JSONObject getJSON(String name) {
+        String text = getJSONText(name);
+        try {
+            return new JSONObject(text);
+        } catch (JSONException e) {
+            return null;
+        }
     }
 
     static public String getContents(String aFileName) {
