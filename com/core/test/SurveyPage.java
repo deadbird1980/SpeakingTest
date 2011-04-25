@@ -170,17 +170,26 @@ public class SurveyPage extends LessonPage {
             JLabel labelYears = createLabel("<html>"+survey.getString("timeLabel")+"</html>");
             //labelYears.setBorder (new LineBorder(Color.blue, 3));
             textYears = new JTextField();
-            textYears.setPreferredSize(new Dimension(70, 20));
+            textYears.setPreferredSize(new Dimension(40, 20));
             gBC.gridy = 3;
             gBC.gridx = 0;
             introPanel.add(labelYears, gBC);
+            gBC.fill = GridBagConstraints.HORIZONTAL;
+            gBC.anchor = GridBagConstraints.FIRST_LINE_START;
             gBC.gridy = 3;
             gBC.gridx = 1;
             introPanel.add(textYears, gBC);
+            //years note
+            gBC.gridy = 4;
+            gBC.gridx = 0;
+            gBC.gridwidth = 4;
+            JLabel labelYearsNote = createLabel("<html>"+survey.getString("yearsNote")+"</html>");
+            introPanel.add(labelYearsNote, gBC);
             //Major
             JLabel labelMajor = createLabel(survey.getString("majorLabel"));
             textMajorField = new JTextField();
             textMajorField.setPreferredSize(new Dimension(40, 20));
+            gBC.gridwidth = 1;
             gBC.gridy = 3;
             gBC.gridx = 2;
             introPanel.add(labelMajor, gBC);
@@ -191,20 +200,18 @@ public class SurveyPage extends LessonPage {
             JLabel labelAge = createLabel(survey.getString("ageLabel"));
             textAge = new JTextField();
             textAge.setPreferredSize(new Dimension(40, 20));
-            gBC.gridy = 4;
+            gBC.gridy = 5;
             gBC.gridx = 0;
             introPanel.add(labelAge, gBC);
-            gBC.gridy = 4;
             gBC.gridx = 1;
             introPanel.add(textAge, gBC);
             //gender
             JLabel labelGender = createLabel(survey.getString("genderLabel"));
             textGender = new JTextField();
             textGender.setPreferredSize(new Dimension(40, 20));
-            gBC.gridy = 4;
+            gBC.gridy = 5;
             gBC.gridx = 2;
             introPanel.add(labelGender, gBC);
-            gBC.gridy = 4;
             gBC.gridx = 3;
             introPanel.add(textGender, gBC);
             //Self rating of speaking ablility
@@ -226,15 +233,14 @@ public class SurveyPage extends LessonPage {
                 groupSelfRating.add(radioButton);
                 buttonsPanel.add(radioButton);
             }
-            gBC.gridy = 5;
+            gBC.gridy = 6;
             gBC.gridx = 0;
             introPanel.add(labelRating, gBC);
-            gBC.gridy = 5;
             gBC.gridx = 1;
             gBC.gridwidth = 3;
             introPanel.add(buttonsPanel, gBC);
             //scoreDescription
-            gBC.gridy = 6;
+            gBC.gridy = 7;
             gBC.gridx = 0;
             gBC.gridwidth=4;
             JEditorPane instruction = createInstruction();
@@ -243,10 +249,9 @@ public class SurveyPage extends LessonPage {
             JLabel labelOEPT = createLabel(survey.getString("oeptScoreLabel"));
             textOEPTScore = new JTextField();
             textOEPTScore.setPreferredSize(new Dimension(40, 20));
-            gBC.gridy = 7;
+            gBC.gridy = 8;
             gBC.gridx = 0;
             introPanel.add(labelOEPT, gBC);
-            gBC.gridy = 7;
             gBC.gridx = 2;
             gBC.gridwidth = 2;
             introPanel.add(textOEPTScore, gBC);
@@ -254,10 +259,9 @@ public class SurveyPage extends LessonPage {
             JLabel labelTOEFLSpeakingScore = createLabel(survey.getString("toeflScoreLabel"));
             textTOEFLSpeakingScore = new JTextField();
             textTOEFLSpeakingScore.setPreferredSize(new Dimension(40, 20));
-            gBC.gridy = 8;
+            gBC.gridy = 9;
             gBC.gridx = 0;
             introPanel.add(labelTOEFLSpeakingScore, gBC);
-            gBC.gridy = 8;
             gBC.gridx = 2;
             gBC.gridwidth = 2;
             introPanel.add(textTOEFLSpeakingScore, gBC);
@@ -265,10 +269,9 @@ public class SurveyPage extends LessonPage {
             JLabel labelTSEScore = createLabel(survey.getString("tseScoreLabel"));
             textTSEScore = new JTextField();
             textTSEScore.setPreferredSize(new Dimension(40, 20));
-            gBC.gridy = 9;
+            gBC.gridy = 10;
             gBC.gridx = 0;
             introPanel.add(labelTSEScore, gBC);
-            gBC.gridy = 9;
             gBC.gridx = 2;
             gBC.gridwidth = 2;
             introPanel.add(textTSEScore, gBC);
@@ -276,10 +279,9 @@ public class SurveyPage extends LessonPage {
             JLabel labelIELTSSpeakingScore = createLabel(survey.getString("ieltsScoreLabel"));
             textIELTSSpeakingScore = new JTextField();
             textIELTSSpeakingScore.setPreferredSize(new Dimension(40, 20));
-            gBC.gridy = 10;
+            gBC.gridy = 11;
             gBC.gridx = 0;
             introPanel.add(labelIELTSSpeakingScore, gBC);
-            gBC.gridy = 10;
             gBC.gridx = 2;
             gBC.gridwidth = 2;
             introPanel.add(textIELTSSpeakingScore, gBC);

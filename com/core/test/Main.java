@@ -42,7 +42,6 @@ public class Main {
                     page.put("totalTest", totalTest);
                     page.put("id", testCnt);
                 }
-                System.out.println("type = "+type);
                 LessonPageDescriptor p = PageFactory.createPage(type, page);
                 p.setNextPageDescriptor(Integer.toString(i+2));
                 lesson.registerLessonPage(Integer.toString(i+1), p);
