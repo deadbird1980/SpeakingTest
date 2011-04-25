@@ -1,6 +1,8 @@
 package com.core.test;
 
 import com.core.lesson.*;
+import com.core.util.Utils;
+import com.core.util.ResourceManager;
 import org.json.*;
 import java.awt.*;
 import java.util.*;
@@ -16,8 +18,13 @@ public class FeedbackPage extends LessonPage {
     private ButtonGroup[] groups;
     private JTextArea[] comments;
 
-    public FeedbackPage(JSONObject fb) {
-        feedback = fb;
+    public FeedbackPage(JSONObject json) {
+        try {
+        feedback = ResourceManager.getJSON(json.getString("data"));
+        } catch (JSONException e) {
+        }
+        comments = new JTextArea[4];
+        groups = new ButtonGroup[4];
         contentPanel = getContentPanel();
         contentPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 
@@ -29,10 +36,12 @@ public class FeedbackPage extends LessonPage {
     }
 
     public HashMap getSubmit() {
-        HashMap data = new HashMap();
-        //data.put("userID", userID);
+        LinkedHashMap data = new LinkedHashMap();
         for(int i=0; i<groups.length; i++) {
-            groups[i].getSelectedButton();
+            JRadioButton button = Utils.getSelection(groups[i]);
+            if (button != null)
+                data.put("Question_"+(i+1), button.getText());
+            data.put("Comment_"+(i+1), comments[i].getText());
         }
         return data;
     }
@@ -46,9 +55,7 @@ public class FeedbackPage extends LessonPage {
         contentPanel.setLayout(new BorderLayout());
 
         //contentPanel.add(introPanel, java.awt.BorderLayout.NORTH);
-        
         contentPanel.add(instructionPanel,BorderLayout.NORTH);
-        
         contentPanel.add(introPanel, BorderLayout.CENTER);
 
         return contentPanel;
@@ -79,7 +86,7 @@ public class FeedbackPage extends LessonPage {
         JPanel introPanel = new JPanel();
         //Group the radio buttons.
         introPanel.setLayout(new GridBagLayout());
-        introPanel.setBorder(new LineBorder(Color.BLACK, 1));
+        //introPanel.setBorder(new LineBorder(Color.BLACK, 1));
         introPanel.setPreferredSize(new Dimension(650,600));
         GridBagConstraints gBC = new GridBagConstraints();
         gBC.fill = GridBagConstraints.VERTICAL;
@@ -96,7 +103,7 @@ public class FeedbackPage extends LessonPage {
                 JSONObject question = questions.getJSONObject(i);
                 JPanel feedbackPanel = new JPanel();
                 feedbackPanel.setPreferredSize(new Dimension(340, 10));
-                feedbackPanel.setBorder(new LineBorder(Color.BLACK, 1));
+                //feedbackPanel.setBorder(new LineBorder(Color.BLACK, 1));
                 //feedbackPanel.setLayout(new javax.swing.BoxLayout(contentPanel, BoxLayout.Y_AXIS));
                 //feedbackPanel.setLayout(new BorderLayout());
                 gBC.gridy = i*2;
@@ -145,9 +152,8 @@ public class FeedbackPage extends LessonPage {
             }
         } catch (JSONException e) {
         }
-        introPanel.setBorder (new LineBorder(Color.blue, 3));
+        //introPanel.setBorder (new LineBorder(Color.blue, 3));
         return introPanel;
     }
-
 
 }

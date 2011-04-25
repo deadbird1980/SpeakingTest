@@ -4,6 +4,8 @@ import com.core.lesson.*;
 
 import java.awt.*;
 import javax.swing.*;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 
 public class IntroDescriptor extends LessonPageDescriptor {
@@ -11,8 +13,8 @@ public class IntroDescriptor extends LessonPageDescriptor {
 
     public static final String IDENTIFIER = "INTRO_PAGE";
 
-    public IntroDescriptor(String text, String audioFile) {
-        super(IDENTIFIER, new IntroPage(text, audioFile));
+    public IntroDescriptor(JSONObject json) {
+        super(IDENTIFIER, new IntroPage(json));
     }
 
 

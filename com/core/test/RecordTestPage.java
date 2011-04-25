@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.net.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import org.json.JSONObject;
 
 
 public class RecordTestPage extends IntroPage implements EventListener{
@@ -28,8 +29,8 @@ public class RecordTestPage extends IntroPage implements EventListener{
 
     private RecordPlay recorder;
 
-    public RecordTestPage(String content, String audio) {
-        super(content, audio);
+    public RecordTestPage(JSONObject json) {
+        super(json);
         contentPanel = getContentPanel();
         contentPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 

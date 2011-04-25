@@ -2,6 +2,8 @@ package com.core.test;
 
 import com.core.lesson.*;
 import com.core.util.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.File;
@@ -38,6 +40,10 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
     private countDownThread countDownTimer;
     private playAudioThread playAudio;
     private RecordPlay recorder;
+    private String timeRemaining;
+    private String questionFile;
+    private String questionAudio;
+    private String recordNowAudio;
 
     //Tests model data
     private String TestID = "1";
@@ -47,9 +53,17 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
     private long pauseTime = 0;
     private long recordTime = 0;
 
-    public SpeakingQuestionPage(String id, int tests) {
-        TestID = id;
-        totalTests = tests;
+    public SpeakingQuestionPage(JSONObject json) {
+        try {
+            TestID = json.getString("id");
+            totalTests = json.getInt("totalTest");
+            questionFile = json.getString("page");
+            timeRemaining = json.getString("timeRemaining");
+        System.out.println("questionFile="+questionFile);
+            questionAudio = json.getString("QuestionAudio");
+            recordNowAudio = json.getString("RecordNowAudio");
+        } catch (JSONException e) {
+        }
 
         contentPanel = getContentPanel();
         contentPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
@@ -139,7 +153,8 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
 
             while (!stop && count_down.isAlive()) {
                 //show counting down clock
-                countDownLabel.setText((String)ResourceManager.getTestResource("timeLeft")+count_down.getClock());
+                if (recorder != null)
+                    countDownLabel.setText(timeRemaining+": "+count_down.getClock());
                 try {
                     sleep(100);
                 } catch (InterruptedException e) {
@@ -360,15 +375,15 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
     }
 
     private String getQuestionID() {
-        return ResourceManager.getPageText("test"+TestID);
+        return ResourceManager.getPageText(questionFile);
     }
 
     private String getQuestionAudio() {
-        return ResourceManager.getAudioResourcePath() + "/" + (String)ResourceManager.getTestResource("questionAudio_"+TestID);
+        return ResourceManager.getAudioResourcePath() + "/" + questionAudio;
     }
 
     private String getRecordingNowAudio() {
-        return ResourceManager.getAudioResourcePath() + "/" + (String)ResourceManager.getTestResource("recordingNowAudio");
+        return ResourceManager.getAudioResourcePath() + "/" + recordNowAudio;
     }
 
     private String getQuestionTranslationID() {

@@ -4,7 +4,7 @@ import com.core.lesson.*;
 
 import java.awt.*;
 import java.beans.*;
-import javax.swing.*;
+import org.json.JSONObject;
 
 
 public class LoginDescriptor extends LessonPageDescriptor {
@@ -12,8 +12,8 @@ public class LoginDescriptor extends LessonPageDescriptor {
 
     public static final String IDENTIFIER = "LOGIN_PAGE";
 
-    public LoginDescriptor() {
-        super(IDENTIFIER, new LoginPage());
+    public LoginDescriptor(JSONObject json) {
+        super(IDENTIFIER, new LoginPage(json));
     }
 
 

@@ -2,6 +2,7 @@ package com.core.test;
 
 import com.core.lesson.*;
 import com.core.util.*;
+import org.json.JSONObject;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
@@ -19,7 +20,7 @@ public class LoginPage extends LessonPage {
     private JPanel contentPanel;
     private String userID = "";
 
-    public LoginPage() {
+    public LoginPage(JSONObject json) {
 
         super();
         contentPanel = getContentPanel();
@@ -52,7 +53,6 @@ public class LoginPage extends LessonPage {
         JLabel textLabel = new JLabel();
         textLabel.setBackground(Color.gray);
         textLabel.setFont(new Font("MS Sans Serif", Font.BOLD, 20));
-        //textLabel.setText("Oral English Proficiency Test");
         textLabel.setText("Oral Completion Test");
         textLabel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
         textLabel.setOpaque(true);

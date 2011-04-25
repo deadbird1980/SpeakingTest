@@ -9,6 +9,8 @@ import java.net.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 
 public class IntroPage extends LessonPage {
@@ -24,9 +26,12 @@ public class IntroPage extends LessonPage {
     public String audioFile="";
     public String textContent="";
 
-    public IntroPage(String textStr, String audioFileName) {
-        audioFile = audioFileName;
-        textContent = textStr;
+    public IntroPage(JSONObject json) {
+        try {
+            textContent = ResourceManager.getPageText(json.getString("page"));
+            audioFile = (String)ResourceManager.getTestAudio(json.getString("audio"));
+        } catch (JSONException e) {
+        }
 
         contentPanel = getContentPanel();
         contentPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));

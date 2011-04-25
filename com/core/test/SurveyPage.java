@@ -2,6 +2,7 @@ package com.core.test;
 
 import com.core.lesson.*;
 import com.core.util.Utils;
+import com.core.util.ResourceManager;
 import org.json.*;
 import java.awt.*;
 import java.util.*;
@@ -33,7 +34,10 @@ public class SurveyPage extends LessonPage {
     private JTextField textIELTSSpeakingScore;
 
     public SurveyPage(JSONObject json) {
-        survey = json;
+        try {
+            survey = ResourceManager.getJSON(json.getString("data"));
+        } catch (JSONException e) {
+        }
         contentPanel = getContentPanel();
         contentPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 
@@ -89,7 +93,7 @@ public class SurveyPage extends LessonPage {
         JPanel introPanel = new JPanel();
         //Group the radio buttons.
         introPanel.setLayout(new GridBagLayout());
-        introPanel.setBorder(new LineBorder(Color.BLACK, 1));
+        //introPanel.setBorder(new LineBorder(Color.BLACK, 1));
         introPanel.setPreferredSize(new Dimension(650,600));
         GridBagConstraints gBC = new GridBagConstraints();
         gBC.fill = GridBagConstraints.BOTH;
@@ -120,13 +124,13 @@ public class SurveyPage extends LessonPage {
             JPanel namePanel = new JPanel();
             namePanel.setPreferredSize(new Dimension(300, 30));
             namePanel.setLayout(new GridLayout(2, 3));
-            namePanel.add(textLastName);
             namePanel.add(textFirstName);
+            namePanel.add(textLastName);
             namePanel.add(textMiddleName);
             namePanel.add(createLabel(survey.getString("firstName")));
-            namePanel.add(createLabel(survey.getString("firstName")));
-            namePanel.add(createLabel(survey.getString("firstName")));
-            namePanel.setBorder (new LineBorder(Color.blue, 3));
+            namePanel.add(createLabel(survey.getString("lastName")));
+            namePanel.add(createLabel(survey.getString("middleName")));
+            //namePanel.setBorder (new LineBorder(Color.blue, 3));
             introPanel.add(namePanel, gBC);
             //Email
             JLabel labelEmail = createLabel(survey.getString("emailLabel"));
@@ -164,7 +168,7 @@ public class SurveyPage extends LessonPage {
             introPanel.add(textLanguage, gBC);
             //Time
             JLabel labelYears = createLabel("<html>"+survey.getString("timeLabel")+"</html>");
-            labelYears.setBorder (new LineBorder(Color.blue, 3));
+            //labelYears.setBorder (new LineBorder(Color.blue, 3));
             textYears = new JTextField();
             textYears.setPreferredSize(new Dimension(70, 20));
             gBC.gridy = 3;
@@ -282,7 +286,7 @@ public class SurveyPage extends LessonPage {
         } catch (JSONException e) {
             System.out.println("failed to get the JSON String");
         }
-        introPanel.setBorder (new LineBorder(Color.blue, 3));
+        //introPanel.setBorder (new LineBorder(Color.blue, 3));
         return introPanel;
     }
     private JEditorPane createInstruction() {

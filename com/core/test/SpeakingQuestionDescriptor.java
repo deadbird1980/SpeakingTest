@@ -4,6 +4,7 @@ import com.core.lesson.*;
 
 import java.awt.*;
 import javax.swing.*;
+import org.json.JSONObject;
 
 
 public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
@@ -11,8 +12,8 @@ public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
 
     public static final String IDENTIFIER = "SPEAKING_QUESTION";
 
-    public SpeakingQuestionDescriptor(String id, int totalTests) {
-        super(IDENTIFIER, new SpeakingQuestionPage(id, totalTests));
+    public SpeakingQuestionDescriptor(JSONObject json) {
+        super(IDENTIFIER, new SpeakingQuestionPage(json));
     }
 
 

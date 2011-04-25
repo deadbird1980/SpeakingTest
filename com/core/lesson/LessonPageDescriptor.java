@@ -3,7 +3,6 @@ package com.core.lesson;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
-import javax.swing.*;
 
 
 /**

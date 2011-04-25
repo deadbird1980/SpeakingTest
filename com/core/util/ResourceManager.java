@@ -77,11 +77,11 @@ public class ResourceManager {
     }
 
     public static String getPageText(String name) {
-        return getContents(getPagesPath() + "/" + name + ".html");
+        return getContents(getPagesPath() + "/" + name);
     }
 
     public static String getJSONText(String name) {
-        return getContents(getJSONPath() + "/" + name + ".json");
+        return getContents(getJSONPath() + "/" + name);
     }
 
     public static JSONObject getJSON(String name) {
@@ -119,7 +119,8 @@ public class ResourceManager {
           }
         }
         catch (IOException ex){
-          ex.printStackTrace();
+            System.out.println("File not exist: " + aFileName);
+          //ex.printStackTrace();
         }
         return contents.toString();
     }

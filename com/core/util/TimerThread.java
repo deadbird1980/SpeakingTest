@@ -89,7 +89,8 @@ public class TimerThread extends Thread {
       c.set(Calendar.MINUTE,c_minute);
       c.set(Calendar.SECOND,c_second);
       c.set(Calendar.MILLISECOND,c_millisecond);
-      SimpleDateFormat f = new SimpleDateFormat("HH:mm:ss");
+      //SimpleDateFormat f = new SimpleDateFormat("HH:mm:ss");
+      SimpleDateFormat f = new SimpleDateFormat("mm:ss");
       return f.format(c.getTime());
    }
 }
