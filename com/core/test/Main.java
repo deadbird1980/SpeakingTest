@@ -19,150 +19,57 @@ public class Main {
 
     public static void main(String[] args) {
 
-
         Lesson lesson = new Lesson();
-        JSONObject application = ResourceManager.getJSON("application.json");
+        ApplicationJSON application = new ApplicationJSON(ResourceManager.getJSON("application.json"));
+        int feedBackID = application.getPageByType("FeedbackPage");
+        int[] testIDs = application.getPagesByType("SpeakingQuestionPage");
+        int[] surveyIDs = application.getPagesByType("SurveyPage");
         try {
-            lesson.getDialog().setTitle(application.getString("title"));
+            lesson.getDialog().setTitle(application.getTitle());
             //pages
-            JSONArray pages = application.getJSONArray("pages");
-            int totalTest = 0;
-            for(int i=0; i<pages.length(); i++) {
-                JSONObject page = pages.getJSONObject(i);
-                String type = page.getString("type");
-                if (type.equals("SpeakingQuestionPage")) {
-                    totalTest++;
-                }
-            }
+            JSONArray pages = application.getPages();
+            int totalTest = application.getTestsCount();
             int testCnt = 0;
             for(int i=0; i<pages.length(); i++) {
                 JSONObject page = pages.getJSONObject(i);
                 String type = page.getString("type");
                 if (type.equals("SpeakingQuestionPage")) {
                     page.put("totalTest", totalTest);
+                    testCnt++;
                     page.put("id", testCnt);
                 }
                 LessonPageDescriptor p = PageFactory.createPage(type, page);
-                p.setNextPageDescriptor(Integer.toString(i+2));
+                if (i < pages.length() - 1) {
+                  p.setNextPageDescriptor(Integer.toString(i+2));
+                }
                 lesson.registerLessonPage(Integer.toString(i+1), p);
             }
+            lesson.setCurrentPage("1");
+
+            int ret = lesson.showModalDialog();
+            HashMap submit = lesson.getModel().getPageSubmit();
+            String userID = (String) ((HashMap)submit.get("1")).get("userID");
+            String str = "";
+            if (testIDs != null) {
+                for(int i=0; i<testIDs.length; i++) {
+                    System.out.println(testIDs[i]);
+                    str += Utils.Hash2String((HashMap)submit.get(Integer.toString(testIDs[i])));
+                }
+                System.out.println(str);
+                Utils.WriteFile(ResourceManager.getUserTestFile(userID), str);
+            }
+            for(int i=0; i<surveyIDs.length; i++) {
+                HashMap page = (HashMap)submit.get(Integer.toString(surveyIDs[i]));
+                if (page != null) {
+                    Utils.WriteFile(ResourceManager.getSurveyFile(userID), Utils.Hash2CSV(page));
+                }
+            }
+            Utils.WriteFile(ResourceManager.getQueryFile(userID), Utils.Hash2String((HashMap)submit.get(Integer.toString(feedBackID))));
+            System.out.println("Dialog return code is (0=Finish,1=Error): " + ret);
         } catch (JSONException e) {
             lesson.getDialog().setTitle("Oral Completion Test");
         }
-        lesson.setCurrentPage("1");
-
-        int ret = lesson.showModalDialog();
-        //saveTestSubmitToFile(lesson, cnt);
-        //saveQuery(lesson);
-        //saveSurvey(lesson);
-
-        System.out.println("Dialog return code is (0=Finish,1=Error): " + ret);
 
         System.exit(0);
-
-    }
-
-
-    private static void saveTestSubmitToFile(Lesson lesson, int tests) {
-        //get lesson submission
-        HashMap submit = lesson.getModel().getPageSubmit();
-        String userID = (String) ((HashMap)submit.get("1")).get("userID");
-        try {
-            // Create file
-            ResourceManager.mvTempToUserPath(userID);
-            String userFile = ResourceManager.getUserPath(userID)+"/"+userID+"_"+Utils.getToday()+".txt";
-            FileWriter fstream = new FileWriter(userFile);
-            BufferedWriter out = new BufferedWriter(fstream);
-            //for (Object testID : submit.keySet()) {
-            for(int i=0; i<tests; i++) {
-                //HashMap pageSubmit = (HashMap)submit.get(testID);
-                HashMap pageSubmit = (HashMap)submit.get(Integer.toString(i+testStartPage));
-                if (pageSubmit == null)
-                    continue;
-                out.write("item " + (i+1) + ":\n");
-                for (Object key : pageSubmit.keySet()) {
-                    if (key == "recordFile")
-                        continue;
-                     //System.out.println("test " + (i+1) + key +"="+pageSubmit.get(key)+"\n");
-                     out.write(key +":"+pageSubmit.get(key) +"\n");
-                }
-                //copy record to user path
-            }
-            out.close();
-        }catch (Exception e){//Catch exception if any
-            System.err.println("Error: " + e.getMessage());
-        }
-
-    }
-
-    private static void saveQuery(Lesson lesson) {
-        //get lesson submission
-        HashMap submit = lesson.getModel().getPageSubmit();
-        String userID = (String) ((HashMap)submit.get("1")).get("userID");
-        try {
-            // Create file
-            String userFile = ResourceManager.getUserPath(userID)+"/"+userID+"_postSurvey.txt";
-            FileWriter fstream = new FileWriter(userFile);
-            BufferedWriter out = new BufferedWriter(fstream);
-            HashMap pageSubmit = (HashMap)submit.get("102");
-            if (pageSubmit != null) {
-                int i = 0;
-                for (Object key : pageSubmit.keySet()) {
-                     //System.out.println("test " + (i+1) + key +"="+pageSubmit.get(key)+"\n");
-                     i++;
-                     out.write(key +":"+pageSubmit.get(key) +"\n");
-                     if (i % 2 == 0)
-                         out.write("\n");
-                }
-            }
-            out.close();
-        }catch (Exception e){//Catch exception if any
-            System.err.println("Error: " + e.getMessage());
-        }
-
-    }
-
-    private static void saveSurvey(Lesson lesson) {
-        //get lesson submission
-        HashMap submit = lesson.getModel().getPageSubmit();
-        String userID = (String) ((HashMap)submit.get("1")).get("userID");
-        try {
-            // Create file
-            String userFile = ResourceManager.getUserPath(userID)+"/"+userID+"_infor.csv";
-            FileWriter fstream = new FileWriter(userFile);
-            BufferedWriter out = new BufferedWriter(fstream);
-            HashMap pageSubmit = (HashMap)submit.get("101");
-            if (pageSubmit != null) {
-                int i = 0;
-                String row = "";
-                for (Object key : pageSubmit.keySet()) {
-                     row += "\"" + key + "\"";
-                     i++;
-                     if (i > 1 && i < pageSubmit.size()) {
-                         row = row + ",";
-                     }
-                }
-                row = row + "\n";
-                System.out.println(row);
-                out.write(row);
-
-                row = "";
-                i=0;
-                for (Object key : pageSubmit.keySet()) {
-                     row += "\"" + pageSubmit.get(key) + "\"";
-                     if (i > 1 && i < pageSubmit.size()) {
-                         row = row + ",";
-                     }
-                     i++;
-                }
-                row = row + "\n";
-                System.out.println(row);
-                out.write(row);
-            }
-            out.close();
-        }catch (Exception e){//Catch exception if any
-            System.err.println("Error: " + e.getMessage());
-        }
-
     }
 }

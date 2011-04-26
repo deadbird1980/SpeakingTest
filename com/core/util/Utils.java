@@ -2,6 +2,9 @@ package com.core.util;
 
 
 import javax.swing.*;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.util.HashMap;
 import java.util.Enumeration;
 import java.util.Date;
 import java.util.Calendar;
@@ -32,5 +35,51 @@ public class Utils {
         // Using DateFormat format method we can create a string
         // representation of a date with the defined format.
         return df.format(today);
+    }
+
+    public static String Hash2String(HashMap submit) {
+        String str = "";
+        int i = 0;
+        for (Object key : submit.keySet()) {
+             i++;
+             str += key +":"+submit.get(key) +"\n";
+             if (i % 2 == 0)
+                 str += "\n";
+        }
+        return str;
+    }
+
+    public static String Hash2CSV(HashMap submit) {
+        int i = 0;
+        String row = "";
+        for (Object key : submit.keySet()) {
+             row += "\"" + key + "\"";
+             i++;
+             if (i > 1 && i < submit.size()) {
+                 row = row + ",";
+             }
+        }
+        row = row + "\n";
+        i=0;
+        for (Object key : submit.keySet()) {
+             row += "\"" + submit.get(key) + "\"";
+             if (i > 1 && i < submit.size()) {
+                 row = row + ",";
+             }
+             i++;
+        }
+        row = row + "\n";
+        return row;
+    }
+
+    public static void WriteFile(String fName, String content) {
+        try {
+            FileWriter fstream = new FileWriter(fName);
+            BufferedWriter out = new BufferedWriter(fstream);
+            out.write(content);
+            out.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -9,6 +9,7 @@ public class LessonPage extends JPanel {
 
     public static final String STATUS_PROPERTY = "statusProperty";
     public LessonPageDescriptor listener;
+    public boolean skipped;
     private int pageNO;
 
     public void LessonPage() {

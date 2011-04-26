@@ -125,6 +125,21 @@ public class ResourceManager {
         return contents.toString();
     }
 
+    static public String getUserTestFile(String userID) {
+        mkUserPath(userID);
+        return ResourceManager.getUserPath(userID)+"/"+userID+"_"+Utils.getToday()+".txt";
+    }
+
+    static public String getSurveyFile(String userID) {
+        mkUserPath(userID);
+        return ResourceManager.getUserPath(userID)+"/"+userID+"_info.csv";
+    }
+
+    static public String getQueryFile(String userID) {
+        mkUserPath(userID);
+        return ResourceManager.getUserPath(userID)+"/"+userID+"_postSurvey.txt";
+    }
+
 
 }
 

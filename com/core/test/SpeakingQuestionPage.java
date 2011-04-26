@@ -59,10 +59,10 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             totalTests = json.getInt("totalTest");
             questionFile = json.getString("page");
             timeRemaining = json.getString("timeRemaining");
-        System.out.println("questionFile="+questionFile);
             questionAudio = json.getString("QuestionAudio");
             recordNowAudio = json.getString("RecordNowAudio");
         } catch (JSONException e) {
+            System.out.println(e.getMessage());
         }
 
         contentPanel = getContentPanel();
