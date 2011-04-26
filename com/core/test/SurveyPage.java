@@ -41,7 +41,6 @@ public class SurveyPage extends LessonPage {
         try {
             survey = ResourceManager.getJSON(json.getString("data"));
             place = json.getString("place");
-            System.out.println("place="+place);
         } catch (JSONException e) {
         }
         contentPanel = getContentPanel();
@@ -120,7 +119,7 @@ public class SurveyPage extends LessonPage {
         JLabel textLabel = new JLabel();
         textLabel.setFont(new Font("MS Sans Serif", Font.BOLD, 20));
         try {
-            textLabel.setText(survey.getString("title"));
+            textLabel.setText(survey.getString("label"));
         } catch (JSONException e) {
             textLabel.setText("Participant Information Form");
         }

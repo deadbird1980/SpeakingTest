@@ -3,6 +3,7 @@ package com.core.test;
 import com.core.lesson.*;
 import com.core.util.*;
 import org.json.JSONObject;
+import org.json.JSONException;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
@@ -19,10 +20,12 @@ public class LoginPage extends LessonPage {
 
     private JPanel contentPanel;
     private String userID = "";
+    private JSONObject login;
 
     public LoginPage(JSONObject json) {
 
         super();
+        login = json;
         contentPanel = getContentPanel();
         contentPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 
@@ -53,7 +56,11 @@ public class LoginPage extends LessonPage {
         JLabel textLabel = new JLabel();
         textLabel.setBackground(Color.gray);
         textLabel.setFont(new Font("MS Sans Serif", Font.BOLD, 20));
-        textLabel.setText("Oral Completion Test");
+        try {
+            textLabel.setText(login.getString("title"));
+        } catch (JSONException e) {
+            textLabel.setText("Oral Completion Test");
+        }
         textLabel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
         textLabel.setOpaque(true);
         welcomeLabel = new JLabel();
@@ -70,7 +77,12 @@ public class LoginPage extends LessonPage {
         blankSpace = new JLabel();
         jPanel1.add(blankSpace);
         JPanel userPanel = new JPanel(new BorderLayout());
-        JLabel userLabel = new JLabel((String)ResourceManager.getTestResource("userID"));
+        JLabel userLabel = new JLabel();
+        try {
+            userLabel.setText(login.getString("userIDLabel"));
+        } catch (JSONException e) {
+            userLabel.setText("user");
+        }
         userTextField = new JTextField();
         userLabel.setLabelFor(userTextField);
         userPanel.add(userLabel, BorderLayout.WEST);

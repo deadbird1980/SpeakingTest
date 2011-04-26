@@ -52,10 +52,8 @@ public class Main {
             String str = "";
             if (testIDs != null) {
                 for(int i=0; i<testIDs.length; i++) {
-                    System.out.println(testIDs[i]);
                     str += Utils.Hash2String((HashMap)submit.get(Integer.toString(testIDs[i])));
                 }
-                System.out.println(str);
                 Utils.WriteFile(ResourceManager.getUserTestFile(userID), str);
             }
             for(int i=0; i<surveyIDs.length; i++) {
