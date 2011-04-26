@@ -1,0 +1,7 @@
+{"instruction":"<P>You have completed the test.  Now please take a moment to fill out the short survey below about the difficulty of certain situational tasks in the test.  Your feedback is highly appreciated.</P><BR><B>How easy or difficult were the following four situations that you have just responded to during the test?</B> <I>(circle the difficulty level that you think can represent each situation)</I>",
+ "questions":[{"title":"Situation 1", "description":"Call your professor to ask to take an exam one day late","options":["Very Easy", "Easy", "OK", "Hard", "Very Hard"]},
+ {"title":"Situation 3", "description":"Ask to borrow a pen from a friend","options":["Very Easy", "Easy", "OK", "Hard", "Very Hard"]},
+ {"title":"Situation 5", "description":"Call the manager to ask to schedule a job interview in the morning","options":["Very Easy", "Easy", "OK", "Hard", "Very Hard"]},
+ {"title":"Situation 7", "description":"Ask your younger brother to get you the TV remote control","options":["Very Easy", "Easy", "OK", "Hard", "Very Hard"]}
+]
+}
