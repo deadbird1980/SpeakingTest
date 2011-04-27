@@ -7,7 +7,7 @@
 
   <target name="clean">
       <delete dir="${build}" />
-      <delete file="${basedir}/lesson.jar" />
+      <delete file="${basedir}/SpeakingTest.jar" />
   </target>
 
   <target name="init">
@@ -46,7 +46,7 @@
   </target>
 
   <target depends="copy" name="jar">
-      <jar jarfile="${basedir}/lesson.jar">
+      <jar jarfile="${basedir}/SpeakingTest.jar">
           <fileset dir="${build}" /> 
           <manifest>
               <attribute name="Main-Class" value="com.core.test.Main"/>
