@@ -8,7 +8,6 @@ public class PageFactory {
     public static LessonPageDescriptor createPage(String type, JSONObject json) {
         LessonPageDescriptor page;
         if (type.equals("LoginPage")) {
-            System.out.println("long page class");
             page = new LoginDescriptor(json);
         } else if (type.equals("IntroPage")) {
             page = new IntroDescriptor(json);

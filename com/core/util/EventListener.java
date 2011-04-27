@@ -9,6 +9,6 @@ package com.core.util;
 
 public interface EventListener {
 
-    public void eventTriggered();
+    public void eventTriggered(String event);
 
 }

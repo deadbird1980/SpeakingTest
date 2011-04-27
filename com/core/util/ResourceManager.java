@@ -55,7 +55,7 @@ public class ResourceManager {
     }
 
     public static String getTestAudio(String key) {
-        return getAudioResourcePath() + '/' + (String)getTestResource(key);
+        return getAudioResourcePath() + '/' + key;
     }
 
 

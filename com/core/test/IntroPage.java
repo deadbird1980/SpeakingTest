@@ -29,8 +29,9 @@ public class IntroPage extends LessonPage {
     public IntroPage(JSONObject json) {
         try {
             textContent = ResourceManager.getPageText(json.getString("page"));
-            audioFile = (String)ResourceManager.getTestAudio(json.getString("audio"));
+            audioFile = ResourceManager.getTestAudio(json.getString("audio"));
         } catch (JSONException e) {
+            System.out.println("page or audio information is not set in application.json file");
         }
 
         contentPanel = getContentPanel();

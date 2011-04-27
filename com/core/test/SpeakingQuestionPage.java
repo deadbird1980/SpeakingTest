@@ -45,6 +45,8 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
     private String questionFile;
     private String questionAudio;
     private String recordNowAudio;
+    private boolean showRecordCountDown = true;
+    private boolean showPrepareCountDown = false;
 
     //Tests model data
     private String TestID = "1";
@@ -62,6 +64,8 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             timeRemaining = json.getString("timeRemaining");
             questionAudio = json.getString("QuestionAudio");
             recordNowAudio = json.getString("RecordNowAudio");
+            showRecordCountDown = json.getBoolean("showRecordCountDown");
+            showPrepareCountDown = json.getBoolean("showPrepareCountDown");
         } catch (JSONException e) {
             System.out.println(e.getMessage());
         }
@@ -91,7 +95,6 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         JPanel headerPanel = createHeaderPanel();
         JPanel questionPanel = createQuestionPanel();
         JPanel recordPanel = createRecordButtons();
-        //JPanel questionTranslationPanel = createQuestionTranslationPanel();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
@@ -141,20 +144,24 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         private long countStart = 0;
         private long countStop = 0;
         private volatile boolean stop = false;
+        private EventListener listener;
 
         public long getCountTime() {
             return countStop - countStart;
         }
+        public void addListener(EventListener lsn) {
+            listener = lsn;
+        }
 
         public void run(){
             TimerThread count_down = new TimerThread(TimerThread.COUNT_DOWN);
-            count_down.setRemainingMinutes(2);
+            count_down.setRemainingMinutes(1);
             countStart = System.currentTimeMillis();
             count_down.start();
 
             while (!stop && count_down.isAlive()) {
                 //show counting down clock
-                if (recorder != null)
+                if ((showPrepareCountDown && recorder == null)|| (recorder != null && showRecordCountDown))
                     countDownLabel.setText(timeRemaining+": "+count_down.getClock());
                 try {
                     sleep(100);
@@ -162,17 +169,18 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
                     System.out.println("Interrupted.");
                 }
             }
-            stop = false;
             //timeout
-            if (recorder == null) {
-                startRecord();
-            }
+            if (listener != null && !stop)
+                listener.eventTriggered("countDownEnd");
+            stop = true;
         }
 
         public void requestStop() {
             //count stop
-            stop = true;
-            countStop = System.currentTimeMillis();
+            if (!stop) {
+                stop = true;
+                countStop = System.currentTimeMillis();
+            }
         }
 
     }
@@ -184,6 +192,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             //System.out.println("pause time="+pauseTime);
         }
         countDownTimer = new countDownThread();
+        countDownTimer.addListener(this);
         countDownTimer.start();
     }
 
@@ -191,6 +200,14 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         // Must be volatile:
         private volatile boolean stop = false;
         private Player player;
+        private EventListener listener;
+        private String audioFile;
+        public playAudioThread(String fFilename) {
+            audioFile = fFilename;
+        }
+        public void addListener(EventListener lsn) {
+            listener = lsn;
+        }
         private void playFile(String fFilename) {
 
             try {
@@ -214,12 +231,9 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         }
 
         public void run(){
-            playFile(getQuestionAudio());
-            playFile(getRecordingNowAudio());
-            //after end of playing
-            startTimer();
-            //enable the record button
-            recordButton.setEnabled(true) ;
+            playFile(audioFile);
+            if (listener != null)
+                listener.eventTriggered("playDone");
         }
 
         public void requestStop() {
@@ -231,7 +245,8 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
 
     public void playAudio() {
         try {
-            playAudioThread playAudio = new playAudioThread();
+            playAudioThread playAudio = new playAudioThread(getQuestionAudio());
+            playAudio.addListener(this);
             playAudio.start();
         } catch (Exception ex) {
             System.out.println("Problem playing file");
@@ -292,8 +307,25 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         return data;
     }
 
-    public void eventTriggered(){
-        stopRecord();
+    public void eventTriggered(String event){
+        if (event.equals("playDone")) {
+            //after end of playing
+            startTimer();
+            //enable the record button
+            recordButton.setEnabled(true) ;
+        } else if (event.equals("recordTimeout")){
+            stopRecord();
+        } else if (event.equals("countDownEnd")) {
+            if (recorder == null) {
+                playAudioThread playAudio = new playAudioThread(getRecordingNowAudio());
+                playAudio.start();
+                startRecord();
+            } else {
+                if (recorder.hasCaptured()) {
+                    stopRecord();
+                }
+            }
+        }
     }
 
     private JPanel createHeaderPanel() {
@@ -305,7 +337,6 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         positionLabel.setFont(new java.awt.Font("MS Sans Serif", Font.BOLD, 11));
         //setPosition();
         countDownLabel = new JLabel();
-        //countDownLabel.setText("02:00");
         //headerPanel.add(positionLabel, java.awt.BorderLayout.WEST);
         headerPanel.add(countDownLabel, java.awt.BorderLayout.EAST);
         return headerPanel;
@@ -354,20 +385,6 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         return questionPanel;
     }
 
-    private JPanel createQuestionTranslationPanel() {
-        JPanel questionPanel = new JPanel();
-        questionPanel.setPreferredSize(new Dimension(400, 100));
-        questionPanel.setLayout(new java.awt.BorderLayout());
-        questionTranslationLabel = new JTextArea();
-        questionTranslationLabel.setText(getQuestionTranslationID());
-        questionTranslationLabel.setLineWrap(true);
-        questionTranslationLabel.setEditable(false);
-        //Get JFrame background color  
-        Color color = getBackground();
-        questionTranslationLabel.setBackground(color);
-        questionPanel.add(questionTranslationLabel, java.awt.BorderLayout.CENTER);
-        return questionPanel;
-    }
     private RecordPlay getRecorder() {
         if (recorder == null) {
             recorder = new RecordPlay();

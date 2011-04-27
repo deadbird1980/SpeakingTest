@@ -51,7 +51,7 @@ public class RecordPlay {
                     while(!stopCapture){
                         if (isTimeout()) {
                             if (listener != null)
-                                listener.eventTriggered();
+                                listener.eventTriggered("recordTimeout");
                             break;
                         }
 
