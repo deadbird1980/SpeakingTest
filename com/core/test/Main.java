@@ -62,7 +62,8 @@ public class Main {
                     Utils.WriteFile(ResourceManager.getSurveyFile(userID), Utils.Hash2CSV(page));
                 }
             }
-            Utils.WriteFile(ResourceManager.getQueryFile(userID), Utils.Hash2String((HashMap)submit.get(Integer.toString(feedBackID))));
+            if (feedBackID != -1)
+                Utils.WriteFile(ResourceManager.getQueryFile(userID), Utils.Hash2String((HashMap)submit.get(Integer.toString(feedBackID))));
             System.out.println("Dialog return code is (0=Finish,1=Error): " + ret);
         } catch (JSONException e) {
             lesson.getDialog().setTitle("Oral Completion Test");
