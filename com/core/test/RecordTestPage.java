@@ -41,7 +41,7 @@ public class RecordTestPage extends IntroPage implements EventListener{
         secondaryPanel.add(contentPanel, BorderLayout.NORTH);
         add(secondaryPanel, BorderLayout.CENTER);
     }
-    public void eventTriggered(){
+    public void eventTriggered(String event){
         stopRecording();
     }
 
