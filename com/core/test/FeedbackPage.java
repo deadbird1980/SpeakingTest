@@ -5,6 +5,7 @@ import com.core.util.Utils;
 import com.core.util.ResourceManager;
 import org.json.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
 
 import javax.swing.*;
@@ -44,6 +45,15 @@ public class FeedbackPage extends LessonPage {
             data.put("Comment_"+(i+1), comments[i].getText());
         }
         return data;
+    }
+
+    private boolean checkAnswer() {
+        for(int i=0; i<groups.length; i++) {
+            JRadioButton button = Utils.getSelection(groups[i]);
+            if (button == null)
+                return false;
+        }
+        return true;
     }
 
 
@@ -127,6 +137,12 @@ public class FeedbackPage extends LessonPage {
                     JRadioButton radioButton = new JRadioButton(options.getString(j));
                     radioButton.setActionCommand(options.getString(j));
                     //radioButton.setSelected(true);
+                    radioButton.addActionListener(new ActionListener(){
+                        public void actionPerformed(ActionEvent e){
+                            if (checkAnswer()) 
+                                sendMessage("READY");
+                        }
+                    }) ;
                     group.add(radioButton);
                     feedbackPanel.add(radioButton);
                 }
@@ -144,6 +160,8 @@ public class FeedbackPage extends LessonPage {
 
                 //introPanel.add(comment, gBC);
                 JTextArea comment = new JTextArea();
+
+                comment.setBorder (new LineBorder(Color.black, 2));
                 comment.setPreferredSize(new Dimension(300, 20));
                 introPanel.add(comment, gBC);
                 //scrollpane.add(comment);

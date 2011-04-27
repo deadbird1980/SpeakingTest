@@ -5,6 +5,8 @@ import com.core.util.Utils;
 import com.core.util.ResourceManager;
 import org.json.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.*;
 
 import javax.swing.*;
@@ -285,6 +287,11 @@ public class SurveyPage extends LessonPage {
                 JRadioButton radioButton = new JRadioButton(options.getString(j));
                 radioButton.setActionCommand(options.getString(j));
                 //radioButton.setSelected(true);
+                radioButton.addActionListener(new ActionListener(){
+                    public void actionPerformed(ActionEvent e){
+                        sendMessage("READY");
+                    }
+                }) ;
                 groupGender.add(radioButton);
                 genderPanel.add(radioButton);
             }
@@ -304,6 +311,11 @@ public class SurveyPage extends LessonPage {
             for(int j=0; j<options.length(); j++) {
                 JRadioButton radioButton = new JRadioButton(options.getString(j));
                 radioButton.setActionCommand(options.getString(j));
+                radioButton.addActionListener(new ActionListener(){
+                    public void actionPerformed(ActionEvent e){
+                        sendMessage("READY");
+                    }
+                }) ;
                 //radioButton.setSelected(true);
                 groupSelfRating.add(radioButton);
                 buttonsPanel.add(radioButton);

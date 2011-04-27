@@ -20,5 +20,11 @@ public class FeedbackDescriptor extends LessonPageDescriptor {
     public Object getBackPanelDescriptor() {
         return null;
     }
+    public void notifyMessage(String msg) {
+        if (msg.equals("READY"))
+            getLesson().setNextFinishButtonEnabled(Boolean.TRUE);
+        else
+            getLesson().setNextFinishButtonEnabled(Boolean.FALSE);
+    }
 
 }

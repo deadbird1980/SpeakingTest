@@ -13,6 +13,7 @@ import javazoom.jl.player.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.net.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -279,12 +280,12 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
     }
 
     public HashMap getSubmit() {
-        HashMap data = new HashMap();
+        LinkedHashMap data = new LinkedHashMap();
         if (recorder != null)
             recordTime = recorder.getDuration()/1000;
         //System.out.println("record time="+recordTime);
-        data.put("pauseTime", pauseTime);
-        data.put("recordTime", recordTime);
+        data.put("pauseTime", pauseTime + " second(s)");
+        data.put("recordTime", recordTime + " seconds(s)");
         data.put("recordFile", getRecordFileName());
         return data;
     }
@@ -332,7 +333,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         //stop the countdown
         stopTimer();
         //save the file
-        recorder.save(getRecordFileName());
+        recorder.save(ResourceManager.getUserPath() + "/Test_" + TestID + ".wav");
         sendMessage("READY");
     }
 

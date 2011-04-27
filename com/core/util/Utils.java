@@ -53,22 +53,22 @@ public class Utils {
         int i = 0;
         String row = "";
         for (Object key : submit.keySet()) {
-             row += "\"" + key + "\"";
              i++;
-             if (i > 1 && i < submit.size()) {
-                 row = row + ",";
+             row += "\"" + key + "\"";
+             if (i < submit.size()) {
+                 row += ",";
              }
         }
         row = row + "\n";
         i=0;
         for (Object key : submit.keySet()) {
-             row += "\"" + submit.get(key) + "\"";
-             if (i > 1 && i < submit.size()) {
-                 row = row + ",";
-             }
-             i++;
+            row += "\"" + (String)submit.get(key) + "\"";
+            i++;
+            if (i < submit.size()) {
+               row += ",";
+            }
         }
-        row = row + "\n";
+        row += "\n";
         return row;
     }
 

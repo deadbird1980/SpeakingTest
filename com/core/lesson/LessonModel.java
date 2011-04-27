@@ -231,6 +231,12 @@ public class LessonModel {
         return pageSubmission;
     }
 
+    public HashMap getSubmit(Object key) {
+        LessonPageDescriptor descriptor = (LessonPageDescriptor)pageHashmap.get(key);
+        HashMap submit = ((LessonPage)descriptor.getPageComponent()).getSubmit();
+        return submit;
+    }
+
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }

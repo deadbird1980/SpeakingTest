@@ -6,6 +6,7 @@ import java.io.*;
 
 public class ResourceManager {
 
+    public static String userPath;
     public static Object getTestResource(String key) {
         try {
 
@@ -34,21 +35,19 @@ public class ResourceManager {
     }
 
     public static void mkUserPath(String userID) {
-        File file = new File(getUserPath(userID));
+        File file = new File(getUserPath());
         if (!file.exists()) {
             file.mkdir();
         }
     }
 
-    public static void mvTempToUserPath(String userID) {
-        File file = new File(getTempPath());
-        if (file.exists()) {
-            file.renameTo(new File(getUserPath(userID)));
-        }
+    public static void setUserPath(String userID) {
+        userPath = userID;
+        mkUserPath(userID);
     }
 
-    public static String getUserPath(String userID) {
-        return getUserDataPath()+"/"+userID;
+    public static String getUserPath() {
+        return getUserDataPath()+"/"+userPath;
     }
 
     public static String getAudioResourcePath() {
@@ -127,17 +126,17 @@ public class ResourceManager {
 
     static public String getUserTestFile(String userID) {
         mkUserPath(userID);
-        return ResourceManager.getUserPath(userID)+"/"+userID+"_"+Utils.getToday()+".txt";
+        return ResourceManager.getUserPath()+"/"+userID+"_"+Utils.getToday()+".txt";
     }
 
     static public String getSurveyFile(String userID) {
         mkUserPath(userID);
-        return ResourceManager.getUserPath(userID)+"/"+userID+"_info.csv";
+        return ResourceManager.getUserPath()+"/"+userID+"_info.csv";
     }
 
     static public String getQueryFile(String userID) {
         mkUserPath(userID);
-        return ResourceManager.getUserPath(userID)+"/"+userID+"_postSurvey.txt";
+        return ResourceManager.getUserPath()+"/"+userID+"_postSurvey.txt";
     }
 
 
