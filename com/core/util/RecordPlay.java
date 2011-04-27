@@ -62,6 +62,7 @@ public class RecordPlay {
                             totaldatasize += cnt ;
                         }
                     }
+                    targetDataLine.close();
                     byteArrayOutputStream.close() ;
                     inRecording = false;
 
