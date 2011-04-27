@@ -284,9 +284,11 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         if (recorder != null)
             recordTime = recorder.getDuration()/1000;
         //System.out.println("record time="+recordTime);
+        data.put("Test", TestID);
         data.put("pauseTime", pauseTime + " second(s)");
         data.put("recordTime", recordTime + " seconds(s)");
         data.put("recordFile", getRecordFileName());
+        data.put("linebreak", "\n");
         return data;
     }
 
@@ -333,7 +335,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         //stop the countdown
         stopTimer();
         //save the file
-        recorder.save(ResourceManager.getUserPath() + "/Test_" + TestID + ".wav");
+        recorder.save(ResourceManager.getUserPath() + "/" + getRecordFileName());
         sendMessage("READY");
     }
 
@@ -392,7 +394,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
     }
 
     private String getRecordFileName() {
-        return ResourceManager.getTempPath() + "/Test_" + TestID + ".wav";
+        return "Test_" + TestID + ".wav";
     }
 
 }

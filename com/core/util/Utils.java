@@ -42,9 +42,10 @@ public class Utils {
         int i = 0;
         for (Object key : submit.keySet()) {
              i++;
-             str += key +":"+submit.get(key) +"\n";
-             if (i % 2 == 0)
+             if (key.equals("linebreak"))
                  str += "\n";
+             else
+                 str += key +":"+submit.get(key) +"\n";
         }
         return str;
     }

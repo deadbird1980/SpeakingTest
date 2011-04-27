@@ -43,6 +43,7 @@ public class FeedbackPage extends LessonPage {
             if (button != null)
                 data.put("Question_"+(i+1), button.getText());
             data.put("Comment_"+(i+1), comments[i].getText());
+            data.put("linebreak", "\n");
         }
         return data;
     }
