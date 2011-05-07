@@ -316,7 +316,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         if (recorder != null)
             recordTime = recorder.getDuration()/1000;
         //System.out.println("record time="+recordTime);
-        data.put("Test", TestID);
+        data.put("Record", TestID);
         data.put("pauseTime", pauseTime + " second(s)");
         data.put("recordTime", recordTime + " seconds(s)");
         data.put("recordFile", getRecordFileName());
