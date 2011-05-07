@@ -287,11 +287,6 @@ public class SurveyPage extends LessonPage {
                 JRadioButton radioButton = new JRadioButton(options.getString(j));
                 radioButton.setActionCommand(options.getString(j));
                 //radioButton.setSelected(true);
-                radioButton.addActionListener(new ActionListener(){
-                    public void actionPerformed(ActionEvent e){
-                        sendMessage("READY");
-                    }
-                }) ;
                 groupGender.add(radioButton);
                 genderPanel.add(radioButton);
             }
@@ -533,6 +528,11 @@ public class SurveyPage extends LessonPage {
                 JRadioButton radioButton = new JRadioButton(options.getString(j));
                 radioButton.setActionCommand(options.getString(j));
                 //radioButton.setSelected(true);
+                radioButton.addActionListener(new ActionListener(){
+                    public void actionPerformed(ActionEvent e){
+                        sendMessage("READY");
+                    }
+                }) ;
                 groupSelfRating.add(radioButton);
                 buttonsPanel.add(radioButton);
             }
