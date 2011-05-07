@@ -15,6 +15,11 @@ public class IntroDescriptor extends LessonPageDescriptor {
 
     public IntroDescriptor(JSONObject json) {
         super(IDENTIFIER, new IntroPage(json));
+        try {
+            skippable = json.getBoolean("skippable");
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -32,7 +37,15 @@ public class IntroDescriptor extends LessonPageDescriptor {
     public void aboutToDisplayPage() {
         IntroPage page = (IntroPage) getPageComponent();
         page.playAudio();
+        if (!skippable)
+            getLesson().setNextFinishButtonEnabled(Boolean.FALSE);
     }
 
+    public void notifyMessage(String msg) {
+        if (msg.equals("READY"))
+            getLesson().setNextFinishButtonEnabled(Boolean.TRUE);
+        else
+            getLesson().setNextFinishButtonEnabled(Boolean.FALSE);
+    }
 
 }

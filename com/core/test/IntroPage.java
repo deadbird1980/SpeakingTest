@@ -1,6 +1,7 @@
 package com.core.test;
 
-import com.core.util.*;
+import com.core.util.EventListener;
+import com.core.util.ResourceManager;
 import com.core.lesson.*;
 import javazoom.jl.player.*;
 import java.awt.*;
@@ -13,7 +14,7 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 
-public class IntroPage extends LessonPage {
+public class IntroPage extends LessonPage implements com.core.util.EventListener{
 
     private JLabel blankSpace;
     private JLabel welcomeLabel;
@@ -48,6 +49,15 @@ public class IntroPage extends LessonPage {
         // Must be volatile:
         private volatile boolean stop = false;
         private Player player;
+        private EventListener listener;
+        private String audioFile;
+        public playAudioThread(String fFilename) {
+            audioFile = fFilename;
+        }
+
+        public void addListener(EventListener lsn) {
+            listener = lsn;
+        }
         private void playFile(String fFilename) {
 
             try {
@@ -71,6 +81,8 @@ public class IntroPage extends LessonPage {
 
         public void run(){
             playFile(audioFile);
+            if (listener != null)
+                listener.eventTriggered("playDone");
         }
 
         public void requestStop() {
@@ -88,10 +100,18 @@ public class IntroPage extends LessonPage {
 
     public void playAudio() {
         try {
-            playAudio = new playAudioThread();
+            playAudio = new playAudioThread(audioFile);
+            playAudio.addListener(this);
             playAudio.start();
         } catch (Exception ex) {
             System.out.println("Problem playing file");
+        }
+    }
+
+    public void eventTriggered(String event){
+        if (event.equals("playDone")) {
+            //play audio DONE
+            sendMessage("READY");
         }
     }
 

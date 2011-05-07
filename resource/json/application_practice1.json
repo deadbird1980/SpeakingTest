@@ -1,10 +1,12 @@
 {"title":"Oral Completion Test",
 "pages":[
 {"type":"LoginPage","title":"Oral Completion Test","userIDLabel":"User ID:"},
-{"type":"RecordTestPage","page":"intro1.html", "audio":"Intro-Screen1.mp3"},
-{"type":"IntroPage","page":"intro1.html", "audio":"Intro-Screen2.mp3"},
-{"type":"SpeakingQuestionPage","page":"test1.html", "showPrepareCountDown":false, "showRecordCountDown":true, "QuestionAudio":"F-All-IT12.mp3","timeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
-{"type":"SpeakingQuestionPage","page":"test2.html", "showPrepareCountDown":false, "showRecordCountDown":true, "QuestionAudio":"F1-IT2.mp3","timeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
-{"type":"SpeakingQuestionPage","page":"test3.html", "showPrepareCountDown":false, "showRecordCountDown":true, "QuestionAudio":"F1-IT4.mp3","timeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"}
+{"type":"RecordTestPage","page":"intro1.html", "skippable":true, "audio":"Intro-Screen1.mp3"},
+{"type":"IntroPage","page":"intro2.html", "skippable":true, "audio":"Intro-Screen2.mp3"},
+{"type":"SpeakingQuestionPage","page":"intro3.html", "skippable":true, "recordFileName":"warmup", "showPrepareCountDown":false, "showRecordCountDown":true, "QuestionAudio":"Intro-Screen3.mp3","recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
+{"type":"IntroPage","page":"intro4.html", "skippable":true, "audio":"Intro-Screen4.mp3"},
+{"type":"SpeakingQuestionPage","page":"test1.html", "skippable":true, "recordFileName":"test_1", "showPrepareCountDown":false, "showRecordCountDown":true, "QuestionAudio":"F-All-IT12.mp3","recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
+{"type":"SpeakingQuestionPage","page":"test2.html", "skippable":true, "recordFileName":"test_2", "showPrepareCountDown":false, "showRecordCountDown":true, "QuestionAudio":"F1-IT2.mp3","recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
+{"type":"SpeakingQuestionPage","page":"test3.html", "skippable":true, "recordFileName":"test_3", "showPrepareCountDown":false, "showRecordCountDown":true, "QuestionAudio":"F1-IT4.mp3","recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"}
 ]
 }

@@ -5,6 +5,7 @@ import com.core.lesson.*;
 import java.awt.*;
 import javax.swing.*;
 import org.json.JSONObject;
+import org.json.JSONException;
 
 
 public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
@@ -14,6 +15,11 @@ public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
 
     public SpeakingQuestionDescriptor(JSONObject json) {
         super(IDENTIFIER, new SpeakingQuestionPage(json));
+        try {
+            skippable = json.getBoolean("skippable");
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -25,7 +31,8 @@ public class SpeakingQuestionDescriptor extends LessonPageDescriptor {
         SpeakingQuestionPage page = (SpeakingQuestionPage) getPageComponent();
         page.playAudio();
         //enable continue button untill page completed
-        getLesson().setNextFinishButtonEnabled(Boolean.FALSE);
+        if (!skippable)
+            getLesson().setNextFinishButtonEnabled(Boolean.FALSE);
     }
 
     public void aboutToHidePage() {

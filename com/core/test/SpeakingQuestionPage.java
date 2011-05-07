@@ -41,7 +41,8 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
     private countDownThread countDownTimer;
     private playAudioThread playAudio;
     private RecordPlay recorder;
-    private String timeRemaining;
+    private String prePareTimeRemaining = "Prepare Time Remaining";
+    private String recordTimeRemaining = "Recording Time Remaining";
     private String questionFile;
     private String questionAudio;
     private String recordNowAudio;
@@ -50,22 +51,29 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
 
     //Tests model data
     private String TestID = "1";
+    private String recordFileName = "";
     private int totalTests = 1;
     private long actionStart = 0;
     private long actionEnd = 0;
     private long pauseTime = 0;
     private long recordTime = 0;
+    private long recordTimeout = 120;
+    private long prepareTimeout = 120;
 
     public SpeakingQuestionPage(JSONObject json) {
         try {
             TestID = json.getString("id");
             totalTests = json.getInt("totalTest");
             questionFile = json.getString("page");
-            timeRemaining = json.getString("timeRemaining");
             questionAudio = json.getString("QuestionAudio");
             recordNowAudio = json.getString("RecordNowAudio");
             showRecordCountDown = json.getBoolean("showRecordCountDown");
             showPrepareCountDown = json.getBoolean("showPrepareCountDown");
+            recordFileName = json.getString("recordFileName");
+            recordTimeout = json.getInt("recordTimeout");
+            prepareTimeout = json.getInt("prepareTimeout");
+            recordTimeRemaining = json.getString("recordTimeRemaining");
+            prePareTimeRemaining = json.getString("prePareTimeRemaining");
         } catch (JSONException e) {
             System.out.println(e.getMessage());
         }
@@ -155,14 +163,23 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
 
         public void run(){
             TimerThread count_down = new TimerThread(TimerThread.COUNT_DOWN);
-            count_down.setRemainingMinutes(1);
+            int timeout = 2;
+            if (recorder == null) {
+                timeout = (int)prepareTimeout / 60;
+            } else {
+                timeout = (int)recordTimeout / 60;
+            }
+            count_down.setRemainingMinutes(timeout);
             countStart = System.currentTimeMillis();
             count_down.start();
 
             while (!stop && count_down.isAlive()) {
                 //show counting down clock
-                if ((showPrepareCountDown && recorder == null)|| (recorder != null && showRecordCountDown))
-                    countDownLabel.setText(timeRemaining+": "+count_down.getClock());
+                if (showPrepareCountDown && recorder == null) {
+                    countDownLabel.setText(prePareTimeRemaining+": "+count_down.getClock());
+                } else if (recorder != null && showRecordCountDown) {
+                    countDownLabel.setText(recordTimeRemaining+": "+count_down.getClock());
+                }
                 try {
                     sleep(100);
                 } catch (InterruptedException e) {
@@ -245,7 +262,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
 
     public void playAudio() {
         try {
-            playAudioThread playAudio = new playAudioThread(getQuestionAudio());
+            playAudio = new playAudioThread(getQuestionAudio());
             playAudio.addListener(this);
             playAudio.start();
         } catch (Exception ex) {
@@ -372,7 +389,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
 
     private JPanel createQuestionPanel() {
         JPanel questionPanel = new JPanel();
-        questionPanel.setPreferredSize(new Dimension(600, 470));
+        questionPanel.setPreferredSize(new Dimension(600, 500));
         questionPanel.setLayout(new java.awt.BorderLayout());
         questionLabel = new JEditorPane();
         questionLabel.setContentType("text/html; charset=EUC-JP");
@@ -411,7 +428,11 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
     }
 
     private String getRecordFileName() {
-        return "Test_" + TestID + ".wav";
+        if (recordFileName.equals("")) {
+            return "Test_" + TestID + ".wav";
+        } else {
+            return recordFileName + ".wav";
+        }
     }
 
 }

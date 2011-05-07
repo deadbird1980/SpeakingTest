@@ -7,7 +7,9 @@ import javax.sound.sampled.*;
 public class RecordPlay {
 
     boolean stopCapture = false ;          //控制录音标志
+    boolean stopPlay = false ;          //控制录音标志
     boolean inRecording = false ;          //控制录音标志
+    boolean inPlaying = false ;          //控制录音标志
     boolean hasCaptured = false ;          //控制录音标志
     AudioFormat audioFormat ;             //录音格式
     private EventListener listener;
@@ -46,6 +48,7 @@ public class RecordPlay {
                 byteArrayOutputStream = new ByteArrayOutputStream() ;
                 totaldatasize = 0 ;
                 stopCapture = false ;
+                stopPlay = false ;
                 recordStart = System.currentTimeMillis();
                 try{
                     while(!stopCapture){
@@ -72,6 +75,9 @@ public class RecordPlay {
                 }
                 recordEnd = System.currentTimeMillis();
                 totalDuration = recordEnd - recordStart;
+                stopCapture = false ;
+                stopPlay = false ;
+                inRecording = false;
             }
         }
 
@@ -110,7 +116,7 @@ public class RecordPlay {
                 try{
                     int cnt ;
                     //读取数据到缓存区
-                    while((cnt = audioInputStream.read(tempBuffer,0,tempBuffer.length)) != -1){
+                    while(!stopPlay && (cnt = audioInputStream.read(tempBuffer,0,tempBuffer.length)) != -1){
 
                         if(cnt > 0){
                             //写入(播放)
@@ -125,6 +131,8 @@ public class RecordPlay {
                     e.printStackTrace() ;
                     System.exit(0) ;
                 }
+                stopPlay = false;
+                inPlaying = false;
             }
         }
         try{
@@ -142,6 +150,7 @@ public class RecordPlay {
             //创建独立线程播放
             Thread playThread = new Thread(new PlayThread()) ;
             playThread.start() ;
+            inPlaying = true;
 
         } catch(Exception e){
             e.printStackTrace() ;
@@ -151,7 +160,22 @@ public class RecordPlay {
 
     //停止录音
     public void stop(){
+        if (isInRecording()) {
+            stopRecord();
+        }
+        if (isInPlaying()) {
+            stopPlay();
+        }
+    }
+
+    //停止Playing
+    public void stopRecord(){
         stopCapture = true ;
+    }
+
+    //停止Playing
+    public void stopPlay(){
+        stopPlay = true ;
     }
 
     //保存文件
@@ -183,6 +207,10 @@ public class RecordPlay {
 
     public boolean isInRecording() {
         return inRecording;
+    }
+
+    public boolean isInPlaying() {
+        return inPlaying;
     }
 
     public boolean hasCaptured() {

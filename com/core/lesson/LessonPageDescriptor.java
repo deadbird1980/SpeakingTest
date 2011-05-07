@@ -13,6 +13,7 @@ public class LessonPageDescriptor {
 
     private static final String DEFAULT_PAGE_IDENTIFIER = "defaultPageIdentifier";
     private String nextID = null;
+    public Boolean skippable = false;
 
 
     /**

@@ -42,9 +42,11 @@ public class RecordTestPage extends IntroPage implements EventListener{
         add(secondaryPanel, BorderLayout.CENTER);
     }
     public void eventTriggered(String event){
-        stopRecording();
+        if (event.equals("playDone")) {
+            recordButton.setEnabled(true);
+            sendMessage("READY");
+        }
     }
-
 
     private JPanel getContentPanel() {
 
@@ -89,6 +91,7 @@ public class RecordTestPage extends IntroPage implements EventListener{
         buttonsPanel.setPreferredSize(new Dimension(600, 40));
         //buttonsPanel.setLayout(new java.awt.BorderLayout());
         recordButton = new JButton("RECORD");
+        recordButton.setEnabled(false) ;
         stopButton = new JButton("STOP");
         playButton = new JButton("PLAY");
         playButton.setEnabled(false) ;
@@ -101,9 +104,11 @@ public class RecordTestPage extends IntroPage implements EventListener{
             public void actionPerformed(ActionEvent e){
 
                 stopButton.setEnabled(true) ;
+                //stop playing the audio
+                stopAudio();
                 //start record
                 RecordPlay recorder = getRecorder();
-                if (recorder.isInRecording()) {
+                if (recorder.isInRecording() || recorder.isInPlaying()) {
                     recorder.stop();
                     playButton.setEnabled(true) ;
                     recordButton.setText("RECORD") ;
@@ -120,7 +125,7 @@ public class RecordTestPage extends IntroPage implements EventListener{
 
                 //play record
                 RecordPlay recorder = getRecorder();
-                if (!recorder.isInRecording())
+                if (recorder.isInRecording())
                    recorder.stop();
                 recorder.play() ;
             }
