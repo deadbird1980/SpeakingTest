@@ -41,7 +41,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
     private countDownThread countDownTimer;
     private playAudioThread playAudio;
     private RecordPlay recorder;
-    private String prePareTimeRemaining = "Prepare Time Remaining";
+    private String prepareTimeRemaining = "Prepare Time Remaining";
     private String recordTimeRemaining = "Recording Time Remaining";
     private String questionFile;
     private String questionAudio;
@@ -73,7 +73,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             recordTimeout = json.getInt("recordTimeout");
             prepareTimeout = json.getInt("prepareTimeout");
             recordTimeRemaining = json.getString("recordTimeRemaining");
-            prePareTimeRemaining = json.getString("prePareTimeRemaining");
+            prepareTimeRemaining = json.getString("prepareTimeRemaining");
         } catch (JSONException e) {
             System.out.println(e.getMessage());
         }
@@ -176,7 +176,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             while (!stop && count_down.isAlive()) {
                 //show counting down clock
                 if (showPrepareCountDown && recorder == null) {
-                    countDownLabel.setText(prePareTimeRemaining+": "+count_down.getClock());
+                    countDownLabel.setText(prepareTimeRemaining+": "+count_down.getClock());
                 } else if (recorder != null && showRecordCountDown) {
                     countDownLabel.setText(recordTimeRemaining+": "+count_down.getClock());
                 }
@@ -256,7 +256,8 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         public void requestStop() {
             //stop the timer
             stopTimer();
-            player.close();
+            if (player != null)
+                player.close();
         }
     }
 
