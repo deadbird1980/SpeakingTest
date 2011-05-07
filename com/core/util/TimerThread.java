@@ -12,7 +12,7 @@ public class TimerThread extends Thread {
    public static final int STOP_WATCH = 3;
    private int type; // type of clock
    private int c_millisecond, c_second, c_minute, c_hour;
-   private static int remaining_minutes = 2;
+   private static int remaining_seconds = 2;
    private static int clock_interval = 100; // in milliseconds < 1000
 
    public TimerThread(int t) {
@@ -24,9 +24,9 @@ public class TimerThread extends Thread {
          c_second = c.get(Calendar.SECOND);
          c_millisecond = c.get(Calendar.MILLISECOND);
       } else if (type==COUNT_DOWN) {
-         c_hour = remaining_minutes/60;
-         c_minute = remaining_minutes%60;
-         c_second = 0;
+         c_hour = remaining_seconds/60/60;
+         c_minute = (remaining_seconds%(60*60))/60;
+         c_second = remaining_seconds%60;
          c_millisecond = 0;
       } else {
          c_hour = 0;
@@ -37,8 +37,14 @@ public class TimerThread extends Thread {
    }
 
    public void setRemainingMinutes(int mins) {
-       remaining_minutes = mins;
-       c_minute = remaining_minutes%60;
+       remaining_seconds = mins * 60;
+       c_minute = mins%60;
+   }
+
+   public void setRemainingSeconds(int secs) {
+       remaining_seconds = secs;
+       c_minute = secs/60;
+       c_second = secs % 60;
    }
 
    public void run() {

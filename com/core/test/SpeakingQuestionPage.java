@@ -165,11 +165,11 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             TimerThread count_down = new TimerThread(TimerThread.COUNT_DOWN);
             int timeout = 2;
             if (recorder == null) {
-                timeout = (int)prepareTimeout / 60;
+                timeout = (int)prepareTimeout;
             } else {
-                timeout = (int)recordTimeout / 60;
+                timeout = (int)recordTimeout;
             }
-            count_down.setRemainingMinutes(timeout);
+            count_down.setRemainingSeconds(timeout);
             countStart = System.currentTimeMillis();
             count_down.start();
 
