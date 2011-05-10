@@ -1,4 +1,5 @@
 {"title":"Oral Proficiency Test (adapted from the practice test of the Oral English Proficiency test at Purdue University)",
+"fullScreen":true,
 "pages":[
 {"type":"LoginPage","title":"Oral Proficiency Test","userIDLabel":"User ID:"},
 {"type":"SurveyPage","place":"China","data":"survey_cn.json"},
