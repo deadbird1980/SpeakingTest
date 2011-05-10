@@ -149,9 +149,27 @@ public class Lesson extends WindowAdapter implements PropertyChangeListener {
      * @return Indicates how the dialog was closed. Compare this value against the RETURN_CODE
      * constants at the beginning of the class.
      */
-    public int showModalDialog() {
+    public int showModalDialog(Boolean fullScreen) {
 
         LessonDialog.setModal(true);
+        if (fullScreen) {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice gs = ge.getDefaultScreenDevice();
+            if (gs.isFullScreenSupported()) {
+                // Full-screen mode is supported
+            } else {
+                // Full-screen mode will be simulated
+            }
+
+            try {
+                // Enter full-screen mode
+                gs.setFullScreenWindow(LessonDialog);
+                LessonDialog.validate();
+            } finally {
+                // Exit full-screen mode
+                gs.setFullScreenWindow(null);
+            }
+        }
         LessonDialog.pack();
         LessonDialog.show();
 

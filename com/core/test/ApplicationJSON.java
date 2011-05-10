@@ -92,4 +92,11 @@ public class ApplicationJSON {
         } catch (JSONException e) {}
         return "";
     }
+
+    public Boolean getFullScreen() {
+        try {
+            return json.getBoolean("fullScreen");
+        } catch (JSONException e) {}
+            return false;
+    }
 }

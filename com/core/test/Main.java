@@ -52,7 +52,7 @@ public class Main {
             }
             lesson.setCurrentPage("1");
 
-            int ret = lesson.showModalDialog();
+            int ret = lesson.showModalDialog(application.getFullScreen());
             HashMap submit = lesson.getModel().getPageSubmit();
             String userID = (String) ((HashMap)submit.get("1")).get("userID");
             String str = "";
