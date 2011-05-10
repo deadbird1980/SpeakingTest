@@ -1,12 +1,13 @@
-{"title":"Oral Completion Test",
+{"title":"Oral Proficiency Test (adapted from the practice test of the Oral English Proficiency test at Purdue University)",
 "pages":[
-{"type":"LoginPage","title":"Oral Completion Test","userIDLabel":"User ID:"},
+{"type":"LoginPage","title":"Oral Proficiency Test","userIDLabel":"User ID:"},
+{"type":"SurveyPage","place":"China","data":"survey_cn.json"},
 {"type":"RecordTestPage","page":"intro1.html", "skippable":false, "audio":"Intro-Screen1.mp3"},
 {"type":"IntroPage","page":"intro2.html", "skippable":false, "audio":"Intro-Screen2.mp3"},
-{"type":"SpeakingQuestionPage","page":"intro3.html", "skippable":false, "recordFileName":"warmup","prepareTimeRemaining":"Prepare Time Remaining", "prepareTimeout":120, "recordTimeout":120,  "showPrepareCountDown":false, "showRecordCountDown":true, "QuestionAudio":"Intro-Screen3.mp3","recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
+{"type":"SpeakingQuestionPage","page":"intro3.html", "skippable":false, "recordFileName":"warmup","prepareTimeRemaining":"Prepare Time Remaining", "prepareTimeout":120, "recordTimeout":120,  "showPrepareCountDown":true, "showRecordCountDown":true, "QuestionAudio":"Intro-Screen3.mp3","recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
 {"type":"IntroPage","page":"intro4.html", "skippable":false, "audio":"Intro-Screen4.mp3"},
-{"type":"SpeakingQuestionPage","page":"test1.html", "skippable":false, "recordFileName":"test_1", "showPrepareCountDown":false, "showRecordCountDown":true, "prepareTimeRemaining":"Prepare Time Remaining", "prepareTimeout":120, "recordTimeout":120, "QuestionAudio":"F-All-IT12.mp3","recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
-{"type":"SpeakingQuestionPage","page":"test2.html", "skippable":false, "recordFileName":"test_2", "showPrepareCountDown":false, "showRecordCountDown":true, "QuestionAudio":"F1-IT2.mp3","prepareTimeRemaining":"Prepare Time Remaining", "prepareTimeout":120, "recordTimeout":120, "recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
-{"type":"SpeakingQuestionPage","page":"test3.html", "skippable":false, "recordFileName":"test_3", "showPrepareCountDown":false, "showRecordCountDown":true, "QuestionAudio":"F1-IT4.mp3","prepareTimeRemaining":"Prepare Time Remaining", "prepareTimeout":120, "recordTimeout":120, "recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"}
+{"type":"SpeakingQuestionPage","page":"test1.html", "skippable":false, "recordFileName":"test_1", "showPrepareCountDown":true, "showRecordCountDown":true, "prepareTimeRemaining":"Prepare Time Remaining", "prepareTimeout":120, "recordTimeout":120, "QuestionAudio":"F-All-IT12.mp3","recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
+{"type":"SpeakingQuestionPage","page":"test2.html", "skippable":false, "recordFileName":"test_2", "showPrepareCountDown":true, "showRecordCountDown":true, "QuestionAudio":"F1-IT2.mp3","prepareTimeRemaining":"Prepare Time Remaining", "prepareTimeout":120, "recordTimeout":120, "recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"},
+{"type":"SpeakingQuestionPage","page":"test3.html", "skippable":false, "recordFileName":"test_3", "showPrepareCountDown":true, "showRecordCountDown":true, "QuestionAudio":"F1-IT4.mp3","prepareTimeRemaining":"Prepare Time Remaining", "prepareTimeout":120, "recordTimeout":120, "recordTimeRemaining":"Recording Time Remaining","RecordNowAudio":"recnow.mp3"}
 ]
 }
