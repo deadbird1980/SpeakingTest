@@ -37,6 +37,12 @@ public class Main {
                     page.put("totalTest", totalTest);
                     testCnt++;
                     page.put("id", testCnt);
+                } else if (type.equals("SurveyPage")) {
+                    if (surveyIDs.length == 1) {
+                      page.put("optional", false);
+                    } else {
+                      page.put("optional", true);
+                    }
                 }
                 LessonPageDescriptor p = PageFactory.createPage(type, page);
                 if (i < pages.length() - 1) {

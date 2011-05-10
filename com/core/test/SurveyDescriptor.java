@@ -16,6 +16,11 @@ public class SurveyDescriptor extends LessonPageDescriptor {
 
     public SurveyDescriptor(JSONObject fb) {
         super(IDENTIFIER, new SurveyPage(fb));
+        try {
+            this.optional = fb.getBoolean("optional");
+        } catch (JSONException e) {
+            System.out.println("page or audio information is not set in application.json file");
+        }
     }
 
 
@@ -28,9 +33,9 @@ public class SurveyDescriptor extends LessonPageDescriptor {
         SurveyPage page = (SurveyPage) getPageComponent();
         String userID = (String) getLesson().getModel().getSubmit("1").get("userID");
         //System.out.println(userID+":" +page.place+":");
-        if ((userID.toLowerCase().startsWith("c") && !page.place.toLowerCase().equals("china")) ||
-        (userID.toLowerCase().startsWith("e") && page.place.toLowerCase().equals("china"))) {
-            System.out.println("skip this page");
+        if (optional && ((userID.toLowerCase().startsWith("c") && !page.place.toLowerCase().equals("china")) ||
+        (userID.toLowerCase().startsWith("e") && page.place.toLowerCase().equals("china")))) {
+            //System.out.println("skip this page");
             getLesson().setCurrentPage(getNextPageDescriptor());
             page.skipped = true;
         }
