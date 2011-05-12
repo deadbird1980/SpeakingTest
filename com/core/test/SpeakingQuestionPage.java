@@ -259,6 +259,10 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             if (player != null)
                 player.close();
         }
+
+        public String getAudioFile() {
+            return audioFile;
+        }
     }
 
     public void playAudio() {
@@ -327,17 +331,20 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
 
     public void eventTriggered(String event){
         if (event.equals("playDone")) {
-            //after end of playing
-            startTimer();
-            //enable the record button
-            recordButton.setEnabled(true) ;
+            if (playAudio.getAudioFile().equals(this.getRecordingNowAudio())) {
+                startRecord();
+            } else {
+                //after end of playing
+                startTimer();
+                //enable the record button
+                recordButton.setEnabled(true) ;
+            }
         } else if (event.equals("recordTimeout")){
             stopRecord();
         } else if (event.equals("countDownEnd")) {
             if (recorder == null) {
                 playAudioThread playAudio = new playAudioThread(getRecordingNowAudio());
                 playAudio.start();
-                startRecord();
             } else {
                 if (recorder.hasCaptured()) {
                     stopRecord();
@@ -368,9 +375,9 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
     }
 
     private void startRecord() {
+        startTimer();
         recordButton.setEnabled(false) ;
         stopButton.setEnabled(true) ;
-        startTimer();
         //start record
         RecordPlay recorder = getRecorder();
         recorder.capture() ;
