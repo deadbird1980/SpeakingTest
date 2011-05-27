@@ -343,7 +343,8 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             stopRecord();
         } else if (event.equals("countDownEnd")) {
             if (recorder == null) {
-                playAudioThread playAudio = new playAudioThread(getRecordingNowAudio());
+                playAudio = new playAudioThread(getRecordingNowAudio());
+                playAudio.addListener(this);
                 playAudio.start();
             } else {
                 if (recorder.hasCaptured()) {
