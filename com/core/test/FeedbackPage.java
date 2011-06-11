@@ -38,11 +38,20 @@ public class FeedbackPage extends LessonPage {
 
     public HashMap getSubmit() {
         LinkedHashMap data = new LinkedHashMap();
+        String comm = "";
+        try {
+            comm = feedback.getString("comment");
+        } catch (JSONException e) {
+            System.out.println("error when trying to get json value");
+        }
         for(int i=0; i<groups.length; i++) {
             JRadioButton button = Utils.getSelection(groups[i]);
             if (button != null)
                 data.put("Question_"+(i+1), button.getText());
-            data.put("Comment_"+(i+1), comments[i].getText());
+            String comment = "";
+            if (!comments[i].getText().equals(comm))
+                comment = comments[i].getText();
+            data.put("Comment_"+(i+1), comment);
             data.put("linebreak", "\n");
         }
         return data;
@@ -75,7 +84,7 @@ public class FeedbackPage extends LessonPage {
 
     private JPanel createInstructionPanel() {
     	JPanel instructionPanel = new JPanel();
-        instructionPanel.setPreferredSize(new Dimension(400, 100));
+        instructionPanel.setPreferredSize(new Dimension(400, 160));
         instructionPanel.setLayout(new java.awt.BorderLayout());
     	JEditorPane introArea = new JEditorPane();
         introArea.setContentType("text/html; charset=utf-8");
@@ -98,7 +107,7 @@ public class FeedbackPage extends LessonPage {
         //Group the radio buttons.
         introPanel.setLayout(new GridBagLayout());
         //introPanel.setBorder(new LineBorder(Color.BLACK, 1));
-        introPanel.setPreferredSize(new Dimension(650,600));
+        introPanel.setPreferredSize(new Dimension(650,500));
         GridBagConstraints gBC = new GridBagConstraints();
         gBC.fill = GridBagConstraints.VERTICAL;
         gBC.weightx = 0.5;
@@ -164,6 +173,11 @@ public class FeedbackPage extends LessonPage {
 
                 comment.setBorder (new LineBorder(Color.black, 2));
                 comment.setPreferredSize(new Dimension(300, 20));
+                try {
+                    comment.setText(feedback.getString("comment"));
+                } catch (JSONException e) {
+                    System.out.println("error when trying to get json value");
+                }
                 introPanel.add(comment, gBC);
                 //scrollpane.add(comment);
                 comments[i] = comment;
