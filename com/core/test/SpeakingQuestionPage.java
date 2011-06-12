@@ -303,6 +303,9 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         //recordButton.addActionListener(LessonController);
         recordButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                //play recording now audio
+                playAudio = new playAudioThread(getRecordingNowAudio());
+                playAudio.start();
                 startRecord();
             }
         }) ;
@@ -401,8 +404,18 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         questionPanel.setPreferredSize(new Dimension(600, 500));
         questionPanel.setLayout(new java.awt.BorderLayout());
         questionLabel = new JEditorPane();
-        questionLabel.setContentType("text/html; charset=EUC-JP");
+        questionLabel.setContentType("text/html; charset=utf-8");
+        String questionText = getQuestionID();
         questionLabel.setText(getQuestionID());
+        //questionLabel.setFont(Utils.checkFont());
+        // convert the encoding
+        try {
+            byte[] utf8Bytes = questionText.getBytes();
+            questionText = new String(utf8Bytes, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        questionLabel.setText(questionText);
         questionLabel.setEditable(false);
         //Get JFrame background color
         Color color = getBackground();
