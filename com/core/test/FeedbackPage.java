@@ -18,10 +18,12 @@ public class FeedbackPage extends LessonPage {
     private JSONObject feedback;
     private ButtonGroup[] groups;
     private JTextArea[] comments;
+    private String commentText;
 
     public FeedbackPage(JSONObject json) {
         try {
-        feedback = ResourceManager.getJSON(json.getString("data"));
+            feedback = ResourceManager.getJSON(json.getString("data"));
+            commentText = feedback.getString("comment");
         } catch (JSONException e) {
         }
         comments = new JTextArea[4];
@@ -39,17 +41,12 @@ public class FeedbackPage extends LessonPage {
     public HashMap getSubmit() {
         LinkedHashMap data = new LinkedHashMap();
         String comm = "";
-        try {
-            comm = feedback.getString("comment");
-        } catch (JSONException e) {
-            System.out.println("error when trying to get json value");
-        }
         for(int i=0; i<groups.length; i++) {
             JRadioButton button = Utils.getSelection(groups[i]);
             if (button != null)
                 data.put("Question_"+(i+1), button.getText());
             String comment = "";
-            if (!comments[i].getText().equals(comm))
+            if (!comments[i].getText().equals(commentText))
                 comment = comments[i].getText();
             data.put("Comment_"+(i+1), comment);
             data.put("linebreak", "\n");
@@ -171,16 +168,29 @@ public class FeedbackPage extends LessonPage {
                 //introPanel.add(comment, gBC);
                 JTextArea comment = new JTextArea();
 
-                comment.setBorder (new LineBorder(Color.black, 2));
+                //comment.setBorder (new LineBorder(Color.black, 2));
+                comment.setLineWrap(false);
                 comment.setPreferredSize(new Dimension(300, 20));
-                try {
-                    comment.setText(feedback.getString("comment"));
-                } catch (JSONException e) {
-                    System.out.println("error when trying to get json value");
-                }
+                comment.setText(commentText);
+                //JScrollPane scrollPane = new JScrollPane(comment,
+                         //JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                         //JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                //introPanel.add(scrollPane, gBC);
                 introPanel.add(comment, gBC);
                 //scrollpane.add(comment);
                 comments[i] = comment;
+                comments[i].addFocusListener(new FocusListener(){
+                    public void focusGained(FocusEvent e) {
+                      JTextArea comment = (JTextArea)e.getComponent();
+                      if (comment.getText().equals(commentText))
+                          comment.setText("");
+                    }
+                    public void focusLost(FocusEvent e) {
+                      JTextArea comment = (JTextArea)e.getComponent();
+                      if (comment.getText().equals(""))
+                          comment.setText(commentText);
+                    }
+                }) ;
                 groups[i] = group;
             }
         } catch (JSONException e) {

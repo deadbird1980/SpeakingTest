@@ -265,6 +265,16 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         }
     }
 
+    public void playRecordingNow() {
+        try {
+            playAudio = new playAudioThread(getRecordingNowAudio());
+            playAudio.addListener(this);
+            playAudio.start();
+        } catch (Exception ex) {
+            System.out.println("Problem playing file");
+        }
+    }
+
     public void playAudio() {
         try {
             playAudio = new playAudioThread(getQuestionAudio());
@@ -304,9 +314,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         recordButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 //play recording now audio
-                playAudio = new playAudioThread(getRecordingNowAudio());
-                playAudio.start();
-                startRecord();
+                playRecordingNow();
             }
         }) ;
         stopButton.addActionListener(new ActionListener(){
@@ -346,9 +354,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             stopRecord();
         } else if (event.equals("countDownEnd")) {
             if (recorder == null) {
-                playAudio = new playAudioThread(getRecordingNowAudio());
-                playAudio.addListener(this);
-                playAudio.start();
+                playRecordingNow();
             } else {
                 if (recorder.hasCaptured()) {
                     stopRecord();
@@ -451,9 +457,16 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
 
     private String getRecordFileName() {
         if (recordFileName.equals("")) {
-            return "Test_" + TestID + ".wav";
+            return ResourceManager.getUser() + "_Sit" + TestID + ".wav";
         } else {
-            return recordFileName + ".wav";
+            String userID = ResourceManager.getUser();
+            if (userID == null) {
+               userID = "userID";
+            }
+            if (recordFileName.indexOf("%userID%") != -1)
+                return recordFileName.replaceFirst("%userID%", userID) + ".wav";
+            else
+                return recordFileName;
         }
     }
 

@@ -50,6 +50,10 @@ public class ResourceManager {
         return getUserDataPath()+"/"+userPath;
     }
 
+    public static String getUser() {
+        return userPath;
+    }
+
     public static String getAudioResourcePath() {
         return getResourcePath() + "/mp3/";
     }
