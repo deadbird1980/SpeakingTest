@@ -2,6 +2,8 @@ package com.core.util;
 
 
 import javax.swing.*;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.util.HashMap;
@@ -43,9 +45,9 @@ public class Utils {
         for (Object key : submit.keySet()) {
              i++;
              if (key.equals("linebreak"))
-                 str += "\n";
+                 str += "\r\n";
              else
-                 str += key +":"+submit.get(key) +"\n";
+                 str += key +":"+submit.get(key) +"\r\n";
         }
         return str;
     }
@@ -60,7 +62,7 @@ public class Utils {
                  row += ",";
              }
         }
-        row = row + "\n";
+        row = row + "\r\n";
         i=0;
         for (Object key : submit.keySet()) {
             row += "\"" + (String)submit.get(key) + "\"";
@@ -69,7 +71,7 @@ public class Utils {
                row += ",";
             }
         }
-        row += "\n";
+        row += "\r\n";
         return row;
     }
 
@@ -83,4 +85,36 @@ public class Utils {
             System.out.println(e.getMessage());
         }
     }
+    /**
+   * check whether the Chinese font has been installed, if not, exit.
+   */
+   public static Font checkFont() {
+      Font[] allfonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+      boolean chineseFontFound = false;
+        for (int j = 0; j < allfonts.length; j++) {
+            if (allfonts[j].canDisplayUpTo("\u4e00") > 0) {
+                chineseFontFound = true;
+                return new Font(allfonts[j].getFontName(), Font.PLAIN, 14);
+            }
+         }
+      System.out.println("Found failed");
+      return null;
+   }
+
+   static public String byteToHex(byte b) {
+      // Returns hex String representation of byte b
+      char hexDigit[] = {
+         '0', '1', '2', '3', '4', '5', '6', '7',
+         '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+      };
+      char[] array = { hexDigit[(b >> 4) & 0x0f], hexDigit[b & 0x0f] };
+      return new String(array);
+   }
+
+   static public String charToHex(char c) {
+      // Returns hex String representation of char c
+      byte hi = (byte) (c >>> 8);
+      byte lo = (byte) (c & 0xff);
+      return byteToHex(hi) + byteToHex(lo);
+   }
 }
