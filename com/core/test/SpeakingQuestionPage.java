@@ -155,6 +155,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         private EventListener listener;
 
         public long getCountTime() {
+            System.out.println("start-end:"+countStop+"-"+countStart);
             return countStop - countStart;
         }
         public void addListener(EventListener lsn) {
@@ -187,6 +188,7 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
                 }
             }
             //timeout
+            countStop = System.currentTimeMillis();
             if (listener != null && !stop)
                 listener.eventTriggered("countDownEnd");
             stop = true;
@@ -196,8 +198,8 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             //count stop
             if (!stop) {
                 stop = true;
-                countStop = System.currentTimeMillis();
             }
+            countStop = System.currentTimeMillis();
         }
 
     }
