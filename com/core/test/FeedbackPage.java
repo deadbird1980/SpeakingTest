@@ -104,23 +104,24 @@ public class FeedbackPage extends LessonPage {
         //Group the radio buttons.
         introPanel.setLayout(new GridBagLayout());
         //introPanel.setBorder(new LineBorder(Color.BLACK, 1));
-        introPanel.setPreferredSize(new Dimension(650,500));
+        introPanel.setPreferredSize(new Dimension(650,550));
         GridBagConstraints gBC = new GridBagConstraints();
         gBC.fill = GridBagConstraints.VERTICAL;
-        gBC.weightx = 0.5;
+        gBC.weightx = 0.1;
         gBC.gridx = 0;
         gBC.gridy = 0;
         gBC.anchor = GridBagConstraints.CENTER;
         gBC.fill = GridBagConstraints.BOTH;
-        gBC.insets=new Insets(2, 2, 2, 2);
+        //gBC.insets=new Insets(2, 2, 2, 2);
+        gBC.insets=new Insets(0, 0, 0, 0);
         JSONArray questions = null;
         try {
             questions = feedback.getJSONArray("questions");
             for(int i=0; i<questions.length(); i++) {
                 JSONObject question = questions.getJSONObject(i);
                 JPanel feedbackPanel = new JPanel();
-                feedbackPanel.setPreferredSize(new Dimension(340, 10));
-                //feedbackPanel.setBorder(new LineBorder(Color.BLACK, 1));
+                feedbackPanel.setPreferredSize(new Dimension(380, 37));
+                feedbackPanel.setBorder(new LineBorder(Color.BLACK, 1));
                 //feedbackPanel.setLayout(new javax.swing.BoxLayout(contentPanel, BoxLayout.Y_AXIS));
                 //feedbackPanel.setLayout(new BorderLayout());
                 gBC.gridy = i*2;
@@ -160,7 +161,7 @@ public class FeedbackPage extends LessonPage {
                 introPanel.add(feedbackPanel, gBC);
                 //comment.setPreferredSize(new Dimension(300, 40));
                 //JScrollPane scrollpane = new JScrollPane();
-                gBC.ipady = 60;
+                gBC.ipady = 45;
                 gBC.gridy = i*2+1;
                 //gBC.weightx = 1.0;
                 //gBC.weighty = 1.0;
