@@ -49,7 +49,7 @@ public class FeedbackPage extends LessonPage {
             if (!comments[i].getText().equals(commentText))
                 comment = comments[i].getText();
             data.put("Comment_"+(i+1), comment);
-            data.put("linebreak", "\n");
+            data.put("linebreak", "\n\r");
         }
         return data;
     }

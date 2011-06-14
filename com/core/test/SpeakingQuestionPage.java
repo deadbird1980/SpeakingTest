@@ -155,7 +155,6 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
         private EventListener listener;
 
         public long getCountTime() {
-            System.out.println("start-end:"+countStop+"-"+countStart);
             return countStop - countStart;
         }
         public void addListener(EventListener lsn) {
@@ -335,10 +334,15 @@ public class SpeakingQuestionPage extends LessonPage implements EventListener {
             recordTime = recorder.getDuration()/1000;
         //System.out.println("record time="+recordTime);
         data.put("Record", TestID);
+        //fix the difference
+        if (pauseTime > prepareTimeout)
+            pauseTime = prepareTimeout;
         data.put("pauseTime", pauseTime + " second(s)");
+        if (recordTime > recordTimeout)
+            recordTime = recordTimeout;
         data.put("recordTime", recordTime + " seconds(s)");
         data.put("recordFile", getRecordFileName());
-        data.put("linebreak", "\n");
+        data.put("linebreak", "\r\n");
         return data;
     }
 
