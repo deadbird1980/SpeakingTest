@@ -16,6 +16,10 @@ public class FeedbackDescriptor extends LessonPageDescriptor {
         super(IDENTIFIER, new FeedbackPage(fb));
     }
 
+    public void aboutToDisplayPage() {
+        if (!skippable)
+            getLesson().setNextFinishButtonEnabled(Boolean.FALSE);
+    }
 
     public Object getBackPanelDescriptor() {
         return null;

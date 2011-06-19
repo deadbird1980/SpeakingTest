@@ -17,13 +17,17 @@ public class FeedbackPage extends LessonPage {
     private JPanel contentPanel;
     private JSONObject feedback;
     private ButtonGroup[] groups;
+    private int questionCount;
     private JTextArea[] comments;
     private String commentText;
+    private Integer questionStartID = 0;
 
     public FeedbackPage(JSONObject json) {
         try {
             feedback = ResourceManager.getJSON(json.getString("data"));
             commentText = feedback.getString("comment");
+            this.questionCount = feedback.getJSONArray("questions").length();
+            questionStartID = feedback.getInt("startID");
         } catch (JSONException e) {
         }
         comments = new JTextArea[4];
@@ -41,23 +45,26 @@ public class FeedbackPage extends LessonPage {
     public HashMap getSubmit() {
         LinkedHashMap data = new LinkedHashMap();
         String comm = "";
-        for(int i=0; i<groups.length; i++) {
+        for(int i=0; i<questionCount; i++) {
             JRadioButton button = Utils.getSelection(groups[i]);
             if (button != null)
-                data.put("Question_"+(i+1), button.getText());
+                data.put("Question_"+(questionStartID+i+1), button.getText());
             String comment = "";
             if (!comments[i].getText().equals(commentText))
                 comment = comments[i].getText();
-            data.put("Comment_"+(i+1), comment);
+            data.put("Comment_"+(questionStartID+i+1), comment);
             data.put("linebreak", "\n\r");
         }
         return data;
     }
 
     private boolean checkAnswer() {
-        for(int i=0; i<groups.length; i++) {
+        for(int i=0; i<questionCount; i++) {
             JRadioButton button = Utils.getSelection(groups[i]);
             if (button == null)
+                return false;
+            if (comments[i].getText().equals(commentText) ||
+                    comments[i].getText().length() < 5)
                 return false;
         }
         return true;
@@ -147,8 +154,9 @@ public class FeedbackPage extends LessonPage {
                     //radioButton.setSelected(true);
                     radioButton.addActionListener(new ActionListener(){
                         public void actionPerformed(ActionEvent e){
-                            if (checkAnswer()) 
+                            if (checkAnswer()) {
                                 sendMessage("READY");
+                            }
                         }
                     }) ;
                     group.add(radioButton);
@@ -170,7 +178,7 @@ public class FeedbackPage extends LessonPage {
                 JTextArea comment = new JTextArea();
 
                 //comment.setBorder (new LineBorder(Color.black, 2));
-                comment.setLineWrap(false);
+                comment.setLineWrap(true);
                 comment.setPreferredSize(new Dimension(300, 20));
                 comment.setText(commentText);
                 //JScrollPane scrollPane = new JScrollPane(comment,
@@ -180,6 +188,7 @@ public class FeedbackPage extends LessonPage {
                 introPanel.add(comment, gBC);
                 //scrollpane.add(comment);
                 comments[i] = comment;
+                comments[i].addKeyListener(new CommentKeyListener());
                 comments[i].addFocusListener(new FocusListener(){
                     public void focusGained(FocusEvent e) {
                       JTextArea comment = (JTextArea)e.getComponent();
@@ -198,6 +207,14 @@ public class FeedbackPage extends LessonPage {
         }
         //introPanel.setBorder (new LineBorder(Color.blue, 3));
         return introPanel;
+    }
+
+    public class CommentKeyListener extends KeyAdapter{
+        public void keyPressed(KeyEvent ke){
+            char i = ke.getKeyChar();
+            if (checkAnswer())
+                sendMessage("READY");
+        }
     }
 
 }

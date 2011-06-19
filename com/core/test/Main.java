@@ -21,7 +21,7 @@ public class Main {
 
         Lesson lesson = new Lesson();
         ApplicationJSON application = new ApplicationJSON(ResourceManager.getJSON("application.json"));
-        int feedBackID = application.getPageByType("FeedbackPage");
+        int[] feedBackIDs = application.getPagesByType("FeedbackPage");
         int[] testIDs = application.getPagesByType("SpeakingQuestionPage");
         int[] surveyIDs = application.getPagesByType("SurveyPage");
         try {
@@ -68,8 +68,12 @@ public class Main {
                     Utils.WriteFile(ResourceManager.getSurveyFile(userID), Utils.Hash2CSV(page));
                 }
             }
-            if (feedBackID != -1)
-                Utils.WriteFile(ResourceManager.getQueryFile(userID), Utils.Hash2String((HashMap)submit.get(Integer.toString(feedBackID))));
+            if (feedBackIDs != null) {
+                for(int i=0; i<feedBackIDs.length; i++) {
+                    str += Utils.Hash2String((HashMap)submit.get(Integer.toString(feedBackIDs[i])));
+                }
+                Utils.WriteFile(ResourceManager.getQueryFile(userID), str);
+            }
             System.out.println("Dialog return code is (0=Finish,1=Error): " + ret);
         } catch (JSONException e) {
             lesson.getDialog().setTitle("Oral Completion Test");
