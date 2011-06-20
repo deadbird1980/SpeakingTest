@@ -1,8 +1,7 @@
 {"instruction":"<P>You have completed the test.  Now please take a moment to fill out the short survey below about the difficulty of certain situational tasks in the test.  Your feedback is highly appreciated.</P><BR><B>Overall, how easy/difficult were the following situations for you when you responded to them during the test?</B> <I>(select the difficulty level that you think can represent each situation)</I><BR><P>Just as an example, to answer the short response question about each situation, you can think about how awkward the situation sounded to you and how difficult it was for you to come up with the proper language expressions to respond to the situation.</P>",
 "comment":"Why was this situation easy or difficult for you?",
- "questions":[{"title":"Situation 1", "description":"Ask to borrow a pen from a friend","options":["very easy", "easy", "OK", "difficult", "very difficult"]},
- {"title":"Situation 3", "description":"Call the manager to ask to schedule a job interview in the morning","options":["very easy", "easy", "OK", "difficult", "very difficult"]},
- {"title":"Situation 5", "description":"Ask your younger brother to get you the TV remot control","options":["very easy", "easy", "OK", "difficult", "very difficult"]},
- {"title":"Situation 7", "description":"Call your professor to take to take a exam one day late","options":["very easy", "easy", "OK", "difficult", "very difficult"]}
-]
+ "questions":[{"id":1, "title":"Situation 1", "description":"Ask to borrow a pen from a friend","options":["very easy", "easy", "OK", "difficult", "very difficult"]},
+ {"id":2, "title":"Situation 3", "description":"Call the manager to ask to schedule a job interview in the morning","options":["very easy", "easy", "OK", "difficult", "very difficult"]},
+ {"id":2, "title":"Situation 3", "description":"Call the manager to ask to schedule a job interview in the morning","options":["very easy", "easy", "OK", "difficult", "very difficult"]},
+ {"id":2, "title":"Situation 3", "description":"Call the manager to ask to schedule a job interview in the morning","options":["very easy", "easy", "OK", "difficult", "very difficult"]}]
 }
