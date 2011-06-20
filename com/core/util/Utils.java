@@ -44,7 +44,7 @@ public class Utils {
         int i = 0;
         for (Object key : submit.keySet()) {
              i++;
-             if (key.equals("linebreak"))
+             if (((String)key).toLowerCase().startsWith("linebreak"))
                  str += "\r\n";
              else
                  str += key +":"+submit.get(key) +"\r\n";
