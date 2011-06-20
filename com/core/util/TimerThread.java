@@ -83,6 +83,9 @@ public class TimerThread extends Thread {
          }
          if (c_hour<0) {
             c_hour = 0;
+            // fix 59:59
+            c_minute = 0;
+            c_second = 0;
             break; // end this thread 
          }
       }
