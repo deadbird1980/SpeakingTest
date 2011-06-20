@@ -3,6 +3,7 @@ package com.core.test;
 import com.core.lesson.*;
 import com.core.util.Utils;
 import com.core.util.ResourceManager;
+import com.core.util.FixedLengthTextArea;
 import org.json.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -111,7 +112,7 @@ public class FeedbackPage extends LessonPage {
         //Group the radio buttons.
         introPanel.setLayout(new GridBagLayout());
         //introPanel.setBorder(new LineBorder(Color.BLACK, 1));
-        introPanel.setPreferredSize(new Dimension(650,550));
+        //introPanel.setPreferredSize(new Dimension(650,550));
         GridBagConstraints gBC = new GridBagConstraints();
         gBC.fill = GridBagConstraints.VERTICAL;
         gBC.weightx = 0.1;
@@ -127,7 +128,7 @@ public class FeedbackPage extends LessonPage {
             for(int i=0; i<questions.length(); i++) {
                 JSONObject question = questions.getJSONObject(i);
                 JPanel feedbackPanel = new JPanel();
-                feedbackPanel.setPreferredSize(new Dimension(380, 37));
+                //feedbackPanel.setPreferredSize(new Dimension(380, 37));
                 feedbackPanel.setBorder(new LineBorder(Color.BLACK, 1));
                 //feedbackPanel.setLayout(new javax.swing.BoxLayout(contentPanel, BoxLayout.Y_AXIS));
                 //feedbackPanel.setLayout(new BorderLayout());
@@ -139,13 +140,16 @@ public class FeedbackPage extends LessonPage {
                 gBC.gridheight = 2;
                 JLabel situationLabel = new JLabel();
                 situationLabel.setText(question.getString("title"));
-                situationLabel.setPreferredSize(new Dimension(100, 20));
+                //situationLabel.setPreferredSize(new Dimension(100, 20));
+                gBC.insets=new Insets(0, 0, 0, 5);
                 introPanel.add(situationLabel, gBC);
                 JLabel subjectLabel = new JLabel();
                 subjectLabel.setText("<html>"+question.getString("description")+"</html>");
-                subjectLabel.setPreferredSize(new Dimension(100, 20));
+                subjectLabel.setPreferredSize(new Dimension(200, 50));
                 gBC.gridx = 1;
+                gBC.insets=new Insets(0, 5, 0, 5);
                 introPanel.add(subjectLabel, gBC);
+                gBC.insets=new Insets(0, 0, 0, 0);
                 ButtonGroup group = new ButtonGroup();
                 JSONArray options = question.getJSONArray("options");
                 for(int j=0; j<options.length(); j++) {
@@ -164,7 +168,8 @@ public class FeedbackPage extends LessonPage {
                 }
                 //feedbackPanel.add(group);
                 gBC.gridheight=1;
-                gBC.ipady = 20;
+                //height of the cell
+                gBC.ipady = 10;
                 gBC.gridx = 2;
                 introPanel.add(feedbackPanel, gBC);
                 //comment.setPreferredSize(new Dimension(300, 40));
@@ -175,17 +180,20 @@ public class FeedbackPage extends LessonPage {
                 //gBC.weighty = 1.0;
 
                 //introPanel.add(comment, gBC);
-                JTextArea comment = new JTextArea();
+                JTextArea comment = new FixedLengthTextArea(200,20,50);
 
                 //comment.setBorder (new LineBorder(Color.black, 2));
                 comment.setLineWrap(true);
+                comment.setWrapStyleWord(true);
                 comment.setPreferredSize(new Dimension(300, 20));
+                //comment.setMaximumSize(new Dimension(300, 10));
                 comment.setText(commentText);
-                //JScrollPane scrollPane = new JScrollPane(comment,
-                         //JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                         //JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-                //introPanel.add(scrollPane, gBC);
-                introPanel.add(comment, gBC);
+                JScrollPane scrollPane = new JScrollPane(comment);
+                scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+                scrollPane.setPreferredSize(new Dimension(300, 20));
+                //scrollPane.setBounds(10,60,780,500);
+                introPanel.add(scrollPane, gBC);
+                //introPanel.add(comment, gBC);
                 //scrollpane.add(comment);
                 comments[i] = comment;
                 comments[i].addKeyListener(new CommentKeyListener());
